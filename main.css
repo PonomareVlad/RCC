@@ -1,0 +1,95 @@
+:root {
+    touch-action: none;
+    height: var(--root-height);
+    font-family: var(--font-family);
+    background: var(--background-color);
+    color: var(--font-color);
+}
+
+body {
+    touch-action: none;
+    height: var(--root-height);
+}
+
+.background {
+    z-index: 0;
+    width: 100%;
+    position: absolute;
+    height: var(--root-height);
+}
+
+.background .lines {
+    z-index: 0;
+    width: 100%;
+    display: flex;
+    padding: 0 20px;
+    position: absolute;
+    height: var(--root-height);
+    justify-content: space-between;
+}
+
+.background .lines .line {
+    width: 1px;
+    display: block;
+    background: rgba(255, 255, 255, 0.10);
+}
+
+.background .decorations {
+    z-index: 1;
+    width: 100%;
+    position: absolute;
+    height: var(--root-height);
+    background-position: bottom;
+    background-repeat: no-repeat;
+    background-image: url("/decorations.png");
+}
+
+.background .photos {
+    z-index: 2;
+    width: 100%;
+    position: absolute;
+    height: var(--root-height);
+    background-position: bottom;
+    background-repeat: no-repeat;
+    background-image: url("/photos.png");
+}
+
+.background .overlay {
+    bottom: 0;
+    z-index: 3;
+    width: 100%;
+    height: 371px;
+    position: absolute;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.00) 0%, #000 100%);
+}
+
+main {
+    z-index: 1;
+    display: flex;
+    padding: 40px 0;
+    position: relative;
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.logo {
+    width: 73px;
+    height: 47px;
+    flex-shrink: 0;
+    margin-bottom: 37px;
+}
+
+.title {
+    text-align: center;
+    font-size: var(--title-font-size);
+    font-weight: var(--title-font-weight);
+    font-family: var(--title-font-family);
+}
+
+.title .mark {
+    background: var(--accent-gradient);
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+}
