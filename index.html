@@ -10,6 +10,16 @@
     <link rel="stylesheet" href="/vars.css">
     <link rel="stylesheet" href="/main.css">
     <link rel="stylesheet" href="/font/stylesheet.css">
+    <script type="importmap">
+        {
+            "imports": {
+                "@vkontakte/superappkit": "https://ga.jspm.io/npm:@vkontakte/superappkit@1.60.2/dist/index.js"
+            }
+        }
+    </script>
+    <script async src="https://ga.jspm.io/npm:es-module-shims@1.8.0/dist/es-module-shims.js"
+            crossorigin="anonymous"></script>
+    <script src="/main.mjs" type="module"></script>
 </head>
 <body>
 <div class="background">
@@ -38,6 +48,8 @@
         <br>
         АРТИСТА!
     </div>
+
+    <div class="auth"></div>
 
 </main>
 </body>
