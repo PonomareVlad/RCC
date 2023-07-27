@@ -1,14 +1,20 @@
 :root {
+    width: 100%;
+    /*position: fixed;*/
+    /*overflow: hidden;*/
     touch-action: none;
+    color: var(--font-color);
     height: var(--root-height);
     font-family: var(--font-family);
     background: var(--background-color);
-    color: var(--font-color);
 }
 
 body {
-    touch-action: none;
-    height: var(--root-height);
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    /*touch-action: none;*/
+    /*height: var(--root-height);*/
 }
 
 .background {
@@ -16,15 +22,16 @@ body {
     width: 100%;
     position: absolute;
     height: var(--root-height);
+    min-height: calc(var(--vpx) * 812);
 }
 
 .background .lines {
     z-index: 0;
     width: 100%;
+    height: 100%;
     display: flex;
-    padding: 0 20px;
     position: absolute;
-    height: var(--root-height);
+    padding: var(--lines-padding);
     justify-content: space-between;
 }
 
@@ -35,49 +42,72 @@ body {
 }
 
 .background .decorations {
+    bottom: 0;
     z-index: 1;
     width: 100%;
     position: absolute;
-    height: var(--root-height);
-    background-position: bottom;
+    height: calc(var(--vpx) * 812);
     background-repeat: no-repeat;
-    background-image: url("/decorations.png");
+    background-size: 50%;
+    /* @formatter:off */
+    background-image:
+            url("/decoration.left.png"),
+            url("/decoration.right.png");
+    background-position:
+            top calc(var(--vpx) * 257) left,
+            top calc(var(--vpx) * 257) right;
+    /* @formatter:on */
 }
 
 .background .photos {
+    bottom: 0;
     z-index: 2;
     width: 100%;
     position: absolute;
-    height: var(--root-height);
-    background-position: bottom;
     background-repeat: no-repeat;
-    background-image: url("/photos.png");
+    height: calc(var(--vpx) * 812);
+    /* @formatter:off */
+    background-image:
+            url("/Klava.png"),
+            url("/Niletto.png");
+    background-size:
+            calc(var(--vpx) * 342),
+            calc(var(--vpx) * 409);
+    background-position:
+            top calc(var(--vpx) * 232) right calc(var(--vpx) * 105),
+            top calc(var(--vpx) * 257) left calc(var(--vpx) * 111);
+    /* @formatter:on */
 }
 
 .background .overlay {
     bottom: 0;
     z-index: 3;
     width: 100%;
-    height: 371px;
     position: absolute;
-    background: linear-gradient(180deg, rgba(0, 0, 0, 0.00) 0%, #000 100%);
+    height: calc(var(--vpx) * 445);
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.00) 0%, #000 80%);
 }
 
 main {
     z-index: 1;
     display: flex;
-    padding: 40px 0;
     position: relative;
     align-items: center;
     flex-direction: column;
     justify-content: space-between;
+    padding-top: calc(var(--vpx) * 40);
 }
 
 .logo {
-    width: 73px;
-    height: 47px;
     flex-shrink: 0;
-    margin-bottom: 37px;
+    width: calc(var(--vpx) * 73);
+    height: calc(var(--vpx) * 47);
+    margin-bottom: calc(var(--vpx) * 37);
+}
+
+.logo img {
+    width: 100%;
+    height: 100%;
 }
 
 .title {

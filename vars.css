@@ -1,5 +1,9 @@
 :root {
 
+    --vpx: calc(100vw / 375);
+    --wpx: calc(100vw / 375);
+    --hpx: calc(100vh / 812);
+
     --font-family: "RF Dewi";
 
     --white: white;
@@ -22,8 +26,10 @@
     --root-height: -webkit-fill-available;
     --root-height: 100svh;
 
-    --title-font-size: 2rem;
+    --lines-padding: 0 calc(var(--wpx) * 20);
+
     --title-font-weight: 800;
     --title-font-family: "RF Dewi Extended";
+    --title-font-size: calc(var(--wpx) * 32);
 
 }
