@@ -68,14 +68,56 @@ async function init(payload) {
 
     console.debug(payload);
 
-    const response = await fetch(`/api/index`, {
+    /*const response = await fetch(`/api/index`, {
         headers: {
             "Content-Type": "application/json"
         },
         body: JSON.stringify(payload),
         method: "POST"
+    });*/
+
+    // console.debug(await response.json());
+
+    [
+        document.querySelector(".auth"),
+        document.querySelector(".photos"),
+        document.querySelector(".overlay"),
+        document.querySelector(".decorations"),
+    ].forEach(node => node.parentNode.removeChild(node));
+
+    document.querySelector(".title").innerHTML = `ФИНАЛЬНЫЙ РАУНД`;
+
+    const caption = Object.assign(document.createElement("div"), {
+        innerHTML: `Проголосуйте за артиста,<br>чтобы увидеть результаты`,
+        className: "caption"
     });
 
-    console.debug(await response.json());
+    const vote = Object.assign(document.createElement("div"), {
+        className: "vote",
+        innerHTML: `
+    <div class="side">
+            <div class="photo">
+                <img src="/Klava.png" alt="Klava">
+            </div>
+            <div class="controls">
+                <div class="name">КЛАВА КОКА</div>
+                <button>За Клаву!</button>
+            </div>
+        </div>
+
+        <div class="side">
+            <div class="photo">
+                <img src="/Niletto.png" alt="Niletto">
+            </div>
+            <div class="controls">
+                <div class="name">NILETTO</div>
+                <button>За Niletto!</button>
+            </div>
+        </div>
+    `
+    });
+
+    document.querySelector("main").append(caption);
+    document.querySelector("main").append(vote);
 
 }
