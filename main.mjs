@@ -9,9 +9,7 @@ if (searchParams.has("payload")) {
 
     const payload = JSON.parse(searchParams.get("payload"));
 
-    console.debug(payload);
-
-    alert(JSON.stringify(payload));
+    void init(payload);
 
 } else {
 
@@ -22,8 +20,6 @@ if (searchParams.has("payload")) {
     const height = getComputedStyle(container).getPropertyValue("height");
     const borderRadius = getComputedStyle(container).getPropertyValue("border-radius");
 
-    console.debug({height, borderRadius});
-
     Config.init({
         appId: 51715827,
     });
@@ -32,13 +28,11 @@ if (searchParams.has("payload")) {
 
         callback: (/** @type {VKAuthButtonCallbackResult} */ event) => {
 
-            console.log(event);
-
             switch (event.type) {
 
                 case ConnectEvents.OneTapAuthEventsSDK.LOGIN_SUCCESS:
                     oneTapButton.destroy();
-                    return alert(JSON.stringify(event));
+                    return init(event);
 
                 case ConnectEvents.ButtonOneTapAuthEventsSDK.SHOW_LOGIN:
                 case ConnectEvents.OneTapAuthEventsSDK.FULL_AUTH_NEEDED:
@@ -67,5 +61,21 @@ if (searchParams.has("payload")) {
         container,
 
     });
+
+}
+
+async function init(payload) {
+
+    console.debug(payload);
+
+    const response = await fetch(`/api/index`, {
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload),
+        method: "POST"
+    });
+
+    console.debug(await response.json());
 
 }
