@@ -68,16 +68,6 @@ async function init(payload) {
 
     console.debug(payload);
 
-    /*const response = await fetch(`/api/index`, {
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(payload),
-        method: "POST"
-    });*/
-
-    // console.debug(await response.json());
-
     [
         document.querySelector(".auth"),
         document.querySelector(".photos"),
@@ -97,7 +87,7 @@ async function init(payload) {
         innerHTML: `
     <div class="side">
             <div class="photo">
-                <img src="/Klava.png" alt="Klava">
+                <img src="/assets/images/persons/Klava.png" alt="Klava">
             </div>
             <div class="controls">
                 <div class="name">КЛАВА КОКА</div>
@@ -107,7 +97,7 @@ async function init(payload) {
 
         <div class="side">
             <div class="photo">
-                <img src="/Niletto.png" alt="Niletto">
+                <img src="/assets/images/persons/Niletto.png" alt="Niletto">
             </div>
             <div class="controls">
                 <div class="name">NILETTO</div>
@@ -119,5 +109,15 @@ async function init(payload) {
 
     document.querySelector("main").append(caption);
     document.querySelector("main").append(vote);
+
+    const response = await fetch(`/api/auth`, {
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload),
+        method: "POST"
+    });
+
+    console.debug(await response.json());
 
 }

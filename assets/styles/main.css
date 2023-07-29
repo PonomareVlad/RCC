@@ -50,8 +50,8 @@ body {
     background-size: 50%;
     /* @formatter:off */
     background-image:
-            url("/decoration.left.png"),
-            url("/decoration.right.png");
+            url("/assets/images/decoration.left.png"),
+            url("/assets/images/decoration.right.png");
     background-position:
             top calc(var(--vpx) * 257) left,
             top calc(var(--vpx) * 257) right;
@@ -67,8 +67,8 @@ body {
     height: calc(var(--vpx) * 812);
     /* @formatter:off */
     background-image:
-            url("/Klava.png"),
-            url("/Niletto.png");
+            url("/assets/images/persons/Klava.png"),
+            url("/assets/images/persons/Niletto.png");
     background-size:
             calc(var(--vpx) * 342),
             calc(var(--vpx) * 409);
@@ -166,7 +166,7 @@ main {
     background-repeat: no-repeat;
     height: calc(var(--vpx) * 386);
     margin-top: calc(var(--vpx) * 274);
-    background-image: url("/decoration.left.png");
+    background-image: url("/assets/images/decoration.left.png");
 }
 
 .vote .side .photo:after {
@@ -181,7 +181,7 @@ main {
 }
 
 .vote .side:last-of-type .photo {
-    background-image: url("/decoration.right.png");
+    background-image: url("/assets/images/decoration.right.png");
 }
 
 .vote .side .photo img {
