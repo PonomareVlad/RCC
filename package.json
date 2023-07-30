@@ -4,7 +4,7 @@
     "start": "vercel dev --listen 80"
   },
   "dependencies": {
-    "mongo-fetch": "^1.5.0"
+    "mongo-fetch": "npm:@ponomarevlad/mongo-fetch@1.5.0-upsert.1"
   },
   "devDependencies": {
     "@vkontakte/superappkit": "^1.60.4"
