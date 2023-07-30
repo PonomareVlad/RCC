@@ -1,4 +1,10 @@
 {
+  "rewrites": [
+    {
+      "source": "/",
+      "destination": "api/index"
+    }
+  ],
   "installCommand": "npm i --omit=dev",
   "github": {
     "silent": true
