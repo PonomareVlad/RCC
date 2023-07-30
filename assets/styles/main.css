@@ -214,6 +214,7 @@ main {
     text-align: center;
     font-size: calc(var(--vpx) * 18);
     margin-bottom: calc(var(--vpx) * 18);
+    font-family: var(--name-font-family);
 }
 
 .variants .side .controls button {

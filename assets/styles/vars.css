@@ -32,4 +32,6 @@
     --title-font-family: "RF Dewi Extended";
     --title-font-size: calc(var(--wpx) * 32);
 
+    --name-font-family: "RF Dewi Extended";
+
 }

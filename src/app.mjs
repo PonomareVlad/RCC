@@ -145,7 +145,7 @@ class App extends HTMLElement {
 
         const {_id: round} = this.round || {};
 
-        const payload = {...session, ...{round}};
+        const payload = {...session, round};
 
         const response = await fetch("/api/auth", {
             headers: {"Content-Type": "application/json"},
