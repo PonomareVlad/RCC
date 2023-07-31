@@ -7,12 +7,10 @@
   },
   "dependencies": {
     "@lit-labs/ssr": "^3.1.5",
+    "@vkontakte/superappkit": "^1.60.4",
     "lit": "^2.7.6",
     "mongo-fetch": "npm:@ponomarevlad/mongo-fetch@1.5.0-upsert.1",
     "lit-edge-utils": "github:PonomareVlad/lit-edge-utils"
-  },
-  "devDependencies": {
-    "@vkontakte/superappkit": "^1.60.4"
   },
   "overrides": {
     "node-fetch": "npm:export-fetch@1.0.0",
