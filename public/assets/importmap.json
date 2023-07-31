@@ -3,7 +3,9 @@
     "@lit-labs/ssr-client": "https://ga.jspm.io/npm:@lit-labs/ssr-client@1.1.2/development/index.js",
     "@lit-labs/ssr-client/lit-element-hydrate-support.js": "https://ga.jspm.io/npm:@lit-labs/ssr-client@1.1.2/development/lit-element-hydrate-support.js",
     "@vkontakte/superappkit": "https://ga.jspm.io/npm:@vkontakte/superappkit@1.60.2/dist/index.js",
-    "lit": "https://ga.jspm.io/npm:lit@2.7.6/index.js"
+    "lit": "https://ga.jspm.io/npm:lit@2.7.6/index.js",
+    "lit/directives/cache.js": "https://ga.jspm.io/npm:lit@2.7.6/directives/cache.js",
+    "lit/directives/ref.js": "https://ga.jspm.io/npm:lit@2.7.6/directives/ref.js"
   },
   "scopes": {
     "https://ga.jspm.io/": {
