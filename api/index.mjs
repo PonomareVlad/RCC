@@ -15,7 +15,7 @@ const {appId} = process.env;
 export default async () => {
 
     const body = render(html`
-        <app-root app-id="${appId}"><span>Test</span></app-root>
+        <app-root app-id="${appId}"></app-root>
     `);
 
     const result = template({title: "Екатеринбург", body});

@@ -4,11 +4,19 @@
  */
 
 import {Config, Connect, ConnectEvents} from "@vkontakte/superappkit";
+import {choose} from "lit/directives/choose.js";
 import {cache} from "lit/directives/cache.js";
 import {ref} from "lit/directives/ref.js";
 import {LitElement, html, css} from "lit";
+import {Task} from "@lit-labs/task";
 
 export class App extends LitElement {
+
+    static properties = {
+        session: {state: true},
+        view: {type: String, reflect: true},
+        appId: {type: Number, attribute: "app-id"},
+    }
 
     options = {
         buttonStyles: {},
@@ -17,10 +25,25 @@ export class App extends LitElement {
         showAlternativeLogin: false
     }
 
-    static properties = {
-        session: {state: true},
-        appId: {type: Number, attribute: "app-id"},
-    };
+    authTask = new Task(this, {
+        args: () => [this.session],
+        task: ([session]) => session ? this.callApi("auth", session)
+            .then(({ok}) => this.view = ok ? "vote" : "auth") : false
+    })
+
+    views = {
+        auth: () => html`
+            <h1>Auth</h1>
+            ${cache(html`
+                <div class="auth" ${ref(this.renderAuth)}></div>
+            `)}`,
+        vote: () => html`<h1>Vote</h1>`,
+    }
+
+    constructor() {
+        super();
+        this.view = "auth";
+    }
 
     static define(tag = "app-root") {
         customElements.define(tag, this);
@@ -35,14 +58,12 @@ export class App extends LitElement {
     }
 
     render() {
-        return html`
-            <h1>
-                <slot>🌚</slot>
-            </h1>
-            ${cache(html`
-                <div class="auth" ${ref(this.renderAuth)}></div>
-            `)}
-        `;
+        return this.authTask.render({
+            error: () => html`error`,
+            // initial: () => html`initial`,
+            pending: () => html`pending`,
+            complete: () => choose(this.view, Object.entries(this.views), () => html`<h1>Error</h1>`),
+        });
     }
 
     renderAuth(container) {
@@ -66,6 +87,14 @@ export class App extends LitElement {
             case ConnectEvents.ButtonOneTapAuthEventsSDK.SHOW_LOGIN_OPTIONS:
                 return Connect.redirectAuth({screen: "phone", url});
         }
+    }
+
+    async callApi(path, payload = {}) {
+        const method = "POST";
+        const body = JSON.stringify(payload);
+        const headers = {"Content-Type": "application/json"};
+        const response = await fetch(`/api/${path}`, {method, body, headers});
+        return response.json();
     }
 
 }
