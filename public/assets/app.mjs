@@ -4,12 +4,14 @@
  */
 
 import {Config, Connect, ConnectEvents} from "@vkontakte/superappkit";
+import {classMap} from "lit/directives/class-map.js";
+import {repeat} from "lit/directives/repeat.js";
 import {choose} from "lit/directives/choose.js";
 import {cache} from "lit/directives/cache.js";
+import {when} from "lit/directives/when.js";
 import {ref} from "lit/directives/ref.js";
 import {styles} from './app.styles.mjs';
 import {LitElement, html} from "lit";
-import {Task} from "@lit-labs/task";
 
 export class App extends LitElement {
 
@@ -17,20 +19,16 @@ export class App extends LitElement {
     static properties = {
         round: {state: true},
         account: {state: true},
-        // _session: {state: true},
-        // view: {type: String, reflect: true},
+        _session: {state: true},
         appId: {type: Number, attribute: "app-id"},
     }
+    task = Promise.resolve()
     options = {
         buttonStyles: {},
         buttonSkin: "flat",
         showAgreements: false,
         showAlternativeLogin: false
     }
-    authTask = new Task(this, {
-        args: () => [this._session, this.round],
-        task: ([session, round]) => this.updateAccountState(session, round)
-    })
     views = {
         auth: () => html`
             <h1>Auth</h1>
@@ -39,7 +37,27 @@ export class App extends LitElement {
                     <div class="auth" ${ref(this.renderAuth)}></div>
                 `)}
             </div>`,
-        round: () => html`<h1>Round</h1>`,
+        round: () => html`
+            <h1>Round</h1>
+            ${repeat(
+                    (this.round?.variants || []),
+                    ({name}) => name,
+                    ({name, button, result}, index) => html`
+                        <div>
+                            <h2>${name}</h2>
+                            <button class=${classMap({
+                                active: index + 1 === this.account.choice
+                            })}>
+                                ${when(
+                                        this.account.choice,
+                                        () => String(result),
+                                        () => button,
+                                )}
+                            </button>
+                        </div>
+                    `
+            )}
+        `,
     }
 
     get payload() {
@@ -76,33 +94,32 @@ export class App extends LitElement {
         super.connectedCallback();
         this.session = this.payload;
         this.round = this.state?.round;
-        const {appId} = this;
-        Config.init({appId});
+        this.task = this.task.then(
+            () => this.updateAccountState()
+        );
+        Config.init({appId: this.appId});
     }
 
-    renderView() {
-        return choose(
-            this.account?.ok ? "round" : "auth",
-            Object.entries(this.views),
-            () => `Wrong view`
-        );
+    update(changedProperties) {
+        console.debug(changedProperties);
+        super.update(changedProperties);
     }
 
     render() {
-        console.log("render");
-        const renderView = this.renderView.bind(this);
-        const task = this.authTask.render({
-            error: () => `Auth error`,
-            complete: renderView,
-            initial: renderView,
-        });
         return html`
-            <div>${task}</div>
+            <div>
+                ${choose(
+                        this.account?.ok ? "round" : "auth",
+                        Object.entries(this.views),
+                        () => `Wrong view`
+                )}
+            </div>
             <slot name="state"></slot>
         `;
     }
 
-    renderAuth(container) {
+    async renderAuth(container) {
+        await this.task;
         if (!container) return;
         const callback = this.authCallback;
         const style = getComputedStyle(container);
