@@ -10,10 +10,12 @@ export const config = {
     runtime: "edge"
 };
 
+const {appId} = process.env;
+
 export default async () => {
 
     const body = render(html`
-        <app-root><span>Test</span></app-root>
+        <app-root app-id="${appId}"><span>Test</span></app-root>
     `);
 
     const result = template({title: "Екатеринбург", body});
