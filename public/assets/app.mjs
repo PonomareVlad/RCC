@@ -4,6 +4,7 @@
  */
 
 import {Config, Connect, ConnectEvents} from "@vkontakte/superappkit";
+import {unsafeHTML} from "lit/directives/unsafe-html.js";
 import {classMap} from "lit/directives/class-map.js";
 import {repeat} from "lit/directives/repeat.js";
 import {choose} from "lit/directives/choose.js";
@@ -81,9 +82,10 @@ export class App extends LitElement {
     }
 
     get state() {
+        if (this._state) return this._state;
         const slot = this.shadowRoot.querySelector("slot[name=state]");
         const [script] = slot.assignedElements().filter(node => node.matches("script"));
-        if (script) return JSON.parse(script.innerHTML);
+        if (script) return this._state = JSON.parse(script.innerHTML);
     }
 
     static define(tag = "app-root") {
@@ -103,6 +105,13 @@ export class App extends LitElement {
     update(changedProperties) {
         console.debug(changedProperties);
         super.update(changedProperties);
+    }
+
+    renderLight() {
+        const {state} = this;
+        if (state) return unsafeHTML(`
+            <script slot="state" type="application/json">${JSON.stringify(state, null, 2)}</script>
+        `);
     }
 
     render() {

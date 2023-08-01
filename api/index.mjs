@@ -1,4 +1,4 @@
-import {unsafeHTML} from "lit/directives/unsafe-html.js";
+import {renderLight} from "@lit-labs/ssr-client/directives/render-light.js";
 import {template} from "../public/assets/page.mjs";
 import {stream} from "lit-edge-utils/render.mjs";
 import {App} from "../public/assets/app.mjs";
@@ -8,30 +8,24 @@ import {html} from "lit";
 
 App.define();
 
-export const config = {
-    runtime: "edge"
-};
-
 const {appId} = process.env;
+const headers = {"Content-Type": "text/html;charset=UTF-8"};
 
-export default async () => {
+export const config = {runtime: "edge"};
 
-    const state = {
-        round: await getLastRound()
-    };
-
-    const body = render(html`
-        <app-root app-id="${appId}">
-            ${unsafeHTML(`<script slot="state" type="application/json">${JSON.stringify(state, null, 2)}</script>`)}
+async function renderPromise() {
+    const state = {round: await getLastRound()};
+    return render(html`
+        <app-root app-id="${appId}" ._state=${state}>
+            ${renderLight()}
         </app-root>
     `);
+}
 
-    const result = template({title: "Екатеринбург", body});
-
-    return new Response(stream(result), {
-        headers: {
-            "Content-Type": "text/html;charset=UTF-8"
-        }
+export default () => {
+    const result = template({
+        title: "Екатеринбург",
+        body: renderPromise()
     });
-
+    return new Response(stream(result), {headers});
 }

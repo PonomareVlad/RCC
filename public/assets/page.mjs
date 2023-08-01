@@ -19,7 +19,7 @@ export function* template({title, body}) {
     <body>
 `;
 
-    yield* body;
+    yield body;
 
     yield `
     </body>

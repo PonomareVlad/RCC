@@ -7,6 +7,7 @@
   },
   "dependencies": {
     "@lit-labs/ssr": "^3.1.5",
+    "@lit-labs/ssr-client": "^1.1.2",
     "@lit-labs/task": "^2.1.2",
     "@vkontakte/superappkit": "^1.60.4",
     "lit": "^2.7.6",
