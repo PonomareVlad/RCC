@@ -6,23 +6,23 @@
 import {Config, Connect, ConnectEvents} from "@vkontakte/superappkit";
 import {unsafeHTML} from "lit/directives/unsafe-html.js";
 import {classMap} from "lit/directives/class-map.js";
-import {repeat} from "lit/directives/repeat.js";
 import {choose} from "lit/directives/choose.js";
 import {cache} from "lit/directives/cache.js";
 import {when} from "lit/directives/when.js";
+import {map} from "lit/directives/map.js";
 import {ref} from "lit/directives/ref.js";
-import {styles} from './app.styles.mjs';
+import {styles} from "./app.styles.mjs";
 import {LitElement, html} from "lit";
 
 export class App extends LitElement {
-
     static styles = [styles]
     static properties = {
         round: {state: true},
-        account: {state: true},
+        _account: {state: true},
         _session: {state: true},
         appId: {type: Number, attribute: "app-id"},
     }
+    controllers = {}
     task = Promise.resolve()
     options = {
         buttonStyles: {},
@@ -40,9 +40,8 @@ export class App extends LitElement {
             </div>`,
         round: () => html`
             <h1>Round</h1>
-            ${repeat(
-                    (this.round?.variants || []),
-                    ({name}) => name,
+            ${map(
+                    (this.round?.variants),
                     ({name, button, result}, index) => html`
                         <div>
                             <h2>${name}</h2>
@@ -81,6 +80,16 @@ export class App extends LitElement {
         localStorage.setItem("session", JSON.stringify(data));
     }
 
+    get account() {
+        return this._account;
+    }
+
+    set account(data) {
+        if (!data) return;
+        this._account = data;
+        localStorage.setItem("account", JSON.stringify(data));
+    }
+
     get state() {
         if (this._state) return this._state;
         const slot = this.shadowRoot.querySelector("slot[name=state]");
@@ -92,6 +101,16 @@ export class App extends LitElement {
         customElements.define(tag, this);
     }
 
+    abortSignals(...keys) {
+        keys.forEach(key => this.controllers[key]?.abort());
+    }
+
+    replaceSignal(key, reason) {
+        this.controllers[key]?.abort(reason);
+        this.controllers[key] = new AbortController();
+        return this.controllers[key].signal;
+    }
+
     connectedCallback() {
         super.connectedCallback();
         this.session = this.payload;
@@ -100,11 +119,20 @@ export class App extends LitElement {
             () => this.updateAccountState()
         );
         Config.init({appId: this.appId});
+        // setInterval(this.updateRoundState.bind(this), 5000);
     }
 
     update(changedProperties) {
         console.debug(changedProperties);
         super.update(changedProperties);
+    }
+
+    firstUpdated(_changedProperties) {
+        setTimeout(() => {
+            if (this.account) return;
+            const storageAccount = localStorage.getItem("account");
+            if (storageAccount) this.account = JSON.parse(storageAccount);
+        });
     }
 
     renderLight() {
@@ -154,8 +182,10 @@ export class App extends LitElement {
 
     async vote(choice) {
         const {_id: round} = this.round;
-        Object.assign(this.account, {choice});
-        await this.callApi("vote", {...this.session, round, choice});
+        this.abortSignals("round", "account");
+        this.account = {...this.account, choice};
+        const signal = this.replaceSignal("vote");
+        await this.callApi("vote", {...this.session, round, choice}, signal);
         await Promise.all([
             this.updateAccountState(),
             this.updateRoundState()
@@ -163,18 +193,21 @@ export class App extends LitElement {
     }
 
     async updateAccountState(session = this.session, {_id: round} = this.round) {
-        if (session && round) return this.account = await this.callApi("auth", {...session, round});
+        const signal = this.replaceSignal("account");
+        return this.account = (!session || !round) ? {ok: false} :
+            await this.callApi("auth", {...session, round}, signal);
     }
 
     async updateRoundState() {
-        return this.round = await this.callApi("round");
+        const signal = this.replaceSignal("round");
+        return this.round = await this.callApi("round", {}, signal);
     }
 
-    async callApi(path, payload = {}) {
+    async callApi(path, payload = {}, signal) {
         const method = "POST";
         const body = JSON.stringify(payload);
         const headers = {"Content-Type": "application/json"};
-        const response = await fetch(`/api/${path}`, {method, body, headers});
+        const response = await fetch(`/api/${path}`, {method, body, headers, signal});
         return response.json();
     }
 

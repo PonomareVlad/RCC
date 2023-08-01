@@ -9,4 +9,8 @@ export const styles = css`
     background-color: lightgray;
   }
 
+  button.active {
+    background-color: gray;
+  }
+
 `;
