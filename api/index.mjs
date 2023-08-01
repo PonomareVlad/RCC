@@ -1,8 +1,8 @@
 import {renderLight} from "@lit-labs/ssr-client/directives/render-light.js";
-import {template} from "../public/assets/page.mjs";
 import {stream} from "lit-edge-utils/render.mjs";
-import {App} from "../public/assets/app.mjs";
 import {getLastRound} from "../src/api.mjs";
+import {template} from "../public/page.mjs";
+import {App} from "../public/app.mjs";
 import {render} from "@lit-labs/ssr";
 import {html} from "lit";
 

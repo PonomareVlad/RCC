@@ -144,7 +144,7 @@ export class App extends LitElement {
 
     render() {
         return html`
-            <div>
+            <div class="view">
                 ${choose(
                         this.account?.ok ? "round" : "auth",
                         Object.entries(this.views),
