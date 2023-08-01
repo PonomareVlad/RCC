@@ -48,7 +48,7 @@ export class App extends LitElement {
                             <h2>${name}</h2>
                             <button class=${classMap({
                                 active: index + 1 === this.account.choice
-                            })}>
+                            })} @click=${this.vote.bind(this, index + 1)}>
                                 ${when(
                                         this.account.choice,
                                         () => String(result),
@@ -152,8 +152,22 @@ export class App extends LitElement {
         }
     }
 
+    async vote(choice) {
+        const {_id: round} = this.round;
+        Object.assign(this.account, {choice});
+        await this.callApi("vote", {...this.session, round, choice});
+        await Promise.all([
+            this.updateAccountState(),
+            this.updateRoundState()
+        ]);
+    }
+
     async updateAccountState(session = this.session, {_id: round} = this.round) {
         if (session && round) return this.account = await this.callApi("auth", {...session, round});
+    }
+
+    async updateRoundState() {
+        return this.round = await this.callApi("round");
     }
 
     async callApi(path, payload = {}) {

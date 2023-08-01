@@ -1,4 +1,5 @@
-import {rounds, votes} from "./db.mjs";
+import {accounts, rounds, votes} from "./db.mjs";
+import {ObjectId} from "bson";
 
 function groupVotes(variants = [], {choice}) {
     const index = choice - 1;
@@ -17,4 +18,19 @@ export async function getLastRound() {
         (variant = {}, index) => variant.result = results[index] || 0
     );
     return data;
+}
+
+export async function vote({uuid, token, round, choice} = {}) {
+    if (!uuid || !token || !round || !choice) throw new Error("Bad request");
+    const [targetRound, {phone} = {}] = await Promise.all([
+        rounds.findOne({_id: new ObjectId(round)}),
+        accounts.findOne({uuid, token}),
+    ]);
+    if (!phone || !targetRound) throw new Error("Wrong parameters");
+    const {acknowledged} = await votes.updateOne(
+        {phone, round},
+        {phone, round, choice},
+        {upsert: true}
+    );
+    return acknowledged;
 }
