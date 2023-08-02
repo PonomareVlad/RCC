@@ -24,7 +24,7 @@ async function renderPromise() {
 
 export default () => {
     const result = template({
-        title: "Екатеринбург",
+        title: "RCC EXTREME",
         body: renderPromise()
     });
     return new Response(stream(result), {headers});

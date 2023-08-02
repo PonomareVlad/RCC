@@ -10,14 +10,14 @@
 :root:after {
     top: 0;
     bottom: 0;
-    z-index: -1;
     content: "";
+    z-index: -10;
     position: absolute;
     border-left: 1px solid;
     border-right: 1px solid;
     left: var(--lines-padding);
     right: var(--lines-padding);
-    border-color: rgba(255, 255, 255, 0.10);
+    border-color: var(--lines-color);
 }
 
 :root:after {

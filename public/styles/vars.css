@@ -22,7 +22,20 @@
 
     --page-background-color: #070707;
 
+    --background-height: calc(var(--vpx) * 812);
+
+    --lines-color: rgba(255, 255, 255, 0.10);
     --lines-padding: calc(var(--vpx) * 20);
+
+    --overlay-height: calc(var(--vpx) * 371);
+    --overlay-padding: calc(
+            var(--page-height) - var(--overlay-height)
+    );
+    --overlay-background: linear-gradient(
+            180deg,
+            rgba(0, 0, 0, 0.00) 0%,
+            #000 75%
+    );
 
     --header-font-family: "RF Dewi Extended";
     --header-font-color: var(--font-color);
@@ -31,5 +44,12 @@
     --header-font-weight: 800;
 
     --logo-padding: calc(var(--vpx) * 40);
+    --logo-height: calc(var(--vpx) * 47);
+    --logo-width: calc(var(--vpx) * 73);
+
+    --auth-width: calc(var(--vpx) * 313);
+    --auth-height: calc(var(--vpx) * 62);
+    --auth-padding: calc(var(--vpx) * 59);
+    --auth-border-radius: calc(var(--vpx) * 8);
 
 }

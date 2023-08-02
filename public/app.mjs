@@ -34,7 +34,14 @@ export class App extends LitElement {
         auth: () => html`
             <div class="background">
                 <div class="decorations"></div>
-                <div class="photos"></div>
+                <div class="photos">
+                    <picture class="niletto">
+                        <img src="/images/persons/Niletto.png" alt="">
+                    </picture>
+                    <picture class="klava">
+                        <img src="/images/persons/Klava.png" alt="">
+                    </picture>
+                </div>
                 <div class="overlay"></div>
             </div>
             <section>
@@ -48,10 +55,8 @@ export class App extends LitElement {
                     <br>
                     АРТИСТА!
                 </h1>
-                <div>
-                    ${cache(html`
+                ${cache(html`
                     <div class="auth" ${ref(this.renderAuth)}></div>`)}
-                </div>
             </section>`,
         round: () => html`
             <h1>Round</h1>
