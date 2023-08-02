@@ -26,7 +26,7 @@
 
     --header-font-family: "RF Dewi Extended";
     --header-font-color: var(--font-color);
-    --header-font-size: calc(var(--wpx) * 32);
+    --header-font-size: calc(var(--vpx) * 32);
     --header-padding: calc(var(--vpx) * 37);
     --header-font-weight: 800;
 

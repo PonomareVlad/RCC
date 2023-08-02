@@ -32,12 +32,27 @@ export class App extends LitElement {
     }
     views = {
         auth: () => html`
-            <h1>Auth</h1>
-            <div>
-                ${cache(html`
-                    <div class="auth" ${ref(this.renderAuth)}></div>
-                `)}
-            </div>`,
+            <div class="background">
+                <div class="decorations"></div>
+                <div class="photos"></div>
+                <div class="overlay"></div>
+            </div>
+            <section>
+                <picture class="logo">
+                    <img src="/images/logo.svg" alt="">
+                </picture>
+                <h1>
+                    ПРОГОЛОСУЙ
+                    <br>
+                    <mark>ЗА ЛЮБИМОГО</mark>
+                    <br>
+                    АРТИСТА!
+                </h1>
+                <div>
+                    ${cache(html`
+                    <div class="auth" ${ref(this.renderAuth)}></div>`)}
+                </div>
+            </section>`,
         round: () => html`
             <h1>Round</h1>
             ${map(
@@ -144,13 +159,13 @@ export class App extends LitElement {
 
     render() {
         return html`
-            <div class="view">
+            <main>
                 ${choose(
                         this.account?.ok ? "round" : "auth",
                         Object.entries(this.views),
                         () => `Wrong view`
                 )}
-            </div>
+            </main>
             <slot name="state"></slot>
         `;
     }
