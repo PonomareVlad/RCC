@@ -14,6 +14,7 @@ export function* template({title, body}) {
         <script async crossorigin="anonymous"
                 src="https://ga.jspm.io/npm:es-module-shims@1.8.0/dist/es-module-shims.js"></script>
         <script defer src="/client.mjs" type="module"></script>
+        <link href="/fonts/stylesheet.css" rel="stylesheet">
         <link href="/styles/reset.css" rel="stylesheet">
         <link href="/styles/vars.css" rel="stylesheet">
         <link href="/styles/page.css" rel="stylesheet">

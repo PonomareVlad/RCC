@@ -1,0 +1,35 @@
+:root {
+
+    --vpx: calc(100vw / 375);
+
+    --font-color: white;
+    --font-family: "RF Dewi";
+
+    --accent-color-start: #EC1623;
+    --accent-color-end: #F2591F;
+
+    --accent-gradient: linear-gradient(
+            90deg,
+            var(--accent-color-start) 0%,
+            var(--accent-color-end) 100%
+    );
+
+
+    --page-height: 100vh;
+    --page-height: -moz-available;
+    --page-height: -webkit-fill-available;
+    --page-height: 100svh;
+
+    --page-background-color: #070707;
+
+    --lines-padding: calc(var(--vpx) * 20);
+
+    --header-font-family: "RF Dewi Extended";
+    --header-font-color: var(--font-color);
+    --header-font-size: calc(var(--wpx) * 32);
+    --header-padding: calc(var(--vpx) * 37);
+    --header-font-weight: 800;
+
+    --logo-padding: calc(var(--vpx) * 40);
+
+}
