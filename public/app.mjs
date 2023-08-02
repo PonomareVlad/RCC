@@ -194,8 +194,15 @@ export class App extends LitElement {
 
     async updateAccountState(session = this.session, {_id: round} = this.round) {
         const signal = this.replaceSignal("account");
-        return this.account = (!session || !round) ? {ok: false} :
-            await this.callApi("auth", {...session, round}, signal);
+        let account = {ok: false};
+        if (session && round)
+            account = await this.callApi("auth", {...session, round}, signal);
+        if (!account?.ok) {
+            localStorage.removeItem("session");
+            delete this._session;
+        }
+        return this.account = account;
+
     }
 
     async updateRoundState() {
