@@ -11,11 +11,12 @@ import {cache} from "lit/directives/cache.js";
 import {when} from "lit/directives/when.js";
 import {map} from "lit/directives/map.js";
 import {ref} from "lit/directives/ref.js";
-import {styles} from "./app.styles.mjs";
-import {LitElement, html} from "lit";
+import {LitElement, html, css} from "lit";
 
 export class App extends LitElement {
-    static styles = [styles]
+    static styles = css`
+      @import "/styles/reset.css";
+      @import "/styles/app.css";`
     static properties = {
         round: {state: true},
         _account: {state: true},

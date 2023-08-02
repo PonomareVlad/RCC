@@ -17,7 +17,7 @@ export function* template({title, body}) {
         <link href="/fonts/stylesheet.css" rel="stylesheet">
         <link href="/styles/reset.css" rel="stylesheet">
         <link href="/styles/vars.css" rel="stylesheet">
-        <link href="/styles/page.css" rel="stylesheet">
+        <link href="/styles/app.css" rel="stylesheet">
     </head>
     <body>`;
     yield body;
