@@ -24,6 +24,15 @@
 
     --page-background-color: #070707;
 
+    --section-width: 100%;
+    --section-horizontal-padding: 0;
+
+    --auth-section-width: var(--section-width);
+    --auth-section-horizontal-padding: var(--section-horizontal-padding);
+
+    --vote-section-width: calc(100% - (var(--vote-section-horizontal-padding) * 2));
+    --vote-section-horizontal-padding: var(--lines-padding);
+
     --decorations-padding: 257;
     --decorations-background-size: 50%;
     /* @formatter:off */
@@ -34,7 +43,10 @@
             top calc(var(--vpx) * var(--decorations-padding)) left,
             top calc(var(--vpx) * var(--decorations-padding)) right;
     /* @formatter:on */
+
+    --vote-decorations-horizontal-padding: var(--lines-padding);
     --vote-decorations-background-size: var(--decorations-background-size);
+    --vote-decorations-width: calc(100% - (var(--vote-decorations-horizontal-padding) * 2));
 
     --lines-color: rgba(255, 255, 255, 0.10);
     --lines-padding: calc(var(--vpx) * 20);
@@ -75,6 +87,12 @@
     --header-font-color: var(--font-color);
     --header-font-weight: 800;
 
+    --auth-header-padding: var(--header-padding);
+    --auth-header-font-size: var(--header-font-size);
+
+    --vote-header-padding: var(--header-padding);
+    --vote-header-font-size: var(--header-font-size);
+
     --logo-padding: calc(var(--vpx) * 40);
     --logo-height: calc(var(--vpx) * 47);
     --logo-width: calc(var(--vpx) * 73);
@@ -90,8 +108,25 @@
     --paragraph-font-size: calc(var(--vpx) * 15);
     --paragraph-font-color: rgba(215, 215, 215, 0.50);
 
+    --variants-side-width: 50%;
+    --variants-horizontal-padding: var(--lines-padding);
+    --variants-width: calc(100% - (var(--variants-horizontal-padding) * 2));
+
+    --variants-background-overflow: hidden;
+    --variants-background-height: calc(var(--vpx) * 386);
     --variants-background-padding-top: calc(var(--vpx) * 284);
     --variants-background-padding-bottom: calc(var(--vpx) * 152);
+
+    --variants-background-underlay-display: none;
+    --variants-background-underlay-width: calc(var(--vpx) * 180);
+    --variants-background-underlay-height: var(--variants-background-height);
+    --variants-background-underlay-clip-path: polygon(0 0, 100% 30%, 100% 100%, 0% 100%);
+    --variants-background-underlay-reverse-clip-path: polygon(0 30%, 100% 0, 100% 100%, 0% 100%);
+    --variants-background-underlay-background: linear-gradient(
+            180deg,
+            rgba(255, 255, 255, 0.20) 0%,
+            rgba(255, 255, 255, 0.00) 35%
+    );
 
     --name-font-size: calc(var(--vpx) * 18);
     --name-padding: calc(var(--vpx) * 18);
@@ -125,6 +160,7 @@
 
         --decorations-padding: 373;
         --decorations-background-size: calc(var(--vpx) * 350);
+
         --vote-decorations-background-size: 50%;
 
         --auth-overlay-display: none;
@@ -138,12 +174,13 @@
         --header-padding: calc(var(--vpx) * 69);
         --header-font-size: calc(var(--vpx) * 48);
 
-        --vk-padding: calc(var(--vpx) * 40);
         --vk-position: static;
+        --vk-padding: calc(var(--vpx) * 40);
 
         --paragraph-padding: calc(var(--vpx) * 10);
         --paragraph-font-size: calc(var(--vpx) * 18);
 
+        --variants-background-height: calc(var(--vpx) * 704);
         --variants-background-padding-top: calc(var(--vpx) * 391.81);
         --variants-background-padding-bottom: calc(var(--vpx) * 118);
 
@@ -160,6 +197,71 @@
         --klava-right: calc(var(--vpx) * -20);
         --klava-width: calc(var(--vpx) * 1174);
         --klava-bottom: calc(var(--vpx) * -903);
+
+    }
+
+}
+
+@media (orientation: landscape) {
+
+    :root {
+
+        --vpx: calc(100vw / 1194);
+
+        --background-height: calc(var(--vpx) * 834);
+
+        --lines-padding: calc(var(--vpx) * 60);
+
+        --vote-section-horizontal-padding: calc(var(--vpx) * 277);
+        --vote-section-width: calc(100% - (var(--vote-section-horizontal-padding) * 2));
+
+        --decorations-padding: 0;
+        --decorations-background-size: calc(var(--vpx) * 305);
+
+        --vote-decorations-horizontal-padding: 0;
+        --vote-decorations-width: 100%;
+
+        --auth-overlay-display: none;
+
+        --vote-overlay-threshold: 45%;
+        --vote-overlay-height: calc(var(--vpx) * 222);
+
+        --logo-width: calc(var(--vpx) * 90);
+        --logo-height: calc(var(--vpx) * 58);
+        --logo-padding: calc(var(--vpx) * 60);
+
+        --header-padding: calc(var(--vpx) * 161);
+        --header-font-size: calc(var(--vpx) * 48);
+
+        --vote-header-padding: calc(var(--vpx) * 52);
+        --vote-header-font-size: calc(var(--vpx) * 42);
+
+        --vk-position: static;
+        --vk-padding: calc(var(--vpx) * 40);
+
+        --paragraph-padding: calc(var(--vpx) * 10);
+        --paragraph-font-size: calc(var(--vpx) * 18);
+
+        /*--variants-background-overflow: initial;*/
+        --variants-background-height: calc(var(--vpx) * 474);
+        --variants-background-padding-top: calc(var(--vpx) * 308);
+        --variants-background-padding-bottom: calc(var(--vpx) * 52);
+
+        --variants-background-underlay-display: block;
+
+        --name-padding: calc(var(--vpx) * 20);
+        --name-font-size: calc(var(--vpx) * 24);
+
+        --button-width: calc(var(--vpx) * 266);
+        --button-padding: calc(var(--vpx) * 52);
+
+        --niletto-left: calc(var(--vpx) * 720.05);
+        --niletto-width: calc(var(--vpx) * 621.857);
+        --niletto-bottom: calc(var(--vpx) * -248.91);
+
+        --klava-right: calc(var(--vpx) * 457.74);
+        --klava-width: calc(var(--vpx) * 1020.92);
+        --klava-bottom: calc(var(--vpx) * -730);
 
     }
 
