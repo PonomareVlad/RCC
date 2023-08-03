@@ -4,6 +4,7 @@
 
     --font-color: white;
     --font-family: "RF Dewi";
+    --font-size: calc(var(--vpx) * 16);
 
     --accent-color-start: #EC1623;
     --accent-color-end: #F2591F;
@@ -47,9 +48,24 @@
     --logo-height: calc(var(--vpx) * 47);
     --logo-width: calc(var(--vpx) * 73);
 
-    --auth-width: calc(var(--vpx) * 313);
-    --auth-height: calc(var(--vpx) * 62);
-    --auth-padding: calc(var(--vpx) * 59);
-    --auth-border-radius: calc(var(--vpx) * 8);
+    --vk-width: calc(var(--vpx) * 313);
+    --vk-height: calc(var(--vpx) * 62);
+    --vk-padding: calc(var(--vpx) * 59);
+    --vk-border-radius: calc(var(--vpx) * 8);
+
+    --paragraph-font-weight: 300;
+    --paragraph-padding: calc(var(--vpx) * 15);
+    --paragraph-font-size: calc(var(--vpx) * 15);
+    --paragraph-font-color: rgba(215, 215, 215, 0.50);
+
+    --name-font-size: calc(var(--vpx) * 18);
+    --name-padding: calc(var(--vpx) * 18);
+
+    --button-width: calc(var(--vpx) * 144);
+    --button-height: calc(var(--vpx) * 62);
+    --button-padding: calc(var(--vpx) * 59);
+    --button-border-radius: calc(var(--vpx) * 5);
+
+    --results-button-font-size: calc(var(--vpx) * 24);
 
 }

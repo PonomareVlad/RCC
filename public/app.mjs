@@ -25,6 +25,11 @@ export class App extends LitElement {
     }
     controllers = {}
     task = Promise.resolve()
+    percentNumber = new Intl.NumberFormat("ru-RU", {
+        minimumFractionDigits: 1,
+        maximumFractionDigits: 1,
+        style: "percent",
+    })
     options = {
         buttonStyles: {},
         buttonSkin: "flat",
@@ -57,27 +62,79 @@ export class App extends LitElement {
                     АРТИСТА!
                 </h1>
                 ${cache(html`
-                    <div class="auth" ${ref(this.renderAuth)}></div>`)}
+                    <div class="vk" ${ref(this.renderAuth)}></div>`)}
             </section>`,
-        round: () => html`
-            <h1>Round</h1>
-            ${map(
-                    (this.round?.variants),
-                    ({name, button, result}, index) => html`
-                        <div>
-                            <h2>${name}</h2>
-                            <button class=${classMap({
-                                active: index + 1 === this.account.choice
-                            })} @click=${this.vote.bind(this, index + 1)}>
-                                ${when(
-                                        this.account.choice,
-                                        () => String(result),
-                                        () => button,
-                                )}
-                            </button>
-                        </div>
-                    `
-            )}
+        vote: () => html`
+            <div class="background">
+                <div class="decorations"></div>
+            </div>
+            <section>
+                <picture class="logo">
+                    <img src="/images/logo.svg" alt="">
+                </picture>
+                <h1>
+                    ${when(
+                            this.account?.choice,
+                            () => html`
+                                CПАСИБО
+                                <br>
+                                ЗА ГОЛОС!
+                            `,
+                            () => this.round?.title
+                    )}
+                </h1>
+                <p>
+                    ${when(
+                            this.account?.choice,
+                            () => html`
+                                Следите за результатами
+                                <br>
+                                голосования онлайн!
+                            `,
+                            () => html`
+                                Проголосуйте за артиста,
+                                <br>
+                                чтобы увидеть результаты
+                            `
+                    )}
+                </p>
+                <div class=${classMap({
+                    variants: true,
+                    results: this.account?.choice
+                })}>
+                    ${map(
+                            (this.round?.variants),
+                            ({name, button, result, image = {}}, index) => html`
+                                <div class="side">
+                                    <div class="background">
+                                        <picture>
+                                            ${map(
+                                                    Object.entries(image).sort(
+                                                            ([a], [b]) => parseInt(a) - parseInt(b)
+                                                    ),
+                                                    ([size, src]) => html`
+                                                        <source srcset=${src} media=${`(min-width: ${size}px)`}/>
+                                                    `
+                                            )}
+                                            <img alt=${name}
+                                                 src=${image[String(Math.min(...Object.keys(image).map(Number)))]}>
+                                        </picture>
+                                    </div>
+                                    <h2 class="name">${name}</h2>
+                                    <button class=${classMap({
+                                        selected: index + 1 === this.account?.choice
+                                    })} @click=${this.vote.bind(this, index + 1)}>
+                                        ${when(
+                                                this.account?.choice,
+                                                () => this.percentNumber.format(result),
+                                                () => button,
+                                        )}
+                                    </button>
+                                </div>
+                            `
+                    )}
+                </div>
+            </section>
         `,
     }
 
@@ -164,12 +221,13 @@ export class App extends LitElement {
     }
 
     render() {
+        const view = this.account?.ok ? "vote" : "auth";
         return html`
-            <main>
+            <main class=${classMap({[view]: true})}>
                 ${choose(
-                        this.account?.ok ? "round" : "auth",
+                        view,
                         Object.entries(this.views),
-                        () => `Wrong view`
+                        this.views.auth.bind(this)
                 )}
             </main>
             <slot name="state"></slot>
