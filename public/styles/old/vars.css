@@ -1,0 +1,37 @@
+:root {
+
+    --vpx: calc(100vw / 375);
+    --wpx: calc(100vw / 375);
+    --hpx: calc(100vh / 812);
+
+    --font-family: "RF Dewi";
+
+    --white: white;
+    --dark-gray: #070707;
+
+    --accent-color-start: #EC1623;
+    --accent-color-end: #F2591F;
+
+    --accent-gradient: linear-gradient(
+            90deg,
+            var(--accent-color-start) 0%,
+            var(--accent-color-end) 100%
+    );
+
+    --font-color: var(--white);
+    --background-color: var(--dark-gray);
+
+    --root-height: 100vh;
+    --root-height: -moz-available;
+    --root-height: -webkit-fill-available;
+    --root-height: 100svh;
+
+    --lines-padding: 0 calc(var(--wpx) * 20);
+
+    --title-font-weight: 800;
+    --title-font-family: "RF Dewi Extended";
+    --title-font-size: calc(var(--wpx) * 32);
+
+    --name-font-family: "RF Dewi Extended";
+
+}

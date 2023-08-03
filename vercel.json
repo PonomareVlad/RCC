@@ -1,5 +1,11 @@
 {
-  "installCommand": "npm i --omit=dev",
+  "rewrites": [
+    {
+      "source": "/",
+      "destination": "api/index"
+    }
+  ],
+  "installCommand": "npm ci --omit=dev",
   "github": {
     "silent": true
   }

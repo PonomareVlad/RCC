@@ -1,0 +1,18 @@
+{
+  "imports": {
+    "@lit-labs/ssr-client": "https://ga.jspm.io/npm:@lit-labs/ssr-client@1.1.2/development/index.js",
+    "@lit-labs/ssr-client/": "https://ga.jspm.io/npm:@lit-labs/ssr-client@1.1.2/development/",
+    "@lit-labs/task": "https://ga.jspm.io/npm:@lit-labs/task@2.1.2/development/index.js",
+    "@vkontakte/superappkit": "https://ga.jspm.io/npm:@vkontakte/superappkit@1.60.2/dist/index.js",
+    "lit": "https://ga.jspm.io/npm:lit@2.7.6/index.js",
+    "lit/": "https://ga.jspm.io/npm:lit@2.7.6/"
+  },
+  "scopes": {
+    "https://ga.jspm.io/": {
+      "@lit/reactive-element": "https://ga.jspm.io/npm:@lit/reactive-element@1.6.2/development/reactive-element.js",
+      "lit-element/": "https://ga.jspm.io/npm:lit-element@3.3.2/development/",
+      "lit-html": "https://ga.jspm.io/npm:lit-html@2.7.5/development/lit-html.js",
+      "lit-html/": "https://ga.jspm.io/npm:lit-html@2.7.5/development/"
+    }
+  }
+}

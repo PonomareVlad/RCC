@@ -1,16 +1,26 @@
 {
   "name": "ekaterinburg",
   "scripts": {
-    "start": "vercel dev --listen 80"
+    "postinstall": "npm run patch",
+    "start": "vercel dev --listen 80",
+    "patch": "node ./node_modules/lit-edge-utils/patch.mjs"
   },
   "dependencies": {
+    "@lit-labs/ssr": "^3.1.5",
+    "@lit-labs/ssr-client": "^1.1.2",
+    "@lit-labs/task": "^2.1.2",
+    "@vkontakte/superappkit": "^1.60.4",
+    "bson": "npm:@ponomarevlad/bson@5.3.0-edge.1",
+    "lit": "^2.7.6",
+    "lit-edge-utils": "github:PonomareVlad/lit-edge-utils",
+    "mongo-fetch": "npm:@ponomarevlad/mongo-fetch@1.5.0-upsert.1"
+  },
+  "overrides": {
+    "node-fetch": "npm:export-fetch@1.0.0",
+    "bson": "npm:@ponomarevlad/bson@5.3.0-edge.1",
     "mongo-fetch": "npm:@ponomarevlad/mongo-fetch@1.5.0-upsert.1"
   },
   "devDependencies": {
-    "@vkontakte/superappkit": "^1.60.4"
-  },
-  "overrides": {
-    "bson": "npm:@ponomarevlad/bson@5.3.0-edge.1",
-    "mongo-fetch": "npm:@ponomarevlad/mongo-fetch@1.5.0-upsert.1"
+    "@web-types/lit": "^2.0.0-3"
   }
 }

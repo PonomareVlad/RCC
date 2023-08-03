@@ -1,0 +1,227 @@
+:root {
+    width: 100%;
+    color: var(--font-color);
+    height: var(--page-height);
+    font-size: var(--font-size);
+    font-family: var(--font-family);
+    background: var(--page-background-color);
+}
+
+:root:before,
+:root:after {
+    top: 0;
+    bottom: 0;
+    content: "";
+    z-index: -10;
+    position: absolute;
+    border-left: 1px solid;
+    border-right: 1px solid;
+    left: var(--lines-padding);
+    right: var(--lines-padding);
+    border-color: var(--lines-color);
+}
+
+:root:after {
+    width: 0;
+    border-left: 0;
+    --lines-padding: calc((100% - 1px) / 2);
+}
+
+picture img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+}
+
+main {
+    display: block;
+    overflow: hidden;
+    position: relative;
+    height: var(--page-height);
+}
+
+.background {
+    top: 0;
+    z-index: -1;
+    width: 100%;
+    display: block;
+    position: absolute;
+    height: var(--page-height);
+    min-height: var(--background-height);
+}
+
+.background .decorations {
+    bottom: 0;
+    width: 100%;
+    position: absolute;
+    background-size: 50%;
+    background-repeat: no-repeat;
+    /* @formatter:off */
+    background-image:
+            url("/images/decoration.left.png"),
+            url("/images/decoration.right.png");
+    background-position:
+            top calc(var(--vpx) * 257) left,
+            top calc(var(--vpx) * 257) right;
+    /* @formatter:on */
+    height: var(--background-height);
+}
+
+.vote .background .decorations {
+    left: var(--lines-padding);
+    right: var(--lines-padding);
+    width: calc(100% - (var(--lines-padding) * 2));
+}
+
+.background .photos {
+    bottom: 0;
+    width: 100%;
+    overflow: hidden;
+    position: absolute;
+    height: var(--background-height);
+}
+
+.background .photos > picture {
+    bottom: 0;
+    width: 100%;
+    position: absolute;
+}
+
+.background .photos > picture.niletto {
+    width: calc(var(--vpx) * 368.384);
+    left: calc(var(--vpx) * 114.5);
+    bottom: calc(var(--vpx) * 5.12);
+}
+
+.background .photos > picture.klava {
+    width: calc(var(--vpx) * 636);
+    right: calc(var(--vpx) * -54);
+    bottom: calc(var(--vpx) * -337);
+}
+
+.background .overlay {
+    width: 100%;
+    position: absolute;
+    top: var(--overlay-padding);
+    height: var(--overlay-height);
+    background: var(--overlay-background);
+}
+
+section {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+section:after {
+    z-index: 0;
+    content: "";
+    width: 100%;
+    position: absolute;
+    top: var(--overlay-padding);
+    height: var(--overlay-height);
+    background: var(--overlay-background);
+}
+
+.logo {
+    flex-shrink: 0;
+    width: var(--logo-width);
+    height: var(--logo-height);
+    margin-top: var(--logo-padding);
+}
+
+h1, h2 {
+    text-align: center;
+    text-transform: uppercase;
+    color: var(--header-font-color);
+    margin-top: var(--header-padding);
+    font-size: var(--header-font-size);
+    font-weight: var(--header-font-weight);
+    font-family: var(--header-font-family);
+}
+
+mark {
+    background: var(--accent-gradient);
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+}
+
+.vk {
+    position: absolute;
+    width: var(--vk-width);
+    height: var(--vk-height);
+    bottom: var(--vk-padding);
+    border-radius: var(--vk-border-radius);
+}
+
+p {
+    text-align: center;
+    color: var(--paragraph-font-color);
+    margin-top: var(--paragraph-padding);
+    font-size: var(--paragraph-font-size);
+    font-weight: var(--paragraph-font-weight);
+}
+
+.variants {
+    top: 0;
+    display: flex;
+    position: absolute;
+    align-items: flex-end;
+    justify-content: center;
+    height: var(--page-height);
+    left: var(--lines-padding);
+    right: var(--lines-padding);
+    width: calc(100% - (var(--lines-padding) * 2));
+}
+
+.variants .side {
+    width: 50%;
+    display: flex;
+    position: relative;
+    align-items: center;
+    flex-direction: column;
+    justify-content: flex-end;
+    height: var(--background-height);
+    max-height: var(--page-height);
+}
+
+.variants .side .background {
+    height: var(--background-height);
+    padding-top: calc(var(--vpx) * 274);
+    padding-bottom: calc(var(--vpx) * 152);
+}
+
+.variants .side picture img {
+    object-fit: cover;
+    object-position: top;
+}
+
+.variants .side .name {
+    z-index: 10;
+    margin-top: unset;
+    font-size: var(--name-font-size);
+    margin-bottom: var(--name-padding);
+}
+
+.variants .side button {
+    z-index: 10;
+    text-align: center;
+    width: var(--button-width);
+    height: var(--button-height);
+    border: 1px solid transparent;
+    background: var(--accent-gradient);
+    margin-bottom: var(--button-padding);
+    border-radius: var(--button-border-radius);
+}
+
+.variants.results .side button {
+    font-size: var(--results-button-font-size);
+}
+
+.variants.results .side button:not(.selected) {
+    border: 1px solid #777;
+    background: unset;
+}
