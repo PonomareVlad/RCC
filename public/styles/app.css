@@ -64,13 +64,14 @@ main {
     height: var(--background-height);
     background-size: var(--decorations-background-size);
     background-image: var(--decorations-background-image);
-    background-position:var(--decorations-background-position);
+    background-position: var(--decorations-background-position);
 }
 
 .vote .background .decorations {
     left: var(--lines-padding);
     right: var(--lines-padding);
     width: calc(100% - (var(--lines-padding) * 2));
+    background-size: var(--vote-decorations-background-size);
 }
 
 .background .photos {
@@ -118,6 +119,20 @@ section:after {
     background: var(--overlay-background);
 }
 
+.auth section:after {
+    top: var(--auth-overlay-padding);
+    height: var(--auth-overlay-height);
+    display: var(--auth-overlay-display);
+    background: var(--auth-overlay-background);
+}
+
+.vote section:after {
+    top: var(--vote-overlay-padding);
+    height: var(--vote-overlay-height);
+    display: var(--vote-overlay-display);
+    background: var(--vote-overlay-background);
+}
+
 .logo {
     z-index: 10;
     flex-shrink: 0;
@@ -138,6 +153,23 @@ h1, h2 {
     font-family: var(--header-font-family);
 }
 
+p {
+    z-index: 10;
+    text-align: center;
+    color: var(--paragraph-font-color);
+    margin-top: var(--paragraph-padding);
+    font-size: var(--paragraph-font-size);
+    font-weight: var(--paragraph-font-weight);
+}
+
+h1, p {
+    max-width: calc(100% - (var(--lines-padding) * 2));
+}
+
+h1 span, h2 span, p span {
+    display: inline-block;
+}
+
 mark {
     background: var(--accent-gradient);
     -webkit-text-fill-color: transparent;
@@ -153,15 +185,6 @@ mark {
     position: var(--vk-position);
     margin-top: var(--vk-padding);
     border-radius: var(--vk-border-radius);
-}
-
-p {
-    z-index: 10;
-    text-align: center;
-    color: var(--paragraph-font-color);
-    margin-top: var(--paragraph-padding);
-    font-size: var(--paragraph-font-size);
-    font-weight: var(--paragraph-font-weight);
 }
 
 .variants {
@@ -189,8 +212,8 @@ p {
 
 .variants .side .background {
     height: var(--background-height);
-    padding-top: calc(var(--vpx) * 274);
-    padding-bottom: calc(var(--vpx) * 152);
+    padding-top: var(--variants-background-padding-top);
+    padding-bottom: var(--variants-background-padding-bottom);
 }
 
 .variants .side picture img {

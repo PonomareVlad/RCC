@@ -42,10 +42,10 @@ export class App extends LitElement {
                 <div class="decorations"></div>
                 <div class="photos">
                     <picture class="niletto">
-                        <img src="/images/persons/Niletto.png" alt="">
+                        <img src="/images/Niletto.png" alt="Niletto">
                     </picture>
                     <picture class="klava">
-                        <img src="/images/persons/Klava.png" alt="">
+                        <img src="/images/Klava.png" alt="Klava">
                     </picture>
                 </div>
             </div>
@@ -75,9 +75,8 @@ export class App extends LitElement {
                     ${when(
                             this.account?.choice,
                             () => html`
-                                CПАСИБО
-                                <br>
-                                ЗА ГОЛОС!
+                                <span>CПАСИБО</span>
+                                <span>ЗА ГОЛОС!</span>
                             `,
                             () => this.round?.title
                     )}
@@ -86,14 +85,12 @@ export class App extends LitElement {
                     ${when(
                             this.account?.choice,
                             () => html`
-                                Следите за результатами
-                                <br>
-                                голосования онлайн!
+                                <span>Следите за результатами</span>
+                                <span>голосования онлайн!</span>
                             `,
                             () => html`
-                                Проголосуйте за артиста,
-                                <br>
-                                чтобы увидеть результаты
+                                <span>Проголосуйте за артиста,</span>
+                                <span>чтобы увидеть результаты</span>
                             `
                     )}
                 </p>
@@ -108,15 +105,21 @@ export class App extends LitElement {
                                     <div class="background">
                                         <picture>
                                             ${map(
-                                                    Object.entries(image).sort(
-                                                            ([a], [b]) => parseInt(a) - parseInt(b)
-                                                    ),
+                                                    typeof image === "object" ?
+                                                            Object.entries(image).sort(
+                                                                    ([a], [b]) => parseInt(a) - parseInt(b)
+                                                            ) : [],
                                                     ([size, src]) => html`
                                                         <source srcset=${src} media=${`(min-width: ${size}px)`}/>
                                                     `
                                             )}
-                                            <img alt=${name}
-                                                 src=${image[String(Math.min(...Object.keys(image).map(Number)))]}>
+                                            <img alt=${name} src=${
+                                                    typeof image === "object" ?
+                                                            image[String(Math.min(
+                                                                    ...Object.keys(image).map(Number)
+                                                            ))] :
+                                                            image
+                                            }>
                                         </picture>
                                     </div>
                                     <h2 class="name">${name}</h2>

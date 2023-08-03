@@ -24,20 +24,23 @@
 
     --page-background-color: #070707;
 
+    --decorations-padding: 257;
     --decorations-background-size: 50%;
     /* @formatter:off */
     --decorations-background-image:
             url("/images/decoration.left.png"),
             url("/images/decoration.right.png");
     --decorations-background-position:
-            top calc(var(--vpx) * 257) left,
-            top calc(var(--vpx) * 257) right;
+            top calc(var(--vpx) * var(--decorations-padding)) left,
+            top calc(var(--vpx) * var(--decorations-padding)) right;
     /* @formatter:on */
+    --vote-decorations-background-size: var(--decorations-background-size);
 
     --lines-color: rgba(255, 255, 255, 0.10);
     --lines-padding: calc(var(--vpx) * 20);
 
     --overlay-display: block;
+    --overlay-threshold: 75%;
     --overlay-height: calc(var(--vpx) * 371);
     --overlay-padding: calc(
             var(--page-height) - var(--overlay-height)
@@ -45,7 +48,25 @@
     --overlay-background: linear-gradient(
             180deg,
             rgba(0, 0, 0, 0.00) 0%,
-            #000 75%
+            #000 var(--overlay-threshold)
+    );
+
+    --auth-overlay-height: var(--overlay-height);
+    --auth-overlay-padding: var(--overlay-padding);
+    --auth-overlay-display: var(--overlay-display);
+    --auth-overlay-threshold: var(--overlay-threshold);
+    --auth-overlay-background: var(--overlay-background);
+
+    --vote-overlay-threshold: 35%;
+    --vote-overlay-height: calc(var(--vpx) * 258);
+    --vote-overlay-display: var(--overlay-display);
+    --vote-overlay-padding: calc(
+            var(--page-height) - var(--vote-overlay-height)
+    );
+    --vote-overlay-background: linear-gradient(
+            180deg,
+            rgba(0, 0, 0, 0.00) 0%,
+            #000 var(--vote-overlay-threshold)
     );
 
     --header-font-family: "RF Dewi Extended";
@@ -68,6 +89,9 @@
     --paragraph-padding: calc(var(--vpx) * 15);
     --paragraph-font-size: calc(var(--vpx) * 15);
     --paragraph-font-color: rgba(215, 215, 215, 0.50);
+
+    --variants-background-padding-top: calc(var(--vpx) * 284);
+    --variants-background-padding-bottom: calc(var(--vpx) * 152);
 
     --name-font-size: calc(var(--vpx) * 18);
     --name-padding: calc(var(--vpx) * 18);
@@ -99,17 +123,13 @@
 
         --lines-padding: calc(var(--vpx) * 60);
 
+        --decorations-padding: 373;
         --decorations-background-size: calc(var(--vpx) * 350);
-        /* @formatter:off */
-        --decorations-background-image:
-                url("/images/decoration.left.png"),
-                url("/images/decoration.right.png");
-        --decorations-background-position:
-                top calc(var(--vpx) * 373) left,
-                top calc(var(--vpx) * 373) right;
-        /* @formatter:on */
+        --vote-decorations-background-size: 50%;
 
-        --overlay-display: none;
+        --auth-overlay-display: none;
+        --vote-overlay-threshold: 70%;
+        --vote-overlay-height: calc(var(--vpx) * 398);
 
         --logo-width: calc(var(--vpx) * 90);
         --logo-height: calc(var(--vpx) * 58);
@@ -120,6 +140,18 @@
 
         --vk-padding: calc(var(--vpx) * 40);
         --vk-position: static;
+
+        --paragraph-padding: calc(var(--vpx) * 10);
+        --paragraph-font-size: calc(var(--vpx) * 18);
+
+        --variants-background-padding-top: calc(var(--vpx) * 391.81);
+        --variants-background-padding-bottom: calc(var(--vpx) * 118);
+
+        --name-padding: calc(var(--vpx) * 20);
+        --name-font-size: calc(var(--vpx) * 24);
+
+        --button-width: calc(var(--vpx) * 266);
+        --button-padding: calc(var(--vpx) * 83);
 
         --niletto-left: calc(var(--vpx) * 267.42);
         --niletto-width: calc(var(--vpx) * 678.83);
