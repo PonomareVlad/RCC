@@ -48,7 +48,6 @@ export class App extends LitElement {
                         <img src="/images/persons/Klava.png" alt="">
                     </picture>
                 </div>
-                <div class="overlay"></div>
             </div>
             <section>
                 <picture class="logo">

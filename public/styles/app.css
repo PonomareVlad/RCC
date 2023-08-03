@@ -126,6 +126,7 @@ section:after {
 }
 
 .logo {
+    z-index: 10;
     flex-shrink: 0;
     width: var(--logo-width);
     height: var(--logo-height);
@@ -133,6 +134,7 @@ section:after {
 }
 
 h1, h2 {
+    z-index: 10;
     text-align: center;
     text-transform: uppercase;
     color: var(--header-font-color);
@@ -150,6 +152,7 @@ mark {
 }
 
 .vk {
+    z-index: 10;
     position: absolute;
     width: var(--vk-width);
     height: var(--vk-height);
@@ -158,6 +161,7 @@ mark {
 }
 
 p {
+    z-index: 10;
     text-align: center;
     color: var(--paragraph-font-color);
     margin-top: var(--paragraph-padding);
