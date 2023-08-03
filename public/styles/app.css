@@ -60,17 +60,11 @@ main {
     bottom: 0;
     width: 100%;
     position: absolute;
-    background-size: 50%;
     background-repeat: no-repeat;
-    /* @formatter:off */
-    background-image:
-            url("/images/decoration.left.png"),
-            url("/images/decoration.right.png");
-    background-position:
-            top calc(var(--vpx) * 257) left,
-            top calc(var(--vpx) * 257) right;
-    /* @formatter:on */
     height: var(--background-height);
+    background-size: var(--decorations-background-size);
+    background-image: var(--decorations-background-image);
+    background-position:var(--decorations-background-position);
 }
 
 .vote .background .decorations {
@@ -94,23 +88,15 @@ main {
 }
 
 .background .photos > picture.niletto {
-    width: calc(var(--vpx) * 368.384);
-    left: calc(var(--vpx) * 114.5);
-    bottom: calc(var(--vpx) * 5.12);
+    bottom: var(--niletto-bottom);
+    width: var(--niletto-width);
+    left: var(--niletto-left);
 }
 
 .background .photos > picture.klava {
-    width: calc(var(--vpx) * 636);
-    right: calc(var(--vpx) * -54);
-    bottom: calc(var(--vpx) * -337);
-}
-
-.background .overlay {
-    width: 100%;
-    position: absolute;
-    top: var(--overlay-padding);
-    height: var(--overlay-height);
-    background: var(--overlay-background);
+    bottom: var(--klava-bottom);
+    right: var(--klava-right);
+    width: var(--klava-width);
 }
 
 section {
@@ -125,8 +111,10 @@ section:after {
     content: "";
     width: 100%;
     position: absolute;
+    pointer-events: none;
     top: var(--overlay-padding);
     height: var(--overlay-height);
+    display: var(--overlay-display);
     background: var(--overlay-background);
 }
 
@@ -136,7 +124,7 @@ section:after {
     width: var(--logo-width);
     height: var(--logo-height);
     margin-top: var(--logo-padding);
-    -webkit-transform: translate3d(0,0,0);
+    -webkit-transform: translate3d(0, 0, 0);
 }
 
 h1, h2 {
@@ -159,10 +147,11 @@ mark {
 
 .vk {
     z-index: 10;
-    position: absolute;
     width: var(--vk-width);
     height: var(--vk-height);
     bottom: var(--vk-padding);
+    position: var(--vk-position);
+    margin-top: var(--vk-padding);
     border-radius: var(--vk-border-radius);
 }
 

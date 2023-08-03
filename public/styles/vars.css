@@ -2,6 +2,13 @@
 
     --vpx: calc(100vw / 375);
 
+    --background-height: calc(var(--vpx) * 812);
+
+    --page-height: 100vh;
+    --page-height: -moz-available;
+    --page-height: -webkit-fill-available;
+    --page-height: 100svh;
+
     --font-color: white;
     --font-family: "RF Dewi";
     --font-size: calc(var(--vpx) * 16);
@@ -15,19 +22,22 @@
             var(--accent-color-end) 100%
     );
 
-
-    --page-height: 100vh;
-    --page-height: -moz-available;
-    --page-height: -webkit-fill-available;
-    --page-height: 100svh;
-
     --page-background-color: #070707;
 
-    --background-height: calc(var(--vpx) * 812);
+    --decorations-background-size: 50%;
+    /* @formatter:off */
+    --decorations-background-image:
+            url("/images/decoration.left.png"),
+            url("/images/decoration.right.png");
+    --decorations-background-position:
+            top calc(var(--vpx) * 257) left,
+            top calc(var(--vpx) * 257) right;
+    /* @formatter:on */
 
     --lines-color: rgba(255, 255, 255, 0.10);
     --lines-padding: calc(var(--vpx) * 20);
 
+    --overlay-display: block;
     --overlay-height: calc(var(--vpx) * 371);
     --overlay-padding: calc(
             var(--page-height) - var(--overlay-height)
@@ -39,15 +49,16 @@
     );
 
     --header-font-family: "RF Dewi Extended";
-    --header-font-color: var(--font-color);
     --header-font-size: calc(var(--vpx) * 32);
     --header-padding: calc(var(--vpx) * 37);
+    --header-font-color: var(--font-color);
     --header-font-weight: 800;
 
     --logo-padding: calc(var(--vpx) * 40);
     --logo-height: calc(var(--vpx) * 47);
     --logo-width: calc(var(--vpx) * 73);
 
+    --vk-position: absolute;
     --vk-width: calc(var(--vpx) * 313);
     --vk-height: calc(var(--vpx) * 62);
     --vk-padding: calc(var(--vpx) * 59);
@@ -67,5 +78,57 @@
     --button-border-radius: calc(var(--vpx) * 5);
 
     --results-button-font-size: calc(var(--vpx) * 24);
+
+    --niletto-left: calc(var(--vpx) * 114.5);
+    --niletto-bottom: calc(var(--vpx) * 5.12);
+    --niletto-width: calc(var(--vpx) * 368.384);
+
+    --klava-width: calc(var(--vpx) * 636);
+    --klava-right: calc(var(--vpx) * -54);
+    --klava-bottom: calc(var(--vpx) * -337);
+
+}
+
+@media (orientation: portrait) and (min-width: 767px) {
+
+    :root {
+
+        --vpx: calc(100vw / 834);
+
+        --background-height: calc(var(--vpx) * 1194);
+
+        --lines-padding: calc(var(--vpx) * 60);
+
+        --decorations-background-size: calc(var(--vpx) * 350);
+        /* @formatter:off */
+        --decorations-background-image:
+                url("/images/decoration.left.png"),
+                url("/images/decoration.right.png");
+        --decorations-background-position:
+                top calc(var(--vpx) * 373) left,
+                top calc(var(--vpx) * 373) right;
+        /* @formatter:on */
+
+        --overlay-display: none;
+
+        --logo-width: calc(var(--vpx) * 90);
+        --logo-height: calc(var(--vpx) * 58);
+        --logo-padding: calc(var(--vpx) * 60);
+
+        --header-padding: calc(var(--vpx) * 69);
+        --header-font-size: calc(var(--vpx) * 48);
+
+        --vk-padding: calc(var(--vpx) * 40);
+        --vk-position: static;
+
+        --niletto-left: calc(var(--vpx) * 267.42);
+        --niletto-width: calc(var(--vpx) * 678.83);
+        --niletto-bottom: calc(var(--vpx) * -274.54);
+
+        --klava-right: calc(var(--vpx) * -20);
+        --klava-width: calc(var(--vpx) * 1174);
+        --klava-bottom: calc(var(--vpx) * -903);
+
+    }
 
 }
