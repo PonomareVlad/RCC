@@ -233,7 +233,7 @@ export class App extends LitElement {
                 )}
             </main>
             <div class="low-resolution">
-                <h1>Поверните телефон</h1>
+                <h1>Поверните экран</h1>
             </div>
             <slot name="state"></slot>
         `;
