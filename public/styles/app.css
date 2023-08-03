@@ -40,12 +40,12 @@ picture img {
 }
 
 main {
-    display: flex;
     overflow: hidden;
     position: relative;
     align-items: center;
     flex-direction: column;
     justify-content: flex-start;
+    display: var(--main-display);
     height: var(--page-height);
 }
 
@@ -288,4 +288,11 @@ mark {
 .variants.results .side button:not(.selected) {
     border: 1px solid #777;
     background: unset;
+}
+
+.low-resolution {
+    align-items: center;
+    justify-content: center;
+    height: var(--page-height);
+    display: var(--low-resolution-display);
 }

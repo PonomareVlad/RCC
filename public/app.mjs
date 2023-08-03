@@ -232,6 +232,9 @@ export class App extends LitElement {
                         this.views.auth.bind(this)
                 )}
             </main>
+            <div class="low-resolution">
+                <h1>Поверните телефон</h1>
+            </div>
             <slot name="state"></slot>
         `;
     }

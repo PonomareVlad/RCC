@@ -24,6 +24,8 @@
 
     --page-background-color: #070707;
 
+    --main-display: flex;
+
     --section-width: 100%;
     --section-horizontal-padding: 0;
 
@@ -146,9 +148,28 @@
     --klava-right: calc(var(--vpx) * -54);
     --klava-bottom: calc(var(--vpx) * -337);
 
+    --low-resolution-display: none;
+
 }
 
-@media (orientation: portrait) and (min-width: 767px) {
+@media (orientation: landscape) {
+
+    :root {
+
+        --vpx: calc(100vw / 1194);
+
+        --main-display: none;
+
+        --header-padding: 0;
+        --header-font-size: calc(var(--vpx) * 48);
+
+        --low-resolution-display: flex;
+
+    }
+
+}
+
+@media (orientation: portrait) and (min-width: 700px) {
 
     :root {
 
@@ -202,7 +223,7 @@
 
 }
 
-@media (orientation: landscape) {
+@media (orientation: landscape) and (min-width: 700px) {
 
     :root {
 
@@ -211,6 +232,8 @@
         --background-height: calc(var(--vpx) * 834);
 
         --lines-padding: calc(var(--vpx) * 60);
+
+        --main-display: flex;
 
         --vote-section-horizontal-padding: calc(var(--vpx) * 277);
         --vote-section-width: calc(100% - (var(--vote-section-horizontal-padding) * 2));
@@ -262,6 +285,8 @@
         --klava-right: calc(var(--vpx) * 457.74);
         --klava-width: calc(var(--vpx) * 1020.92);
         --klava-bottom: calc(var(--vpx) * -730);
+
+        --low-resolution-display: none;
 
     }
 
