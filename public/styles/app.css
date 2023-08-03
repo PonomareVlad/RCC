@@ -1,5 +1,10 @@
+* {
+    touch-action: none;
+}
+
 :root {
     width: 100%;
+    overflow: hidden;
     color: var(--font-color);
     height: var(--page-height);
     font-size: var(--font-size);
@@ -131,6 +136,7 @@ section:after {
     width: var(--logo-width);
     height: var(--logo-height);
     margin-top: var(--logo-padding);
+    -webkit-transform: translate3d(0,0,0);
 }
 
 h1, h2 {
