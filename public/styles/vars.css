@@ -152,24 +152,7 @@
 
 }
 
-@media (orientation: landscape) {
-
-    :root {
-
-        --vpx: calc(100vw / 1194);
-
-        --main-display: none;
-
-        --header-padding: 0;
-        --header-font-size: calc(var(--vpx) * 48);
-
-        --low-resolution-display: flex;
-
-    }
-
-}
-
-@media (orientation: portrait) and (min-width: 700px) {
+@media (orientation: portrait) and (min-width: 750px) {
 
     :root {
 
@@ -223,7 +206,7 @@
 
 }
 
-@media (orientation: landscape) and (min-width: 700px) {
+@media (orientation: landscape) {
 
     :root {
 
@@ -287,6 +270,23 @@
         --klava-bottom: calc(var(--vpx) * -730);
 
         --low-resolution-display: none;
+
+    }
+
+}
+
+@media (orientation: landscape) and (max-height: 500px) {
+
+    :root {
+
+        --vpx: calc(100vw / 1194);
+
+        --main-display: none;
+
+        --header-padding: 0;
+        --header-font-size: calc(var(--vpx) * 48);
+
+        --low-resolution-display: flex;
 
     }
 
