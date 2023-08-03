@@ -75,6 +75,7 @@ main {
     left: var(--vote-decorations-horizontal-padding);
     right: var(--vote-decorations-horizontal-padding);
     background-size: var(--vote-decorations-background-size);
+    background-image: var(--vote-decorations-background-image);
 }
 
 .background .photos {

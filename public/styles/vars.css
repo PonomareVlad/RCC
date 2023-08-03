@@ -38,14 +38,21 @@
     --decorations-padding: 257;
     --decorations-background-size: 50%;
     /* @formatter:off */
-    --decorations-background-image:
-            url("/images/decoration.left.png"),
+    --decorations-background-left-image:
+            url("/images/decoration.left.png");
+    --decorations-background-right-image:
             url("/images/decoration.right.png");
+    --decorations-background-image:
+            var(--decorations-background-left-image),
+            var(--decorations-background-right-image);
     --decorations-background-position:
             top calc(var(--vpx) * var(--decorations-padding)) left,
             top calc(var(--vpx) * var(--decorations-padding)) right;
-    /* @formatter:on */
 
+    --vote-decorations-background-image:
+            var(--decorations-background-left-image),
+            url("/images/decoration.right.alternate.png");
+    /* @formatter:on */
     --vote-decorations-horizontal-padding: var(--lines-padding);
     --vote-decorations-background-size: var(--decorations-background-size);
     --vote-decorations-width: calc(100% - (var(--vote-decorations-horizontal-padding) * 2));
@@ -166,6 +173,7 @@
         --decorations-background-size: calc(var(--vpx) * 350);
 
         --vote-decorations-background-size: 50%;
+        --vote-decorations-background-image: var(--decorations-background-image);
 
         --auth-overlay-display: none;
         --vote-overlay-threshold: 70%;
@@ -224,8 +232,9 @@
         --decorations-padding: 0;
         --decorations-background-size: calc(var(--vpx) * 305);
 
-        --vote-decorations-horizontal-padding: 0;
         --vote-decorations-width: 100%;
+        --vote-decorations-horizontal-padding: 0;
+        --vote-decorations-background-image: var(--decorations-background-image);
 
         --auth-overlay-display: none;
 
