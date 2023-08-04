@@ -131,7 +131,7 @@ export class App extends LitElement {
                                                                     ...Object.keys(image).map(Number)
                                                             ))] :
                                                             image
-                                            } decoding="async">
+                                            }>
                                         </picture>
                                     </div>
                                     <h2 class="name">${name}</h2>
@@ -211,7 +211,7 @@ export class App extends LitElement {
             () => this.updateStates()
         );
         Config.init({appId: this.appId});
-        // setInterval(this.updateRoundState.bind(this), 5000);
+        setInterval(this.updateRoundState.bind(this), 5000);
     }
 
     update(changedProperties) {

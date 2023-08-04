@@ -1,6 +1,8 @@
 * {
     cursor: default;
     touch-action: none;
+    pointer-events: none;
+    -webkit-touch-callout: none;
 }
 
 :root {
@@ -227,6 +229,10 @@ mark {
     border-radius: var(--vk-border-radius);
 }
 
+.vk * {
+    pointer-events: auto;
+}
+
 .variants {
     top: 0;
     display: flex;
@@ -291,6 +297,7 @@ mark {
     z-index: 10;
     cursor: pointer;
     text-align: center;
+    pointer-events: auto;
     width: var(--button-width);
     height: var(--button-height);
     border: 1px solid transparent;
