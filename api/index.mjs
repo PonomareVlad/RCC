@@ -9,12 +9,18 @@ import {html} from "lit";
 App.define();
 
 const {appId} = process.env;
-const headers = {"Content-Type": "text/html;charset=UTF-8"};
+const headers = {
+    "Content-Type": "text/html;charset=UTF-8",
+    "Cache-Control": "s-maxage=1, stale-while-revalidate=59",
+};
 
 export const config = {runtime: "edge"};
 
 async function renderPromise() {
-    const state = {round: await getLastRound()};
+    const state = {
+        date: new Date(),
+        round: await getLastRound()
+    };
     return render(html`
         <app-root app-id="${appId}" ._state=${state}>
             ${renderLight()}
