@@ -32,8 +32,8 @@
     --auth-section-width: var(--section-width);
     --auth-section-horizontal-padding: var(--section-horizontal-padding);
 
-    --vote-section-width: calc(100% - (var(--vote-section-horizontal-padding) * 2));
-    --vote-section-horizontal-padding: var(--lines-padding);
+    --vote-section-width: 100%;
+    --vote-section-horizontal-padding: 0;
 
     --decorations-padding: 257;
     --decorations-background-size: 50%;
@@ -256,6 +256,9 @@
 
         --paragraph-padding: calc(var(--vpx) * 10);
         --paragraph-font-size: calc(var(--vpx) * 18);
+
+        --variants-width: 100%;
+        --variants-horizontal-padding: 0;
 
         /*--variants-background-overflow: initial;*/
         --variants-background-height: calc(var(--vpx) * 474);

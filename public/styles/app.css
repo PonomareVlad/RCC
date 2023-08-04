@@ -213,14 +213,14 @@ mark {
 
 .variants {
     top: 0;
-    width: 100%;
     display: flex;
     position: absolute;
     align-items: flex-end;
     justify-content: center;
     height: var(--page-height);
-    /*left: var(--variants-horizontal-padding);*/
-    /*right: var(--variants-horizontal-padding);*/
+    width: var(--variants-width);
+    left: var(--variants-horizontal-padding);
+    right: var(--variants-horizontal-padding);
 }
 
 .variants .side {
