@@ -9,6 +9,9 @@
     height: var(--page-height);
     font-size: var(--font-size);
     font-family: var(--font-family);
+    text-rendering: geometricPrecision;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
     background: var(--page-background-color);
 }
 

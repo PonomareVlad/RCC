@@ -42,16 +42,16 @@ export class App extends LitElement {
                 <div class="decorations"></div>
                 <div class="photos">
                     <picture class="niletto">
-                        <img src="/images/Niletto.png" alt="Niletto">
+                        <img src="/images/Niletto.png" alt="Niletto" decoding="async">
                     </picture>
                     <picture class="klava">
-                        <img src="/images/Klava.png" alt="Klava">
+                        <img src="/images/Klava.png" alt="Klava" decoding="async">
                     </picture>
                 </div>
             </div>
             <section>
                 <picture class="logo">
-                    <img src="/images/logo.svg" alt="">
+                    <img src="/images/logo.svg" alt="RCC EXTREME" decoding="async">
                 </picture>
                 <h1>
                     ПРОГОЛОСУЙ
@@ -69,7 +69,7 @@ export class App extends LitElement {
             </div>
             <section>
                 <picture class="logo">
-                    <img src="/images/logo.svg" alt="">
+                    <img src="/images/logo.svg" alt="RCC EXTREME" decoding="async">
                 </picture>
                 <h1>
                     ${when(
@@ -119,7 +119,7 @@ export class App extends LitElement {
                                                                     ...Object.keys(image).map(Number)
                                                             ))] :
                                                             image
-                                            }>
+                                            } decoding="async">
                                         </picture>
                                     </div>
                                     <h2 class="name">${name}</h2>
