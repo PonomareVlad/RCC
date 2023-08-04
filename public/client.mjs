@@ -4,6 +4,9 @@ import {App} from "./app.mjs";
 if (Logtail in window) {
     const logtail = new Logtail("1qvKAa4X3qErJjuwfv6ji2jk");
     window.addEventListener("pagehide", logtail.flush.bind(logtail));
+    window.addEventListener("unhandledrejection", ({type, reason, promise}) => {
+        void logtail.error(reason?.message || reason, {type, reason, promise});
+    });
     window.addEventListener("error",
         ({type, message, source, lineno, colno, error} = {}) => {
             void logtail.error(message, {type, message, source, lineno, colno, error});
