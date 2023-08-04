@@ -196,7 +196,7 @@ export class App extends LitElement {
         this.session = this.payload;
         this.round = this.state?.round;
         this.task = this.task.then(
-            () => this.updateAccountState()
+            () => this.updateStates()
         );
         Config.init({appId: this.appId});
         // setInterval(this.updateRoundState.bind(this), 5000);
@@ -240,7 +240,7 @@ export class App extends LitElement {
     }
 
     async renderAuth(container) {
-        await this.task;
+        await this.task.catch(console.error);
         if (!container) return;
         const callback = this.authCallback;
         const style = getComputedStyle(container);
@@ -270,9 +270,13 @@ export class App extends LitElement {
         this.account = {...this.account, choice};
         const signal = this.replaceSignal("vote");
         await this.callApi("vote", {...this.session, round, choice}, signal);
-        await Promise.all([
+        await this.updateStates();
+    }
+
+    updateStates() {
+        return Promise.all([
             this.updateAccountState(),
-            this.updateRoundState()
+            this.updateRoundState(),
         ]);
     }
 
