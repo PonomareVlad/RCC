@@ -11,7 +11,7 @@ App.define();
 const {appId} = process.env;
 const headers = {
     "Content-Type": "text/html;charset=UTF-8",
-    "Cache-Control": "s-maxage=1, stale-while-revalidate=59",
+    "Cache-Control": "s-maxage=10, stale-while-revalidate=50",
 };
 
 export const config = {runtime: "edge"};

@@ -307,14 +307,17 @@ export class App extends LitElement {
 
     async updateRoundState() {
         const signal = this.replaceSignal("round");
-        return this.round = await this.callApi("round", {}, signal);
+        return this.round = await this.callApi("round", undefined, signal);
     }
 
-    async callApi(path, payload = {}, signal) {
-        const method = "POST";
-        const body = JSON.stringify(payload);
-        const headers = {"Content-Type": "application/json"};
-        const response = await fetch(`/api/${path}`, {method, body, headers, signal});
+    async callApi(path, payload, signal) {
+        const options = {signal};
+        if (payload) Object.assign(options, {
+            method: "POST",
+            body: JSON.stringify(payload),
+            headers: {"Content-Type": "application/json"},
+        });
+        const response = await fetch(`/api/${path}`, options);
         return response.json();
     }
 

@@ -3,4 +3,8 @@ import {getLastRound} from "../src/api.mjs";
 
 export const config = {runtime: "edge"};
 
-export default async () => jsonResponse(await getLastRound())
+const headers = {
+    "Cache-Control": "s-maxage=10, stale-while-revalidate=50",
+};
+
+export default async () => jsonResponse(await getLastRound(), {headers})
