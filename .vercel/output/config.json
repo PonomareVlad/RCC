@@ -1,0 +1,15 @@
+{
+  "version": 3,
+  "images": {
+    "sizes": [
+      512,
+      1024,
+      1536,
+      2048
+    ],
+    "minimumCacheTTL": 86400,
+    "domains": [
+      "rcc-vote.vercel.app"
+    ]
+  }
+}
