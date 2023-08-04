@@ -42,10 +42,22 @@ export class App extends LitElement {
                 <div class="decorations"></div>
                 <div class="photos">
                     <picture class="niletto">
-                        <img src="/images/Niletto.png" alt="Niletto" decoding="async">
+                        <source media="(min-width: 1024px)"
+                                srcset="https://rcc-vote-images.vercel.app/_vercel/image?url=https://rcc-vote.vercel.app/images/Niletto.png&q=100&w=1024">
+                        <source media="(min-width: 1536px)"
+                                srcset="https://rcc-vote-images.vercel.app/_vercel/image?url=https://rcc-vote.vercel.app/images/Niletto.png&q=100&w=1536">
+                        <source media="(min-width: 2048px)"
+                                srcset="https://rcc-vote-images.vercel.app/_vercel/image?url=https://rcc-vote.vercel.app/images/Niletto.png&q=100&w=2048">
+                        <img alt="Niletto" decoding="async"
+                             src="https://rcc-vote-images.vercel.app/_vercel/image?url=https://rcc-vote.vercel.app/images/Niletto.png&q=100&w=512">
                     </picture>
                     <picture class="klava">
-                        <img src="/images/Klava.png" alt="Klava" decoding="async">
+                        <source media="(min-width: 1024px)"
+                                srcset="https://rcc-vote-images.vercel.app/_vercel/image?url=https://rcc-vote.vercel.app/images/Klava.png&q=100&w=1536">
+                        <source media="(min-width: 1536px)"
+                                srcset="https://rcc-vote-images.vercel.app/_vercel/image?url=https://rcc-vote.vercel.app/images/Klava.png&q=100&w=2048">
+                        <img alt="Klava" decoding="async"
+                             src="https://rcc-vote-images.vercel.app/_vercel/image?url=https://rcc-vote.vercel.app/images/Klava.png&q=100&w=1024">
                     </picture>
                 </div>
             </div>
