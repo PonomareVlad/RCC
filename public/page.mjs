@@ -20,7 +20,6 @@ export function* template({title, body}) {
                 integrity="sha512-j7t6vlvFm1ANrX6dGt+NFtZqOjWeeNlPmAWCkf8mf1n7CMjZVubwUBEvNiVT0RE7voXE7ojiQBNWsAreLg00CA=="
                 src="https://cdnjs.cloudflare.com/ajax/libs/logtail-browser/0.3.0/dist/umd/logtail.js"></script>
         <link rel="icon" href="/images/logo.svg" sizes="any" type="image/svg+xml">
-        <link rel="mask-icon" href="/images/logo.svg" color="#070707">
         <link href="/fonts/stylesheet.css" rel="stylesheet">
         <link href="/styles/reset.css" rel="stylesheet">
         <link href="/styles/vars.css" rel="stylesheet">

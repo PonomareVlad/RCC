@@ -36,6 +36,14 @@ export class App extends LitElement {
         showAgreements: false,
         showAlternativeLogin: false
     }
+    logger = new Proxy(console, {
+        get(_, method) {
+            return (...args) => {
+                console[method]?.(...args);
+                window.logger?.[method]?.(...args);
+            }
+        }
+    })
     views = {
         auth: () => html`
             <div class="background">
@@ -75,81 +83,94 @@ export class App extends LitElement {
                 ${cache(html`
                     <div class="vk" ${ref(this.renderAuth)}></div>`)}
             </section>`,
-        vote: () => html`
-            <div class="background">
-                <div class="decorations"></div>
-            </div>
-            <section>
-                <picture class="logo">
-                    <img src="/images/logo.svg" alt="RCC EXTREME" decoding="async">
-                </picture>
-                <h1>
-                    ${when(
-                            this.account?.choice,
-                            () => html`
-                                <span>CПАСИБО</span>
-                                <span>ЗА ГОЛОС!</span>
-                            `,
-                            () => this.round?.title
-                    )}
-                </h1>
-                <p>
-                    ${when(
-                            this.account?.choice,
-                            () => html`
-                                <span>Следите за результатами</span>
-                                <span>голосования онлайн!</span>
-                            `,
-                            () => html`
-                                <span>Проголосуйте за артиста,</span>
-                                <span>чтобы увидеть результаты</span>
-                            `
-                    )}
-                </p>
-                <div class=${classMap({
-                    variants: true,
-                    results: this.account?.choice
-                })}>
-                    ${map(
-                            (this.round?.variants),
-                            ({name, button, result, image = {}}, index) => html`
-                                <div class="side">
-                                    <div class="background">
-                                        <picture>
-                                            ${map(
-                                                    typeof image === "object" ?
-                                                            Object.entries(image).sort(
-                                                                    ([a], [b]) => parseInt(a) - parseInt(b)
-                                                            ) : [],
-                                                    ([size, src]) => html`
-                                                        <source srcset=${src} media=${`(min-width: ${size}px)`}/>
-                                                    `
-                                            )}
-                                            <img alt=${name} src=${
-                                                    typeof image === "object" ?
-                                                            image[String(Math.min(
-                                                                    ...Object.keys(image).map(Number)
-                                                            ))] :
-                                                            image
-                                            }>
-                                        </picture>
-                                    </div>
-                                    <h2 class="name">${name}</h2>
-                                    <button class=${classMap({
-                                        selected: index + 1 === this.account?.choice
-                                    })} @click=${this.vote.bind(this, index + 1)}>
-                                        ${when(
-                                                this.account?.choice,
-                                                () => this.percentNumber.format(result),
-                                                () => button,
-                                        )}
-                                    </button>
-                                </div>
-                            `
-                    )}
+        vote: () => when(
+            this.round,
+            () => html`
+                <div class="background">
+                    <div class="decorations"></div>
                 </div>
-            </section>
-        `,
+                <section>
+                    <picture class="logo">
+                        <img src="/images/logo.svg" alt="RCC EXTREME" decoding="async">
+                    </picture>
+                    <h1>
+                        ${when(
+                                this.account?.choices?.[this.round._id],
+                                () => html`
+                                    <span>CПАСИБО</span>
+                                    <span>ЗА ГОЛОС!</span>
+                                `,
+                                () => this.round.title
+                        )}
+                    </h1>
+                    <p>
+                        ${when(
+                                this.account?.choices?.[this.round._id],
+                                () => html`
+                                    <span>Следите за результатами</span>
+                                    <span>голосования онлайн!</span>
+                                `,
+                                () => html`
+                                    <span>Проголосуйте за артиста,</span>
+                                    <span>чтобы увидеть результаты</span>
+                                `
+                        )}
+                    </p>
+                    <div class=${classMap({
+                        variants: true,
+                        results: this.account?.choices?.[this.round._id]
+                    })}>
+                        ${map(
+                                (this.round.variants),
+                                ({name, button, result, image = {}}, index) => html`
+                                    <div class="side">
+                                        <div class="background">
+                                            <picture>
+                                                ${map(
+                                                        typeof image === "object" ?
+                                                                Object.entries(image).sort(
+                                                                        ([a], [b]) => parseInt(a) - parseInt(b)
+                                                                ) : [],
+                                                        ([size, src]) => html`
+                                                            <source srcset=${src} media=${`(min-width: ${size}px)`}/>
+                                                        `
+                                                )}
+                                                <img alt=${name} src=${
+                                                        typeof image === "object" ?
+                                                                image[String(Math.min(
+                                                                        ...Object.keys(image).map(Number)
+                                                                ))] :
+                                                                image
+                                                }>
+                                            </picture>
+                                        </div>
+                                        <h2 class="name">${name}</h2>
+                                        <button class=${classMap({
+                                            selected: index + 1 === this.account?.choices?.[this.round._id]
+                                        })} @click=${this.vote.bind(this, index + 1)}>
+                                            ${when(
+                                                    this.account?.choices?.[this.round._id],
+                                                    () => this.percentNumber.format(result),
+                                                    () => button,
+                                            )}
+                                        </button>
+                                    </div>
+                                `
+                        )}
+                    </div>
+                </section>
+            `,
+            () => html`
+                <section>
+                    <picture class="logo">
+                        <img src="/images/logo.svg" alt="RCC EXTREME" decoding="async">
+                    </picture>
+                    <h1>Голосование
+                        <mark>скоро</mark>
+                        начнется
+                    </h1>
+                </section>`
+        ),
     }
 
     get payload() {
@@ -211,7 +232,6 @@ export class App extends LitElement {
             () => this.updateStates()
         );
         Config.init({appId: this.appId});
-        setInterval(this.updateRoundState.bind(this), 5000);
     }
 
     update(changedProperties) {
@@ -224,6 +244,7 @@ export class App extends LitElement {
             if (this.account) return;
             const storageAccount = localStorage.getItem("account");
             if (storageAccount) this.account = JSON.parse(storageAccount);
+            if (location.host !== "localhost") this.scheduleUpdateRoundState();
         });
     }
 
@@ -279,7 +300,13 @@ export class App extends LitElement {
     async vote(choice) {
         const {_id: round} = this.round;
         this.abortSignals("round", "account");
-        this.account = {...this.account, choice};
+        this.account = {
+            ...this.account,
+            choices: {
+                ...this.account.choices,
+                [round]: choice
+            }
+        };
         const signal = this.replaceSignal("vote");
         await this.callApi("vote", {...this.session, round, choice}, signal);
         await this.updateStates();
@@ -292,22 +319,29 @@ export class App extends LitElement {
         ]);
     }
 
-    async updateAccountState(session = this.session, {_id: round} = this.round) {
+    async updateAccountState(session = this.session) {
         const signal = this.replaceSignal("account");
         let account = {ok: false};
-        if (session && round)
-            account = await this.callApi("auth", {...session, round}, signal);
+        if (session)
+            account = await this.callApi("auth", {...session}, signal);
         if (!account?.ok) {
             localStorage.removeItem("session");
             delete this._session;
         }
         return this.account = account;
-
     }
 
     async updateRoundState() {
         const signal = this.replaceSignal("round");
         return this.round = await this.callApi("round", undefined, signal);
+    }
+
+    scheduleUpdateRoundState(timeout = 1000) {
+        setTimeout(() =>
+                this.updateRoundState()
+                    .catch(this.logger.error)
+                    .then(this.scheduleUpdateRoundState.bind(this, timeout)),
+            timeout);
     }
 
     async callApi(path, payload, signal) {
