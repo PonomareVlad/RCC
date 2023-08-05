@@ -3,12 +3,12 @@ import {apiRequest} from "./utils.mjs";
 import {ObjectId} from "bson";
 
 const activeRoundQuery = {
-            complete: {
-                $not: {
-                    $in: [true]
-                }
-            }
-        };
+    complete: {
+        $not: {
+            $in: [true]
+        }
+    }
+};
 
 function groupVotes(variants = [], {choice}) {
     const index = choice - 1;

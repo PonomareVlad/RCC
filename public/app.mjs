@@ -3,15 +3,16 @@
  * @typedef {import("@vkontakte/superappkit").ButtonOneTapSkin} ButtonOneTapSkin
  */
 
-import {Config, Connect, ConnectEvents} from "@vkontakte/superappkit";
-import {unsafeHTML} from "lit/directives/unsafe-html.js";
-import {classMap} from "lit/directives/class-map.js";
-import {choose} from "lit/directives/choose.js";
-import {cache} from "lit/directives/cache.js";
-import {when} from "lit/directives/when.js";
+import {LitElement, html, css} from "lit";
 import {map} from "lit/directives/map.js";
 import {ref} from "lit/directives/ref.js";
-import {LitElement, html, css} from "lit";
+import {when} from "lit/directives/when.js";
+import {cache} from "lit/directives/cache.js";
+import {choose} from "lit/directives/choose.js";
+import {classMap} from "lit/directives/class-map.js";
+import {unsafeHTML} from "lit/directives/unsafe-html.js";
+import {Config, Connect, ConnectEvents} from "@vkontakte/superappkit";
+import {VercelImageGenerator} from "./generator.mjs";
 
 export class App extends LitElement {
     static styles = css`
@@ -25,6 +26,10 @@ export class App extends LitElement {
     }
     controllers = {}
     task = Promise.resolve()
+    images = new VercelImageGenerator({
+        cdn: "cdn.rcc-vote.ru",
+        host: "rcc-vote.ru"
+    })
     percentNumber = new Intl.NumberFormat("ru-RU", {
         minimumFractionDigits: 1,
         maximumFractionDigits: 1,
@@ -50,22 +55,48 @@ export class App extends LitElement {
                 <div class="decorations"></div>
                 <div class="photos">
                     <picture class="niletto">
-                        <source media="(min-width: 1024px)"
-                                srcset="https://cdn.rcc-vote.ru/_vercel/image?url=https://rcc-vote.ru/images/Niletto.png&q=100&w=1024">
-                        <source media="(min-width: 1536px)"
-                                srcset="https://cdn.rcc-vote.ru/_vercel/image?url=https://rcc-vote.ru/images/Niletto.png&q=100&w=1536">
-                        <source media="(min-width: 2048px)"
-                                srcset="https://cdn.rcc-vote.ru/_vercel/image?url=https://rcc-vote.ru/images/Niletto.png&q=100&w=2048">
-                        <img alt="Niletto" decoding="async"
-                             src="https://cdn.rcc-vote.ru/_vercel/image?url=https://rcc-vote.ru/images/Niletto.png&q=100&w=512">
+                        ${this.renderPicture({
+                            img: {
+                                width: 1024,
+                                alt: "Niletto",
+                                decoding: "async",
+                                src: "/images/Niletto.png",
+                            },
+                            sources: [
+                                {
+                                    width: 1024,
+                                    media: "(min-width: 1024px)",
+                                },
+                                {
+                                    width: 1536,
+                                    media: "(min-width: 1536px)",
+                                },
+                                {
+                                    width: 2048,
+                                    media: "(min-width: 2048px)",
+                                },
+                            ]
+                        })}
                     </picture>
                     <picture class="klava">
-                        <source media="(min-width: 1024px)"
-                                srcset="https://cdn.rcc-vote.ru/_vercel/image?url=https://rcc-vote.ru/images/Klava.png&q=100&w=1536">
-                        <source media="(min-width: 1536px)"
-                                srcset="https://cdn.rcc-vote.ru/_vercel/image?url=https://rcc-vote.ru/images/Klava.png&q=100&w=2048">
-                        <img alt="Klava" decoding="async"
-                             src="https://cdn.rcc-vote.ru/_vercel/image?url=https://rcc-vote.ru/images/Klava.png&q=100&w=1024">
+                        ${this.renderPicture({
+                            img: {
+                                width: 1024,
+                                alt: "Klava",
+                                decoding: "async",
+                                src: "/images/Klava.png",
+                            },
+                            sources: [
+                                {
+                                    width: 1536,
+                                    media: "(min-width: 1024px)",
+                                },
+                                {
+                                    width: 2048,
+                                    media: "(min-width: 1536px)",
+                                },
+                            ]
+                        })}
                     </picture>
                 </div>
             </div>
@@ -270,6 +301,23 @@ export class App extends LitElement {
             </div>
             <slot name="state"></slot>
         `;
+    }
+
+    renderPicture({sources = [], img = {}} = {}) {
+        const {src, width, quality, ...attributes} = img;
+        const output = sources.map(
+            ({media, ...source} = {}) =>
+                `<source media="${media}" srcset="${
+                    this.images.generate({src, width, quality, ...source})
+                }">`
+        );
+        if (src && width) {
+            const url = this.images.generate({src, width, quality});
+            const rest = Object.entries(attributes)
+                .map(([key, value]) => `${key}="${value}"`).join(" ");
+            output.push(`<img src="${url}" ${rest}>`);
+        }
+        return unsafeHTML(output.join("\r\n"));
     }
 
     async renderAuth(container) {
