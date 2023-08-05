@@ -15,10 +15,11 @@ export function* template({title, body}) {
         <script type="importmap">${JSON.stringify(importmap, null, 2)}</script>
         <script async crossorigin="anonymous"
                 src="https://ga.jspm.io/npm:es-module-shims@1.8.0/dist/es-module-shims.js"></script>
-        <script defer src="/client.mjs" type="module"></script>
         <script crossorigin="anonymous" referrerpolicy="no-referrer"
                 integrity="sha512-j7t6vlvFm1ANrX6dGt+NFtZqOjWeeNlPmAWCkf8mf1n7CMjZVubwUBEvNiVT0RE7voXE7ojiQBNWsAreLg00CA=="
                 src="https://cdnjs.cloudflare.com/ajax/libs/logtail-browser/0.3.0/dist/umd/logtail.js"></script>
+        <script defer src="/client.mjs" type="module"></script>
+        <script defer src="/_vercel/insights/script.js"></script>
         <link rel="icon" href="/images/logo.svg" sizes="any" type="image/svg+xml">
         <link href="/fonts/stylesheet.css" rel="stylesheet">
         <link href="/styles/reset.css" rel="stylesheet">
