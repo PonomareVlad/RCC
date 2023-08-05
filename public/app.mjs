@@ -147,7 +147,7 @@ export class App extends LitElement {
                                         <h2 class="name">${name}</h2>
                                         <button class=${classMap({
                                             selected: index + 1 === this.account?.choices?.[this.round._id]
-                                        })} @click=${this.vote.bind(this, index + 1)}>
+                                        })} @click=${this.vote.bind(this, this.round._id, index + 1)}>
                                             ${when(
                                                     this.account?.choices?.[this.round._id],
                                                     () => this.percentNumber.format(result),
@@ -297,8 +297,7 @@ export class App extends LitElement {
         }
     }
 
-    async vote(choice) {
-        const {_id: round} = this.round;
+    async vote(round, choice) {
         this.abortSignals("round", "account");
         this.account = {
             ...this.account,

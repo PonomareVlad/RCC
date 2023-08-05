@@ -2,6 +2,14 @@ import {accounts, rounds, votes} from "./db.mjs";
 import {apiRequest} from "./utils.mjs";
 import {ObjectId} from "bson";
 
+const activeRoundQuery = {
+            complete: {
+                $not: {
+                    $in: [true]
+                }
+            }
+        };
+
 function groupVotes(variants = [], {choice}) {
     const index = choice - 1;
     if (!variants[index])
@@ -12,13 +20,7 @@ function groupVotes(variants = [], {choice}) {
 
 export async function getLastRound() {
     const [data] =
-        await rounds.find({
-            complete: {
-                $not: {
-                    $in: [true]
-                }
-            }
-        }).sort({_id: 1}).limit(1).toArray();
+        await rounds.find(activeRoundQuery).sort({_id: 1}).limit(1).toArray();
     if (!data) return;
     const {_id: round} = data;
     const roundVotes = await votes.find({round}).toArray();
@@ -54,7 +56,7 @@ export async function auth({uuid, token}) {
 export async function vote({uuid, token, round, choice} = {}) {
     if (!uuid || !token || !round || !choice) throw new Error("Bad request");
     const [targetRound, {phone} = {}] = await Promise.all([
-        rounds.findOne({_id: new ObjectId(round), complete: null}),
+        rounds.findOne({...activeRoundQuery, _id: new ObjectId(round)}),
         accounts.findOne({uuid, token}),
     ]);
     if (!phone || !targetRound) throw new Error("Wrong parameters");
