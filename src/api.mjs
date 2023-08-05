@@ -12,8 +12,13 @@ function groupVotes(variants = [], {choice}) {
 
 export async function getLastRound() {
     const [data] =
-        await rounds.find({complete: null})
-            .sort({_id: -1}).limit(1).toArray();
+        await rounds.find({
+            complete: {
+                $not: {
+                    $in: [true]
+                }
+            }
+        }).sort({_id: 1}).limit(1).toArray();
     if (!data) return;
     const {_id: round} = data;
     const roundVotes = await votes.find({round}).toArray();

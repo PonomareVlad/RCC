@@ -336,7 +336,7 @@ export class App extends LitElement {
         return this.round = await this.callApi("round", undefined, signal);
     }
 
-    scheduleUpdateRoundState(timeout = 1000) {
+    scheduleUpdateRoundState(timeout = 5000) {
         setTimeout(() =>
                 this.updateRoundState()
                     .catch(this.logger.error)
