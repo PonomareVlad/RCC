@@ -63,18 +63,9 @@ export class App extends LitElement {
                                 src: "/images/Niletto.png",
                             },
                             sources: [
-                                {
-                                    width: 1024,
-                                    media: "(min-width: 1024px)",
-                                },
-                                {
-                                    width: 1536,
-                                    media: "(min-width: 1536px)",
-                                },
-                                {
-                                    width: 2048,
-                                    media: "(min-width: 2048px)",
-                                },
+                                {width: 1024, media: "(min-width: 1024px)"},
+                                {width: 1536, media: "(min-width: 1536px)"},
+                                {width: 2048, media: "(min-width: 2048px)"},
                             ]
                         })}
                     </picture>
@@ -87,14 +78,8 @@ export class App extends LitElement {
                                 src: "/images/Klava.png",
                             },
                             sources: [
-                                {
-                                    width: 1536,
-                                    media: "(min-width: 1024px)",
-                                },
-                                {
-                                    width: 2048,
-                                    media: "(min-width: 1536px)",
-                                },
+                                {width: 1536, media: "(min-width: 1024px)"},
+                                {width: 2048, media: "(min-width: 1536px)"},
                             ]
                         })}
                     </picture>
@@ -153,26 +138,14 @@ export class App extends LitElement {
                     })}>
                         ${map(
                                 (this.round.variants),
-                                ({name, button, result, image = {}}, index) => html`
+                                ({name, button, result, image}, index) => html`
                                     <div class="side">
                                         <div class="background">
                                             <picture>
-                                                ${map(
-                                                        typeof image === "object" ?
-                                                                Object.entries(image).sort(
-                                                                        ([a], [b]) => parseInt(a) - parseInt(b)
-                                                                ) : [],
-                                                        ([size, src]) => html`
-                                                            <source srcset=${src} media=${`(min-width: ${size}px)`}/>
-                                                        `
-                                                )}
-                                                <img alt=${name} src=${
-                                                        typeof image === "object" ?
-                                                                image[String(Math.min(
-                                                                        ...Object.keys(image).map(Number)
-                                                                ))] :
-                                                                image
-                                                }>
+                                                ${this.renderPicture({
+                                                    img: {src: image, width: 512, alt: name},
+                                                    sources: [{width: 1024, media: "(min-width: 1024px)"}]
+                                                })}
                                             </picture>
                                         </div>
                                         <h2 class="name">${name}</h2>
