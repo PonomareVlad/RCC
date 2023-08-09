@@ -3,7 +3,6 @@
  * @typedef {import("@vkontakte/superappkit").ButtonOneTapSkin} ButtonOneTapSkin
  */
 
-import {LitElement, html, css} from "lit";
 import {map} from "lit/directives/map.js";
 import {ref} from "lit/directives/ref.js";
 import {when} from "lit/directives/when.js";
@@ -13,15 +12,12 @@ import {classMap} from "lit/directives/class-map.js";
 import {unsafeHTML} from "lit/directives/unsafe-html.js";
 import {Config, Connect, ConnectEvents} from "@vkontakte/superappkit";
 import {VercelImageGenerator} from "./generator.mjs";
+import {LitElement, isServer, html, css} from "lit";
 
 export class App extends LitElement {
 
     controllers = {}
     task = Promise.resolve()
-    images = new VercelImageGenerator({
-        cdn: "cdn.rcc-vote.ru",
-        host: "rcc-vote.ru"
-    })
     percentNumber = new Intl.NumberFormat("ru-RU", {
         minimumFractionDigits: 1,
         maximumFractionDigits: 1,
@@ -178,6 +174,8 @@ export class App extends LitElement {
 
     static get properties() {
         return {
+            cdn: {type: String},
+            host: {type: String},
             round: {state: true},
             _account: {state: true},
             _session: {state: true},
@@ -239,12 +237,17 @@ export class App extends LitElement {
 
     connectedCallback() {
         super.connectedCallback();
+        this.init();
         this.session = this.payload;
-        this.round = this.state?.round;
         this.task = this.task.then(
             () => this.updateStates()
         );
         Config.init({appId: this.appId});
+    }
+
+    init() {
+        this.round = this.state?.round;
+        this.images = new VercelImageGenerator(this);
     }
 
     update(changedProperties) {
@@ -269,6 +272,7 @@ export class App extends LitElement {
     }
 
     render() {
+        if (isServer) this.init();
         const view = this.account?.ok ? "vote" : "auth";
         return html`
             <main class=${classMap({[view]: true})}>

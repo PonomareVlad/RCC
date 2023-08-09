@@ -25,7 +25,7 @@ export class VercelImageGenerator {
             ...options
         };
         if (
-            local === "localhost" ||
+            host === "localhost" ||
             ![src, cdn, host, width, quality].every(Boolean)
         ) return src;
         const srcURL = new URL(src, `https://${host}/`);

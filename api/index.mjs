@@ -16,21 +16,34 @@ const headers = {
 
 export const config = {runtime: "edge"};
 
-async function renderPromise() {
+async function renderPromise(request) {
+    const {
+        headers = {}
+    } = request;
+    const header = "x-forwarded-host";
+    const host =
+        headers instanceof Headers ?
+            headers?.get?.(header) :
+            headers[header];
     const state = {
         round: await getLastRound()
     };
     return render(html`
-        <app-root app-id="${appId}" ._state=${state}>
+        <app-root
+                host="${host}"
+                cdn="cdn.rcc-vote.ru"
+                app-id="${appId}"
+                ._state=${state}
+        >
             ${renderLight()}
         </app-root>
     `);
 }
 
-export default () => {
+export default request => {
     const result = template({
         title: "RCC EXTREME",
-        body: renderPromise()
+        body: renderPromise(request)
     });
     return new Response(stream(result), {headers});
 }
