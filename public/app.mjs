@@ -15,15 +15,7 @@ import {Config, Connect, ConnectEvents} from "@vkontakte/superappkit";
 import {VercelImageGenerator} from "./generator.mjs";
 
 export class App extends LitElement {
-    static styles = css`
-      @import "/styles/reset.css";
-      @import "/styles/app.css";`
-    static properties = {
-        round: {state: true},
-        _account: {state: true},
-        _session: {state: true},
-        appId: {type: Number, attribute: "app-id"},
-    }
+
     controllers = {}
     task = Promise.resolve()
     images = new VercelImageGenerator({
@@ -175,6 +167,22 @@ export class App extends LitElement {
                     </h1>
                 </section>`
         ),
+    }
+
+    static get styles() {
+        return css`
+          @import "/styles/reset.css";
+          @import "/styles/app.css";
+        `
+    }
+
+    static get properties() {
+        return {
+            round: {state: true},
+            _account: {state: true},
+            _session: {state: true},
+            appId: {type: Number, attribute: "app-id"},
+        }
     }
 
     get payload() {
