@@ -233,7 +233,7 @@ mark {
     border-radius: var(--vk-border-radius);
 }
 
-.vk * {
+.vk *, iframe {
     pointer-events: auto;
 }
 
