@@ -104,10 +104,10 @@
     --logo-width: calc(var(--vpx) * 73);
 
     --vk-position: absolute;
-    --vk-width: calc(var(--vpx) * 313);
-    --vk-height: calc(var(--vpx) * 62);
+    --vk-width: 313px;
+    --vk-height: 62px;
     --vk-padding: calc(var(--vpx) * 59);
-    --vk-border-radius: calc(var(--vpx) * 8);
+    --vk-border-radius: 8px;
 
     --paragraph-font-weight: 300;
     --paragraph-padding: calc(var(--vpx) * 15);
