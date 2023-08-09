@@ -2,10 +2,8 @@ import {isServer} from "lit";
 
 export class VercelImageGenerator {
 
-    options = {}
-
     constructor({host, cdn} = {}) {
-        Object.assign(this.options, {host, cdn});
+        this.options = {host, cdn};
     }
 
     get local() {

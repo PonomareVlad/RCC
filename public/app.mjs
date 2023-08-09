@@ -16,153 +16,33 @@ import {LitElement, isServer, html, css} from "lit";
 
 export class App extends LitElement {
 
-    controllers = {}
-    task = Promise.resolve()
-    percentNumber = new Intl.NumberFormat("ru-RU", {
-        minimumFractionDigits: 1,
-        maximumFractionDigits: 1,
-        style: "percent",
-    })
-    options = {
-        buttonStyles: {},
-        buttonSkin: "flat",
-        showAgreements: false,
-        showAlternativeLogin: false
-    }
-    logger = new Proxy(console, {
-        get(_, method) {
-            return (...args) => {
-                console[method]?.(...args);
-                window.logger?.[method]?.(...args);
-            }
+    constructor() {
+        super();
+        this.controllers = {}
+        this.task = Promise.resolve()
+        this.percentNumber = new Intl.NumberFormat("ru-RU", {
+            minimumFractionDigits: 1,
+            maximumFractionDigits: 1,
+            style: "percent",
+        })
+        this.options = {
+            buttonStyles: {},
+            buttonSkin: "flat",
+            showAgreements: false,
+            showAlternativeLogin: false
         }
-    })
-    views = {
-        auth: () => html`
-            <div class="background">
-                <div class="decorations"></div>
-                <div class="photos">
-                    <picture class="niletto">
-                        ${this.renderPicture({
-                            img: {
-                                width: 1024,
-                                alt: "Niletto",
-                                decoding: "async",
-                                src: "/images/Niletto.png",
-                            },
-                            sources: [
-                                {width: 1024, media: "(min-width: 1024px)"},
-                                {width: 1536, media: "(min-width: 1536px)"},
-                                {width: 2048, media: "(min-width: 2048px)"},
-                            ]
-                        })}
-                    </picture>
-                    <picture class="klava">
-                        ${this.renderPicture({
-                            img: {
-                                width: 1024,
-                                alt: "Klava",
-                                decoding: "async",
-                                src: "/images/Klava.png",
-                            },
-                            sources: [
-                                {width: 1536, media: "(min-width: 1024px)"},
-                                {width: 2048, media: "(min-width: 1536px)"},
-                            ]
-                        })}
-                    </picture>
-                </div>
-            </div>
-            <section>
-                <picture class="logo">
-                    <img src="/images/logo.svg" alt="RCC EXTREME" decoding="async">
-                </picture>
-                <h1>
-                    ПРОГОЛОСУЙ
-                    <br>
-                    <mark>ЗА ЛЮБИМОГО</mark>
-                    <br>
-                    АРТИСТА!
-                </h1>
-                ${cache(html`
-                    <div class="vk" ${ref(this.renderAuth)}></div>`)}
-            </section>`,
-        vote: () => when(
-            this.round,
-            () => html`
-                <div class="background">
-                    <div class="decorations"></div>
-                </div>
-                <section>
-                    <picture class="logo">
-                        <img src="/images/logo.svg" alt="RCC EXTREME" decoding="async">
-                    </picture>
-                    <h1>
-                        ${when(
-                                this.account?.choices?.[this.round._id],
-                                () => html`
-                                    <span>CПАСИБО</span>
-                                    <span>ЗА ГОЛОС!</span>
-                                `,
-                                () => this.round.title
-                        )}
-                    </h1>
-                    <p>
-                        ${when(
-                                this.account?.choices?.[this.round._id],
-                                () => html`
-                                    <span>Следите за результатами</span>
-                                    <span>голосования онлайн!</span>
-                                `,
-                                () => html`
-                                    <span>Проголосуйте за артиста,</span>
-                                    <span>чтобы увидеть результаты</span>
-                                `
-                        )}
-                    </p>
-                    <div class=${classMap({
-                        variants: true,
-                        results: this.account?.choices?.[this.round._id]
-                    })}>
-                        ${map(
-                                (this.round.variants),
-                                ({name, button, result, image}, index) => html`
-                                    <div class="side">
-                                        <div class="background">
-                                            <picture>
-                                                ${this.renderPicture({
-                                                    img: {src: image, width: 512, alt: name},
-                                                    sources: [{width: 1024, media: "(min-width: 1024px)"}]
-                                                })}
-                                            </picture>
-                                        </div>
-                                        <h2 class="name">${name}</h2>
-                                        <button class=${classMap({
-                                            selected: index + 1 === this.account?.choices?.[this.round._id]
-                                        })} @click=${this.vote.bind(this, this.round._id, index + 1)}>
-                                            ${when(
-                                                    this.account?.choices?.[this.round._id],
-                                                    () => this.percentNumber.format(result),
-                                                    () => button,
-                                            )}
-                                        </button>
-                                    </div>
-                                `
-                        )}
-                    </div>
-                </section>
-            `,
-            () => html`
-                <section>
-                    <picture class="logo">
-                        <img src="/images/logo.svg" alt="RCC EXTREME" decoding="async">
-                    </picture>
-                    <h1>Голосование
-                        <mark>скоро</mark>
-                        начнется
-                    </h1>
-                </section>`
-        ),
+        this.logger = new Proxy(console, {
+            get(_, method) {
+                return (...args) => {
+                    console[method]?.(...args);
+                    window.logger?.[method]?.(...args);
+                }
+            }
+        })
+        this.views = {
+            auth: this.authView.bind(this),
+            vote: this.voteView.bind(this),
+        }
     }
 
     static get styles() {
@@ -287,6 +167,137 @@ export class App extends LitElement {
             </div>
             <slot name="state"></slot>
         `;
+    }
+
+    authView() {
+        return html`
+            <div class="background">
+                <div class="decorations"></div>
+                <div class="photos">
+                    <picture class="niletto">
+                        ${this.renderPicture({
+                            img: {
+                                width: 1024,
+                                alt: "Niletto",
+                                decoding: "async",
+                                src: "/images/Niletto.png",
+                            },
+                            sources: [
+                                {width: 1024, media: "(min-width: 1024px)"},
+                                {width: 1536, media: "(min-width: 1536px)"},
+                                {width: 2048, media: "(min-width: 2048px)"},
+                            ]
+                        })}
+                    </picture>
+                    <picture class="klava">
+                        ${this.renderPicture({
+                            img: {
+                                width: 1024,
+                                alt: "Klava",
+                                decoding: "async",
+                                src: "/images/Klava.png",
+                            },
+                            sources: [
+                                {width: 1536, media: "(min-width: 1024px)"},
+                                {width: 2048, media: "(min-width: 1536px)"},
+                            ]
+                        })}
+                    </picture>
+                </div>
+            </div>
+            <section>
+                <picture class="logo">
+                    <img src="/images/logo.svg" alt="RCC EXTREME" decoding="async">
+                </picture>
+                <h1>
+                    ПРОГОЛОСУЙ
+                    <br>
+                    <mark>ЗА ЛЮБИМОГО</mark>
+                    <br>
+                    АРТИСТА!
+                </h1>
+                ${cache(html`
+                    <div class="vk" ${ref(this.renderAuth)}></div>`)}
+            </section>`
+    }
+
+    voteView() {
+        return when(
+            this.round,
+            () => html`
+                <div class="background">
+                    <div class="decorations"></div>
+                </div>
+                <section>
+                    <picture class="logo">
+                        <img src="/images/logo.svg" alt="RCC EXTREME" decoding="async">
+                    </picture>
+                    <h1>
+                        ${when(
+                                this.account?.choices?.[this.round._id],
+                                () => html`
+                                    <span>CПАСИБО</span>
+                                    <span>ЗА ГОЛОС!</span>
+                                `,
+                                () => this.round.title
+                        )}
+                    </h1>
+                    <p>
+                        ${when(
+                                this.account?.choices?.[this.round._id],
+                                () => html`
+                                    <span>Следите за результатами</span>
+                                    <span>голосования онлайн!</span>
+                                `,
+                                () => html`
+                                    <span>Проголосуйте за артиста,</span>
+                                    <span>чтобы увидеть результаты</span>
+                                `
+                        )}
+                    </p>
+                    <div class=${classMap({
+                        variants: true,
+                        results: this.account?.choices?.[this.round._id]
+                    })}>
+                        ${map(
+                                (this.round.variants),
+                                ({name, button, result, image}, index) => html`
+                                    <div class="side">
+                                        <div class="background">
+                                            <picture>
+                                                ${this.renderPicture({
+                                                    img: {src: image, width: 512, alt: name},
+                                                    sources: [{width: 1024, media: "(min-width: 1024px)"}]
+                                                })}
+                                            </picture>
+                                        </div>
+                                        <h2 class="name">${name}</h2>
+                                        <button class=${classMap({
+                                            selected: index + 1 === this.account?.choices?.[this.round._id]
+                                        })} @click=${this.vote.bind(this, this.round._id, index + 1)}>
+                                            ${when(
+                                                    this.account?.choices?.[this.round._id],
+                                                    () => this.percentNumber.format(result),
+                                                    () => button,
+                                            )}
+                                        </button>
+                                    </div>
+                                `
+                        )}
+                    </div>
+                </section>
+            `,
+            () => html`
+                <section>
+                    <picture class="logo">
+                        <img src="/images/logo.svg" alt="RCC EXTREME" decoding="async">
+                    </picture>
+                    <h1>Голосование
+                        <mark>скоро</mark>
+                        начнется
+                    </h1>
+                </section>`
+        )
     }
 
     renderPicture({sources = [], img = {}} = {}) {
