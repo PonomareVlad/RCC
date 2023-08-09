@@ -10,7 +10,7 @@ export function jsonResponse(value, {
     const body = JSON.stringify(value, replacer, space);
     return new Response(body, {
         headers: {
-            "Content-Type": "application/json",
+            "Content-Type": "application/json; charset=utf-8",
             ...headers
         },
         statusText,
