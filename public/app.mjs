@@ -34,8 +34,12 @@ export class App extends LitElement {
         this.logger = new Proxy(console, {
             get(_, method) {
                 return (...args) => {
-                    console[method]?.(...args);
-                    window.logger?.[method]?.(...args);
+                    if (console[method])
+                        console[method](...args);
+                    if (
+                        window.logger &&
+                        window.logger[method]
+                    ) window.logger[method](...args);
                 }
             }
         })
@@ -106,11 +110,15 @@ export class App extends LitElement {
     }
 
     abortSignals(...keys) {
-        keys.forEach(key => this.controllers[key]?.abort());
+        keys.forEach(key => {
+            if (this.controllers[key])
+                this.controllers[key].abort()
+        });
     }
 
     replaceSignal(key, reason) {
-        this.controllers[key]?.abort(reason);
+        if (this.controllers[key])
+            this.controllers[key].abort(reason);
         this.controllers[key] = new AbortController();
         return this.controllers[key].signal;
     }
@@ -126,7 +134,8 @@ export class App extends LitElement {
     }
 
     init() {
-        this.round = this.state?.round;
+        const {state} = this;
+        if (state) this.round = state.round;
         this.images = new VercelImageGenerator(this);
     }
 
@@ -153,7 +162,12 @@ export class App extends LitElement {
 
     render() {
         if (isServer) this.init();
-        const view = this.account?.ok ? "vote" : "auth";
+        const {account} = this;
+        let view = "auth";
+        if (
+            account &&
+            account.ok
+        ) view = "vote";
         return html`
             <main class=${classMap({[view]: true})}>
                 ${choose(
@@ -234,7 +248,9 @@ export class App extends LitElement {
                     </picture>
                     <h1>
                         ${when(
-                                this.account?.choices?.[this.round._id],
+                                this.account &&
+                                this.account.choices &&
+                                this.account.choices[this.round._id],
                                 () => html`
                                     <span>CПАСИБО</span>
                                     <span>ЗА ГОЛОС!</span>
@@ -244,7 +260,9 @@ export class App extends LitElement {
                     </h1>
                     <p>
                         ${when(
-                                this.account?.choices?.[this.round._id],
+                                this.account &&
+                                this.account.choices &&
+                                this.account.choices[this.round._id],
                                 () => html`
                                     <span>Следите за результатами</span>
                                     <span>голосования онлайн!</span>
@@ -257,7 +275,10 @@ export class App extends LitElement {
                     </p>
                     <div class=${classMap({
                         variants: true,
-                        results: this.account?.choices?.[this.round._id]
+                        results:
+                                this.account &&
+                                this.account.choices &&
+                                this.account.choices[this.round._id]
                     })}>
                         ${map(
                                 (this.round.variants),
@@ -273,10 +294,16 @@ export class App extends LitElement {
                                         </div>
                                         <h2 class="name">${name}</h2>
                                         <button class=${classMap({
-                                            selected: index + 1 === this.account?.choices?.[this.round._id]
+                                            selected: index + 1 === (
+                                                    this.account &&
+                                                    this.account.choices &&
+                                                    this.account.choices[this.round._id]
+                                            )
                                         })} @click=${this.vote.bind(this, this.round._id, index + 1)}>
                                             ${when(
-                                                    this.account?.choices?.[this.round._id],
+                                                    this.account &&
+                                                    this.account.choices &&
+                                                    this.account.choices[this.round._id],
                                                     () => this.percentNumber.format(result),
                                                     () => button,
                                             )}
@@ -368,7 +395,7 @@ export class App extends LitElement {
         let account = {ok: false};
         if (session)
             account = await this.callApi("auth", {...session}, signal);
-        if (!account?.ok) {
+        if (!account || !account.ok) {
             localStorage.removeItem("session");
             delete this._session;
         }

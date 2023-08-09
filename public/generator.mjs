@@ -7,7 +7,8 @@ export class VercelImageGenerator {
     }
 
     get local() {
-        return isServer ? process?.env?.VERCEL_URL : location?.host;
+        if (isServer) return process.env.VERCEL_URL;
+        if (location) return location.host;
     }
 
     generate(options = {}) {
