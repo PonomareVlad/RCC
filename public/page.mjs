@@ -12,6 +12,7 @@ export function* template({title, body}) {
         <meta content="yes" name="apple-mobile-web-app-capable">
         <meta content="viewport-fit=cover, width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"
               name="viewport">
+        <script>if (typeof globalThis === "undefined") window.globalThis = window;</script>
         <script type="importmap">${JSON.stringify(importmap, null, 2)}</script>
         <script async crossorigin="anonymous"
                 src="https://ga.jspm.io/npm:es-module-shims@1.8.0/dist/es-module-shims.js"></script>
