@@ -347,8 +347,8 @@ export class App extends LitElement {
     async renderAuth(container) {
         await this.task.catch(console.error);
         if (!container) return;
-        const callback = this.authCallback;
         const style = getComputedStyle(container);
+        const callback = this.authCallback.bind(this);
         const height = style.getPropertyValue("height");
         const borderRadius = style.getPropertyValue("border-radius");
         const options = {...this.options, buttonStyles: {height, borderRadius}};
@@ -359,7 +359,8 @@ export class App extends LitElement {
         const url = new URL("/", location);
         switch (event.type) {
             case ConnectEvents.OneTapAuthEventsSDK.LOGIN_SUCCESS:
-                return event;
+                this.session = event.payload;
+                return this.updateStates();
             case ConnectEvents.ButtonOneTapAuthEventsSDK.SHOW_LOGIN:
             case ConnectEvents.OneTapAuthEventsSDK.FULL_AUTH_NEEDED:
             case ConnectEvents.OneTapAuthEventsSDK.PHONE_VALIDATION_NEEDED:
