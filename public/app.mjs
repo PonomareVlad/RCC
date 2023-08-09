@@ -209,7 +209,8 @@ export class App extends LitElement {
 
     get state() {
         if (this._state) return this._state;
-        const slot = this.shadowRoot.querySelector("slot[name=state]");
+        const slot = this.renderRoot.querySelector("slot[name=state]");
+        if (!slot) return;
         const [script] = slot.assignedElements().filter(node => node.matches("script"));
         if (script) return this._state = JSON.parse(script.innerHTML);
     }
