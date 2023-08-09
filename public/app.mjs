@@ -146,9 +146,10 @@ export class App extends LitElement {
 
     firstUpdated(_changedProperties) {
         setTimeout(() => {
-            if (this.account) return;
-            const storageAccount = localStorage.getItem("account");
-            if (storageAccount) this.account = JSON.parse(storageAccount);
+            if (!this.account) {
+                const storageAccount = localStorage.getItem("account");
+                if (storageAccount) this.account = JSON.parse(storageAccount);
+            }
             if (location.host !== "localhost") this.scheduleUpdateRoundState();
         });
     }
