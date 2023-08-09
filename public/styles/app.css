@@ -1,16 +1,16 @@
 * {
     cursor: default;
-    touch-action: none;
     pointer-events: none;
     -webkit-touch-callout: none;
+    touch-action: var(--page-touch-action);
 }
 
 :root {
     width: 100%;
-    overflow: hidden;
     color: var(--font-color);
     height: var(--page-height);
     font-size: var(--font-size);
+    overflow: var(--page-overflow);
     font-family: var(--font-family);
     text-rendering: geometricPrecision;
     -moz-osx-font-smoothing: grayscale;

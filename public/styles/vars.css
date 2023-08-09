@@ -5,6 +5,9 @@
     --background-height: calc(var(--vpx) * 812);
 
     --page-height: 100%;
+    --page-overflow: hidden;
+    --page-touch-action: none;
+    --page-background-color: #070707;
 
     --font-color: white;
     --font-family: "RF Dewi";
@@ -18,8 +21,6 @@
             var(--accent-color-start) 0%,
             var(--accent-color-end) 100%
     );
-
-    --page-background-color: #070707;
 
     --main-display: flex;
 
@@ -156,18 +157,6 @@
 
 }
 
-/*@supports (height: -moz-available) {
-    :root {
-        --page-height: -moz-available;
-    }
-}
-
-@supports (height: -webkit-fill-available) {
-    :root {
-        --page-height: -webkit-fill-available;
-    }
-}*/
-
 @supports (height: 100svh) {
     :root {
         --page-height: 100svh;
@@ -235,9 +224,13 @@
 
         --vpx: calc(100vw / 1194);
 
-        --background-height: calc(var(--vpx) * 834);
+        --background-height: max(calc(var(--vpx) * 834), 100vh);
 
         --lines-padding: calc(var(--vpx) * 60);
+
+        --page-height: var(--background-height);
+        --page-touch-action: initial;
+        --page-overflow: initial;
 
         --main-display: flex;
 
@@ -246,6 +239,7 @@
 
         --decorations-padding: 0;
         --decorations-background-size: calc(var(--vpx) * 305);
+        --decorations-background-position: bottom left, bottom right;
 
         --vote-decorations-width: 100%;
         --vote-decorations-horizontal-padding: 0;
@@ -307,6 +301,10 @@
     :root {
 
         --vpx: calc(100vw / 1194);
+
+        --page-touch-action: none;
+        --page-overflow: hidden;
+        --page-height: 100vh;
 
         --main-display: none;
 
