@@ -19,17 +19,21 @@ function groupVotes(variants = [], {choice}) {
 }
 
 export async function getLastRound() {
-    const [data] =
-        await rounds.find(activeRoundQuery).sort({_id: 1}).limit(1).toArray();
-    if (!data) return;
-    const {_id: round} = data;
-    const roundVotes = await votes.find({round}).toArray();
-    const votesCount = roundVotes.reduce(groupVotes, []);
-    const results = votesCount.map(count => count / roundVotes.length);
-    if (Array.isArray(data.variants)) data.variants.forEach(
-        (variant = {}, index) => variant.result = results[index] || 0
-    );
-    return {...data, date: new Date()};
+    try {
+        const [data] =
+            await rounds.find(activeRoundQuery).sort({_id: 1}).limit(1).toArray();
+        if (!data) return;
+        const {_id: round} = data;
+        const roundVotes = await votes.find({round}).toArray();
+        const votesCount = roundVotes.reduce(groupVotes, []);
+        const results = votesCount.map(count => count / roundVotes.length);
+        if (Array.isArray(data.variants)) data.variants.forEach(
+            (variant = {}, index) => variant.result = results[index] || 0
+        );
+        return {...data, date: new Date()};
+    } catch (e) {
+        console.error(e);
+    }
 }
 
 export async function auth({uuid, token}) {
