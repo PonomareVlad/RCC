@@ -33,6 +33,7 @@
     position: absolute;
     border-left: 1px solid;
     border-right: 1px solid;
+    height: var(--page-height);
     left: var(--lines-padding);
     right: var(--lines-padding);
     border-color: var(--lines-color);

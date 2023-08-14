@@ -74,8 +74,11 @@ export class App extends LitElement {
         const {
             searchParams
         } = new URL(location);
-        if (searchParams.has("payload"))
-            return JSON.parse(searchParams.get("payload"))
+        if (searchParams.has("payload")) {
+            const payload = JSON.parse(searchParams.get("payload"));
+            history.replaceState(payload, undefined, "/");
+            return payload;
+        }
     }
 
     get session() {

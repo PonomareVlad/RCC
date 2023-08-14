@@ -1,0 +1,123 @@
+:root {
+
+    --vote-section-width: 100%;
+    --vote-section-horizontal-padding: 0;
+
+    /* @formatter:off */
+    --vote-decorations-background-image:
+            var(--decorations-background-left-image),
+            url("/images/decoration.right.alternate.png");
+    /* @formatter:on */
+
+    --vote-decorations-horizontal-padding: var(--lines-padding);
+    --vote-decorations-background-size: var(--decorations-background-size);
+    --vote-decorations-width: calc(100% - (var(--vote-decorations-horizontal-padding) * 2));
+
+    --vote-overlay-threshold: 35%;
+    --vote-overlay-height: calc(var(--vpx) * 258);
+    --vote-overlay-display: var(--overlay-display);
+    --vote-overlay-padding: calc(
+            var(--page-height) - var(--vote-overlay-height)
+    );
+    --vote-overlay-background: linear-gradient(
+            180deg,
+            rgba(0, 0, 0, 0.00) 0%,
+            #000 var(--vote-overlay-threshold)
+    );
+
+    --vote-header-padding: var(--header-padding);
+    --vote-header-font-size: var(--header-font-size);
+
+    --variants-side-width: 50%;
+    --variants-horizontal-padding: var(--lines-padding);
+    --variants-width: calc(100% - (var(--variants-horizontal-padding) * 2));
+
+    --variants-background-overflow: hidden;
+    --variants-background-height: calc(var(--vpx) * 386);
+    --variants-background-padding-top: calc(var(--vpx) * 284);
+    --variants-background-padding-bottom: calc(var(--vpx) * 152);
+
+    --variants-background-underlay-display: none;
+    --variants-background-underlay-width: calc(var(--vpx) * 180);
+    --variants-background-underlay-height: var(--variants-background-height);
+    --variants-background-underlay-clip-path: polygon(0 0, 100% 30%, 100% 100%, 0% 100%);
+    --variants-background-underlay-reverse-clip-path: polygon(0 30%, 100% 0, 100% 100%, 0% 100%);
+    --variants-background-underlay-background: linear-gradient(
+            180deg,
+            rgba(255, 255, 255, 0.20) 0%,
+            rgba(255, 255, 255, 0.00) 35%
+    );
+
+    --name-font-size: calc(var(--vpx) * 18);
+    --name-padding: calc(var(--vpx) * 18);
+
+    --button-width: calc(var(--vpx) * 144);
+    --button-height: calc(var(--vpx) * 62);
+    --button-padding: calc(var(--vpx) * 59);
+    --button-border-radius: calc(var(--vpx) * 5);
+
+    --results-button-font-size: calc(var(--vpx) * 24);
+
+
+}
+
+@media (orientation: portrait) and (min-width: 750px) {
+
+    :root {
+
+        --vote-decorations-background-size: 50%;
+        --vote-decorations-background-image: var(--decorations-background-image);
+
+        --vote-overlay-threshold: 70%;
+        --vote-overlay-height: calc(var(--vpx) * 398);
+
+        --variants-background-height: calc(var(--vpx) * 704);
+        --variants-background-padding-top: calc(var(--vpx) * 391.81);
+        --variants-background-padding-bottom: calc(var(--vpx) * 118);
+
+        --name-padding: calc(var(--vpx) * 20);
+        --name-font-size: calc(var(--vpx) * 24);
+
+        --button-width: calc(var(--vpx) * 266);
+        --button-padding: calc(var(--vpx) * 83);
+
+    }
+
+}
+
+@media (orientation: landscape) {
+
+    :root {
+
+        --vote-section-horizontal-padding: calc(var(--vpx) * 277);
+        --vote-section-width: calc(100% - (var(--vote-section-horizontal-padding) * 2));
+
+        --vote-decorations-width: 100%;
+        --vote-decorations-horizontal-padding: 0;
+        --vote-decorations-background-image: var(--decorations-background-image);
+
+        --vote-overlay-threshold: 45%;
+        --vote-overlay-height: calc(var(--vpx) * 222);
+
+        --vote-header-padding: calc(var(--vpx) * 52);
+        --vote-header-font-size: calc(var(--vpx) * 42);
+
+        --variants-width: 100%;
+        --variants-horizontal-padding: 0;
+
+        /*--variants-background-overflow: initial;*/
+        --variants-background-height: calc(var(--vpx) * 474);
+        --variants-background-padding-top: calc(var(--vpx) * 308);
+        --variants-background-padding-bottom: calc(var(--vpx) * 52);
+
+        --variants-background-underlay-display: block;
+
+        --name-padding: calc(var(--vpx) * 20);
+        --name-font-size: calc(var(--vpx) * 24);
+
+        --button-width: calc(var(--vpx) * 266);
+        --button-padding: calc(var(--vpx) * 52);
+
+    }
+
+}
