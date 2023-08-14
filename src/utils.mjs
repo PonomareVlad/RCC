@@ -20,7 +20,7 @@ export function jsonResponse(value, {
 
 export async function apiRequest(method, payload = {}) {
     const url = new URL(method, `https://api.vk.com/method/`);
-    Object.entries({access_token, v: 5.131, ...payload}).forEach(
+    Object.entries({access_token, lang: "ru", v: 5.131, ...payload}).forEach(
         ([key, value]) => url.searchParams.set(key, String(value))
     );
     const {response} = await fetch(url).then(r => r.json());
