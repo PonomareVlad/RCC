@@ -7,7 +7,8 @@ export function* template({title, body}) {
     <head>
         <meta charset="UTF-8">
         <title>${title}</title>
-        <meta name="theme-color" content="#070707">
+        <meta content="dark" name="color-scheme">
+        <meta content="#000000" name="theme-color">
         <meta content="ie=edge" http-equiv="X-UA-Compatible">
         <meta content="yes" name="apple-mobile-web-app-capable">
         <meta content="viewport-fit=cover, width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"
@@ -18,15 +19,18 @@ export function* template({title, body}) {
                 src="https://ga.jspm.io/npm:es-module-shims@1.8.0/dist/es-module-shims.js"></script>
         <script async src="/_vercel/insights/script.js"></script>
         <script defer src="/client.mjs" type="module"></script>
-        <link rel="icon" href="/images/logo.svg" sizes="any" type="image/svg+xml">
+        <script async src="/livereload.mjs"></script>
+        <link href="/images/logo.svg" rel="icon" sizes="any" type="image/svg+xml">
         <link href="/fonts/stylesheet.css" rel="stylesheet">
         <link href="/styles/reset.css" rel="stylesheet">
         <link href="/styles/vars.css" rel="stylesheet">
         <link href="/styles/app.css" rel="stylesheet">
     </head>
-    <body>`;
+    <body>
+    `;
     yield body;
     yield `
     </body>
-    </html>`;
+    </html>
+    `;
 }
