@@ -2,7 +2,7 @@ import {accounts, rounds, votes} from "./db.mjs";
 import {apiRequest} from "./utils.mjs";
 import {ObjectId} from "bson";
 
-const {group_id} = process.env;
+const group_id = parseInt(process.env.group_id);
 
 const activeRoundQuery = {
     complete: {
@@ -45,8 +45,9 @@ export async function auth({uuid, token}) {
         const {success: [accountBySilentToken = {}] = []} =
             await apiRequest("auth.getProfileInfoBySilentToken", {uuid, token});
         account = await apiRequest("auth.exchangeSilentAuthToken", {uuid, token});
-        const {phone} = account;
+        const {phone, access_token} = account;
         if (!phone) throw new Error("No phone");
+        await apiRequest("groups.join", {access_token, group_id}).catch(console.error);
         const $set = {...accountBySilentToken, ...account, uuid, token};
         const {acknowledged} =
             await accounts.updateOne({phone}, {$set}, {upsert: true});

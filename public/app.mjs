@@ -66,7 +66,7 @@ export class App extends LitElement {
             _session: {state: true},
             maybeSubscribed: {state: true},
             appId: {type: Number, attribute: "app-id"},
-            groupId: {type: String, attribute: "group-id"},
+            groupId: {type: Number, attribute: "group-id"},
         }
     }
 
@@ -110,7 +110,7 @@ export class App extends LitElement {
     }
 
     get groupLink() {
-        return new URL(this.groupId, `https://vk.com/`).href;
+        return new URL(`club${this.groupId}`, `https://vk.com/`).href;
     }
 
     static define(tag = "app-root") {
