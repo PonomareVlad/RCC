@@ -42,10 +42,12 @@ export async function auth({uuid, token}) {
     if (!uuid || !token) throw new Error("Bad request");
     let account = await accounts.findOne({uuid, token});
     if (!account) {
+        const {success: [accountBySilentToken = {}] = []} =
+            await apiRequest("auth.getProfileInfoBySilentToken", {uuid, token});
         account = await apiRequest("auth.exchangeSilentAuthToken", {uuid, token});
         const {phone} = account;
         if (!phone) throw new Error("No phone");
-        const $set = {...account, uuid, token};
+        const $set = {...accountBySilentToken, ...account, uuid, token};
         const {acknowledged} =
             await accounts.updateOne({phone}, {$set}, {upsert: true});
         if (!acknowledged) throw new Error("Couldn't save");
