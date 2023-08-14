@@ -8,7 +8,7 @@ import {html} from "lit";
 
 App.define();
 
-const {appId} = process.env;
+const {appId, group_id} = process.env;
 const headers = {
     "Content-Type": "text/html;charset=UTF-8",
     "Cache-Control": "s-maxage=1, stale-while-revalidate=59",
@@ -32,6 +32,7 @@ async function renderPromise(request) {
         <app-root
                 host="${host}"
                 cdn="cdn.rcc-vote.ru"
+                group-id="${group_id}"
                 app-id="${appId}"
                 ._state=${state}
         >

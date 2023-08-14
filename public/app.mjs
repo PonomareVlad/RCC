@@ -46,6 +46,7 @@ export class App extends LitElement {
         this.views = {
             auth: this.authView.bind(this),
             vote: this.voteView.bind(this),
+            subscribe: this.subscribeView.bind(this),
         }
     }
 
@@ -63,7 +64,9 @@ export class App extends LitElement {
             round: {state: true},
             _account: {state: true},
             _session: {state: true},
+            maybeSubscribed: {state: true},
             appId: {type: Number, attribute: "app-id"},
+            groupId: {type: String, attribute: "group-id"},
         }
     }
 
@@ -94,6 +97,7 @@ export class App extends LitElement {
     set account(data) {
         if (!data) return;
         this._account = data;
+        this.maybeSubscribed = data.subscribed;
         localStorage.setItem("account", JSON.stringify(data));
     }
 
@@ -103,6 +107,10 @@ export class App extends LitElement {
         if (!slot) return;
         const [script] = slot.assignedElements().filter(node => node.matches("script"));
         if (script) return this._state = JSON.parse(script.innerHTML);
+    }
+
+    get groupLink() {
+        return new URL(this.groupId, `https://vk.com/`).href;
     }
 
     static define(tag = "app-root") {
@@ -168,7 +176,12 @@ export class App extends LitElement {
         if (
             account &&
             account.ok
-        ) view = "vote";
+        ) {
+            if (!account.subscribed)
+                view = "subscribe";
+            else
+                view = "vote";
+        }
         return html`
             <main class=${classMap({[view]: true})}>
                 ${choose(
@@ -188,41 +201,10 @@ export class App extends LitElement {
         return html`
             <div class="background">
                 <div class="decorations"></div>
-                <div class="photos">
-                    <picture class="niletto">
-                        ${this.renderPicture({
-                            img: {
-                                width: 1024,
-                                alt: "Niletto",
-                                decoding: "async",
-                                src: "/images/Niletto.png",
-                            },
-                            sources: [
-                                {width: 1024, media: "(min-width: 1024px)"},
-                                {width: 1536, media: "(min-width: 1536px)"},
-                                {width: 2048, media: "(min-width: 2048px)"},
-                            ]
-                        })}
-                    </picture>
-                    <picture class="klava">
-                        ${this.renderPicture({
-                            img: {
-                                width: 1024,
-                                alt: "Klava",
-                                decoding: "async",
-                                src: "/images/Klava.png",
-                            },
-                            sources: [
-                                {width: 1536, media: "(min-width: 1024px)"},
-                                {width: 2048, media: "(min-width: 1536px)"},
-                            ]
-                        })}
-                    </picture>
-                </div>
             </div>
             <section>
                 <picture class="logo">
-                    <img src="/images/logo.svg" alt="RCC EXTREME" decoding="async">
+                    <img src="/images/logo.svg" alt="RCC EXTREME">
                 </picture>
                 <h1>
                     ПРОГОЛОСУЙ
@@ -245,7 +227,7 @@ export class App extends LitElement {
                 </div>
                 <section>
                     <picture class="logo">
-                        <img src="/images/logo.svg" alt="RCC EXTREME" decoding="async">
+                        <img src="/images/logo.svg" alt="RCC EXTREME">
                     </picture>
                     <h1>
                         ${when(
@@ -318,7 +300,7 @@ export class App extends LitElement {
             () => html`
                 <section>
                     <picture class="logo">
-                        <img src="/images/logo.svg" alt="RCC EXTREME" decoding="async">
+                        <img src="/images/logo.svg" alt="RCC EXTREME">
                     </picture>
                     <h1>Голосование
                         <mark>скоро</mark>
@@ -326,6 +308,53 @@ export class App extends LitElement {
                     </h1>
                 </section>`
         )
+    }
+
+    subscribeView() {
+        return html`
+            <div class="background">
+                <div class="decorations"></div>
+            </div>
+            <section>
+                <picture class="logo">
+                    <img src="/images/logo.svg" alt="RCC EXTREME">
+                </picture>
+                <h1>
+                    ПОДПИШИСЬ
+                    <br>
+                    <mark>НА НАС</mark>
+                    <br>
+                    ВКОНТАКТЕ
+                </h1>
+                <p>
+                    <span>Чтобы участвовать в голосовании</span>
+                    <span>за артистов и розыгрыше ярких призов!</span>
+                </p>
+                <div>
+                    ${when(
+                            this.maybeSubscribed,
+                            () => html`
+                                <button @click="${this.updateStates.bind(this)}">
+                                    Я уже подписался
+                                </button>
+                            `,
+                            () => html`
+                                <a
+                                        class="button"
+                                        target="_blank"
+                                        href="${this.groupLink}"
+                                        @click="${this.subscribe.bind(this)}"
+                                >
+                                    Подписаться на RCC Extreme
+                                </a>
+                            `
+                    )}
+                </div>
+            </section>`
+    }
+
+    subscribe() {
+        this.maybeSubscribed = true;
     }
 
     renderPicture({sources = [], img = {}} = {}) {

@@ -110,6 +110,8 @@
     --vk-padding: calc(var(--vpx) * 59);
     --vk-border-radius: 8px;
 
+    --subscribe-button-padding: calc(var(--vpx) * 36);
+
     --paragraph-font-weight: 300;
     --paragraph-padding: calc(var(--vpx) * 15);
     --paragraph-font-size: calc(var(--vpx) * 15);

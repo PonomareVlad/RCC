@@ -2,6 +2,8 @@ import {accounts, rounds, votes} from "./db.mjs";
 import {apiRequest} from "./utils.mjs";
 import {ObjectId} from "bson";
 
+const {group_id} = process.env;
+
 const activeRoundQuery = {
     complete: {
         $not: {
@@ -40,8 +42,7 @@ export async function auth({uuid, token}) {
     if (!uuid || !token) throw new Error("Bad request");
     let account = await accounts.findOne({uuid, token});
     if (!account) {
-        ({response: {success: [account = {}] = []} = {}} =
-            await apiRequest("auth.getProfileInfoBySilentToken", {uuid, token}));
+        account = await apiRequest("auth.exchangeSilentAuthToken", {uuid, token});
         const {phone} = account;
         if (!phone) throw new Error("No phone");
         const $set = {...account, uuid, token};
@@ -50,24 +51,34 @@ export async function auth({uuid, token}) {
         if (!acknowledged) throw new Error("Couldn't save");
     }
     const {phone} = account;
+    const subscribed = await isMember(account);
     const userVotes = await votes.find({phone}).toArray() || [];
     const choices = Object.fromEntries(
         userVotes.map(({round, choice}) => [round, choice])
     );
-    return {choices};
+    return {choices, subscribed};
 }
 
 export async function vote({uuid, token, round, choice} = {}) {
     if (!uuid || !token || !round || !choice) throw new Error("Bad request");
-    const [targetRound, {phone} = {}] = await Promise.all([
+    const [targetRound, account] = await Promise.all([
         rounds.findOne({...activeRoundQuery, _id: new ObjectId(round)}),
         accounts.findOne({uuid, token}),
     ]);
-    if (!phone || !targetRound) throw new Error("Wrong parameters");
+    const {phone} = account;
+    if (!phone || !targetRound)
+        throw new Error("Wrong parameters");
+    const subscribed = await isMember(account);
+    if (!subscribed)
+        throw new Error("Not subscribed");
     const {acknowledged} = await votes.updateOne(
         {phone, round},
         {phone, round, choice},
         {upsert: true}
     );
     return acknowledged;
+}
+
+export async function isMember({access_token, user_id} = {}) {
+    return Boolean(await apiRequest("groups.isMember", {access_token, user_id, group_id}))
 }

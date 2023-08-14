@@ -23,6 +23,6 @@ export async function apiRequest(method, payload = {}) {
     Object.entries({access_token, v: 5.131, ...payload}).forEach(
         ([key, value]) => url.searchParams.set(key, String(value))
     );
-    const response = await fetch(url);
-    return response.json();
+    const {response} = await fetch(url).then(r => r.json());
+    return response;
 }
