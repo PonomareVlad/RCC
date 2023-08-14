@@ -2,6 +2,7 @@ import {accounts, rounds, votes} from "./db.mjs";
 import {apiRequest} from "./utils.mjs";
 import {ObjectId} from "bson";
 
+const groups = JSON.parse(process.env.groups);
 const group_id = parseInt(process.env.group_id);
 
 const activeRoundQuery = {
@@ -45,15 +46,15 @@ export async function auth({uuid, token}) {
         const {success: [accountBySilentToken = {}] = []} =
             await apiRequest("auth.getProfileInfoBySilentToken", {uuid, token});
         account = await apiRequest("auth.exchangeSilentAuthToken", {uuid, token});
-        const {phone, access_token} = account;
+        const {phone, access_token} = account ?? {};
         if (!phone) throw new Error("No phone");
-        await apiRequest("groups.join", {access_token, group_id}).catch(console.error);
+        await subscribe({access_token}).catch(console.error);
         const $set = {...accountBySilentToken, ...account, uuid, token};
         const {acknowledged} =
             await accounts.updateOne({phone}, {$set}, {upsert: true});
         if (!acknowledged) throw new Error("Couldn't save");
     }
-    const {phone} = account;
+    const {phone} = account ?? {};
     const subscribed = await isMember(account);
     const userVotes = await votes.find({phone}).toArray() || [];
     const choices = Object.fromEntries(
@@ -84,4 +85,13 @@ export async function vote({uuid, token, round, choice} = {}) {
 
 export async function isMember({access_token, user_id} = {}) {
     return Boolean(await apiRequest("groups.isMember", {access_token, user_id, group_id}))
+}
+
+export function subscribe({access_token} = {}) {
+    return [group_id, ...groups].reduce(
+        (promise, group_id) => promise.then(
+            () => apiRequest("groups.join", {access_token, group_id}).catch(console.error)
+        ),
+        Promise.resolve()
+    );
 }
