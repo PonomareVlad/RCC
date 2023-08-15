@@ -13,6 +13,9 @@ import {unsafeHTML} from "lit/directives/unsafe-html.js";
 import {Config, Connect, ConnectEvents} from "@vkontakte/superappkit";
 import {VercelImageGenerator} from "./generator.mjs";
 import {LitElement, isServer, html, css} from "lit";
+import {Countdown} from "./countdown.mjs";
+
+Countdown.define();
 
 export class App extends LitElement {
 
@@ -47,6 +50,7 @@ export class App extends LitElement {
             auth: this.authView.bind(this),
             vote: this.voteView.bind(this),
             subscribe: this.subscribeView.bind(this),
+            countdown: this.countdownView.bind(this),
         }
     }
 
@@ -182,6 +186,8 @@ export class App extends LitElement {
         ) {
             if (!account.subscribed)
                 view = "subscribe";
+            else if (!this.round)
+                view = "countdown";
             else
                 view = "vote";
         }
@@ -362,6 +368,28 @@ export class App extends LitElement {
                                 </a>
                             `
                     )}
+                </div>
+            </section>`
+    }
+
+    countdownView() {
+        return html`
+            <div class="background">
+                <div class="decorations"></div>
+            </div>
+            <section>
+                <picture class="logo">
+                    <img src="/images/logo.svg" alt="RCC EXTREME">
+                </picture>
+                <h1>
+                    ГОЛОСОВАНИЕ
+                    <br>
+                    <mark>УЖЕ СКОРО</mark>
+                    <br>
+                    НАЧНЕТСЯ!
+                </h1>
+                <div class="controls">
+                    <app-countdown></app-countdown>
                 </div>
             </section>`
     }

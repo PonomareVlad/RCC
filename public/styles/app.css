@@ -260,6 +260,10 @@ mark {
     margin-top: var(--subscribe-controls-padding);
 }
 
+.countdown .controls {
+    margin-top: var(--countdown-controls-padding);
+}
+
 .variants {
     top: 0;
     display: flex;

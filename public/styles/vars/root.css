@@ -78,6 +78,9 @@
 
     --subscribe-controls-padding: calc(var(--vpx) * 36);
 
+    --countdown-controls-padding: calc(var(--vpx) * 41);
+    --countdown-paragraph-padding: calc(var(--vpx) * 10);
+
     --low-resolution-display: none;
 
 }
@@ -113,6 +116,10 @@ and (min-width: 750px) {
 
         --paragraph-padding: calc(var(--vpx) * 8);
         --paragraph-font-size: calc(var(--vpx) * 20);
+
+        --countdown-controls-padding: calc(var(--vpx) * 50);
+
+        --countdown-paragraph-padding: calc(var(--vpx) * 7);
 
     }
 
