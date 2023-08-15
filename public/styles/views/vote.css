@@ -20,9 +20,26 @@
     --variant-background-min-height: calc(var(--vpx) * 492);
     --variant-grid-background-min-height: calc(var(--vpx) * 187);
 
+    --variant-background-image: var(--decorations-background-left-image);
+
+    /* @formatter:off */
+    --variant-background:
+            var(--variant-background-image),
+            linear-gradient(180deg, rgba(0, 0, 0, 0.00) 0%, #000 100%),
+            rgba(255, 255, 255, 0.20);
+    /* @formatter:on */
+
+    /*--variant-background-*/
+
     --variant-button-padding: calc(var(--vpx) * 16);
 
     --variants-margin-top: calc(var(--vpx) * 23);
+
+    --overlay-height: calc(var(--vpx) * (91 + 62));
+
+    --variants-decoration-display: block;
+
+    --overlay-threshold: 50%;
 
 }
 
@@ -47,6 +64,8 @@ and (min-width: 750px) {
 
         --variants-margin-top: calc(var(--vpx) * 32);
 
+        --variants-decoration-display: none;
+
     }
 
 }
@@ -65,7 +84,23 @@ and (min-width: 750px) {
         --variants-padding-top: calc(var(--vpx) * 260);
         --variants-padding-bottom: calc(var(--vpx) * 73);
 
+        --variants-decoration-display: none;
+
     }
+
+}
+
+.vote .background:after {
+
+    bottom: 0;
+    z-index: 0;
+    content: "";
+    width: 100%;
+    display: block;
+    position: absolute;
+    pointer-events: none;
+    height: var(--overlay-height);
+    background: var(--overlay-background);
 
 }
 
@@ -78,7 +113,7 @@ and (min-width: 750px) {
     display: flex;
     position: relative;
     align-items: flex-end;
-    justify-content: stretch;
+    justify-content: center;
     height: var(--variants-height);
     margin-top: var(--variants-margin-top);
 
@@ -88,6 +123,21 @@ and (min-width: 750px) {
 
     gap: var(--variants-gap);
 
+}
+
+.variants.columns:before {
+    --size: calc(var(--vpx) * 213);
+    content: "";
+    z-index: -1;
+    position: absolute;
+    align-self: center;
+    width: var(--size);
+    height: var(--size);
+    filter: blur(100px);
+    border-radius: 100%;
+    justify-self: center;
+    background-color: #ED1923;
+    display: var(--variants-decoration-display);
 }
 
 .variants.grid {
@@ -162,16 +212,33 @@ and (min-width: 750px) {
     align-items: center;
     flex-direction: column;
     justify-content: flex-end;
+    background-repeat: no-repeat;
     min-height: var(--variant-grid-background-min-height);
+    background: var(--variant-background);
+    background-position: bottom calc(var(--vpx) * 53) center, bottom, bottom;
+    background-size: 100%;
+}
+
+.variants .variant:nth-of-type(even) .background {
+    --variant-background-image: var(--decorations-background-right-image);
+    /* @formatter:off */
+    --variant-background:
+            var(--variant-background-image),
+            linear-gradient(180deg, rgba(0, 0, 0, 0.00) 0%, #000 100%),
+            rgba(255, 255, 255, 0.20);
+    /* @formatter:on */
+    background-position: bottom calc(var(--vpx) * -44) center, bottom, bottom;
 }
 
 .variants .variant picture {
     height: 100%;
+    z-index: -1;
 }
 
 .variants .variant picture img {
     all: initial;
     height: 100%;
+    /*opacity: 0;*/
 }
 
 .variants .variant .name {
