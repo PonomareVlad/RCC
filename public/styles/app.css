@@ -87,6 +87,7 @@ main {
     z-index: -1;
     width: 100%;
     display: block;
+    overflow: hidden;
     position: absolute;
     height: var(--page-height);
     min-height: var(--background-height);
@@ -103,14 +104,6 @@ main {
     background-position: var(--decorations-background-position);
 }
 
-.vote .background .decorations {
-    width: var(--vote-decorations-width);
-    left: var(--vote-decorations-horizontal-padding);
-    right: var(--vote-decorations-horizontal-padding);
-    background-size: var(--vote-decorations-background-size);
-    background-image: var(--vote-decorations-background-image);
-}
-
 .background .photos {
     bottom: 0;
     width: 100%;
@@ -125,18 +118,6 @@ main {
     position: absolute;
 }
 
-.background .photos > picture.niletto {
-    bottom: var(--niletto-bottom);
-    width: var(--niletto-width);
-    left: var(--niletto-left);
-}
-
-.background .photos > picture.klava {
-    bottom: var(--klava-bottom);
-    right: var(--klava-right);
-    width: var(--klava-width);
-}
-
 section {
     height: 100%;
     display: flex;
@@ -144,14 +125,6 @@ section {
     align-items: center;
     flex-direction: column;
     width: var(--section-width);
-}
-
-.auth section {
-    width: var(--auth-section-width);
-}
-
-.vote section {
-    width: var(--vote-section-width);
 }
 
 section:after {
@@ -164,20 +137,6 @@ section:after {
     height: var(--overlay-height);
     display: var(--overlay-display);
     background: var(--overlay-background);
-}
-
-.auth section:after {
-    top: var(--auth-overlay-padding);
-    height: var(--auth-overlay-height);
-    display: var(--auth-overlay-display);
-    background: var(--auth-overlay-background);
-}
-
-.vote section:after {
-    top: var(--vote-overlay-padding);
-    height: var(--vote-overlay-height);
-    display: var(--vote-overlay-display);
-    background: var(--vote-overlay-background);
 }
 
 .logo {
@@ -208,16 +167,6 @@ h1, h2 {
     font-family: var(--header-font-family);
 }
 
-.auth h1, .auth h2 {
-    margin-top: var(--auth-header-padding);
-    font-size: var(--auth-header-font-size);
-}
-
-.vote h1, .vote h2 {
-    margin-top: var(--vote-header-padding);
-    font-size: var(--vote-header-font-size);
-}
-
 p {
     z-index: 10;
     text-align: center;
@@ -242,108 +191,12 @@ mark {
     background-clip: text;
 }
 
-.vk {
-    z-index: 10;
-    width: var(--vk-width);
-    height: var(--vk-height);
-    bottom: var(--vk-padding);
-    position: var(--vk-position);
-    margin-top: var(--vk-padding);
-    border-radius: var(--vk-border-radius);
-}
-
-.vk *, iframe {
-    pointer-events: auto;
-}
-
 .subscribe .controls {
     margin-top: var(--subscribe-controls-padding);
 }
 
 .countdown .controls {
     margin-top: var(--countdown-controls-padding);
-}
-
-.variants {
-    top: 0;
-    display: flex;
-    position: absolute;
-    align-items: flex-end;
-    justify-content: center;
-    height: var(--page-height);
-    width: var(--variants-width);
-    left: var(--variants-horizontal-padding);
-    right: var(--variants-horizontal-padding);
-}
-
-.variants .side {
-    display: flex;
-    position: relative;
-    align-items: center;
-    flex-direction: column;
-    justify-content: flex-end;
-    max-height: var(--page-height);
-    height: var(--background-height);
-    width: var(--variants-side-width);
-}
-
-.variants .side .background {
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
-    height: var(--background-height);
-    overflow: var(--variants-background-overflow);
-    padding-top: var(--variants-background-padding-top);
-    padding-bottom: var(--variants-background-padding-bottom);
-}
-
-.variants .side .background:before {
-    z-index: -1;
-    content: "";
-    position: absolute;
-    width: var(--variants-background-underlay-width);
-    height: var(--variants-background-underlay-height);
-    display: var(--variants-background-underlay-display);
-    background: var(--variants-background-underlay-background);
-    clip-path: var(--variants-background-underlay-clip-path);
-}
-
-.variants .side:last-of-type .background:before {
-    clip-path: var(--variants-background-underlay-reverse-clip-path);
-}
-
-.variants .side picture img {
-    all: initial;
-    height: var(--variants-background-height);
-}
-
-.variants .side .name {
-    z-index: 10;
-    margin-top: unset;
-    font-size: var(--name-font-size);
-    margin-bottom: var(--name-padding);
-}
-
-.variants .side button {
-    z-index: 10;
-    cursor: pointer;
-    text-align: center;
-    pointer-events: auto;
-    width: var(--button-width);
-    height: var(--button-height);
-    border: 1px solid transparent;
-    background: var(--accent-gradient);
-    margin-bottom: var(--button-padding);
-    border-radius: var(--button-border-radius);
-}
-
-.variants.results .side button {
-    font-size: var(--results-button-font-size);
-}
-
-.variants.results .side button:not(.selected) {
-    border: 1px solid #777;
-    background: unset;
 }
 
 .low-resolution {

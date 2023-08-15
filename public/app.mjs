@@ -58,6 +58,8 @@ export class App extends LitElement {
         return css`
           @import "/styles/reset.css";
           @import "/styles/app.css";
+          @import "/styles/views/auth.css";
+          @import "/styles/views/vote.css";
         `
     }
 
@@ -233,7 +235,8 @@ export class App extends LitElement {
                     АРТИСТА!
                 </h1>
                 ${cache(html`
-                    <div class="vk" ${ref(this.renderAuth)}></div>`)}
+                    <div class="vk" ${ref(this.renderAuth)}></div>
+                `)}
             </section>`
     }
 
@@ -420,8 +423,8 @@ export class App extends LitElement {
         if (!container) return;
         const style = getComputedStyle(container);
         const callback = this.authCallback.bind(this);
-        const height = style.getPropertyValue("height");
-        const borderRadius = style.getPropertyValue("border-radius");
+        const height = parseInt(style.getPropertyValue("height"));
+        const borderRadius = parseInt(style.getPropertyValue("border-radius"));
         const options = {...this.options, buttonStyles: {height, borderRadius}};
         Connect.buttonOneTapAuth({container, callback, options});
     }
