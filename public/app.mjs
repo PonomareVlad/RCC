@@ -263,7 +263,7 @@ export class App extends LitElement {
                                                 title,
                                                 name: round,
                                                 variants = [],
-                                            }
+                                            } = {}
                                         ] = this.rounds
                                 ) => html`
                                     <h1>
@@ -305,6 +305,7 @@ export class App extends LitElement {
                                                     () => html`
                                                         <div class=${classMap({
                                                             grid: true,
+                                                            full: true,
                                                             variants: true,
                                                             results: this.hasChoice(round)
                                                         })}>
@@ -317,6 +318,40 @@ export class App extends LitElement {
                                                 <p>Ошибка в данных голосования</p>
                                             `
                                     )}
+                                `
+                            ],
+                            [
+                                2,
+                                () => html`
+                                    <div class="rounds">
+                                        ${map(
+                                                this.rounds,
+                                                (
+                                                        {
+                                                            title,
+                                                            name: round,
+                                                            variants = [],
+                                                        } = {}
+                                                ) => html`
+                                                    <div class="round">
+                                                        <h1>
+                                                            ${when(
+                                                                    this.hasChoice(round),
+                                                                    () => "CПАСИБО ЗА ГОЛОС!",
+                                                                    () => title
+                                                            )}
+                                                        </h1>
+                                                        <div class=${classMap({
+                                                            grid: true,
+                                                            variants: true,
+                                                            results: this.hasChoice(round)
+                                                        })}>
+                                                            ${this.renderVariants({round, variants})}
+                                                        </div>
+                                                    </div>
+                                                `
+                                        )}
+                                    </div>
                                 `
                             ]
                         ],

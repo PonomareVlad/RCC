@@ -9,22 +9,10 @@
 
     --variants-padding-top: calc(var(--vpx) * 200);
     --variants-padding-bottom: calc(var(--vpx) * 58);
-    --variants-height: calc(
-            var(--page-height)
-            -
-            var(--variants-padding-top)
-            -
-            var(--variants-padding-bottom)
-    );
+    --variants-height: calc(var(--page-height) - var(--variants-padding-top) - var(--variants-padding-bottom));
 
     --variant-height: calc(var(--vpx) * (492 + 62));
-    --variant-background-min-height: calc(
-            var(--background-height)
-            -
-            var(--variants-padding-top)
-            -
-            var(--variants-padding-bottom)
-    );
+    --variant-background-min-height: calc(var(--background-height) - var(--variants-padding-top) - var(--variants-padding-bottom));
 
 }
 
@@ -69,7 +57,40 @@
 .variants.grid .variant {
     max-height: calc(var(--vpx) * 260);
     width: calc(50% - calc(var(--vpx) * 10));
+}
+
+.variants.grid.full .variant {
     height: calc(50% - calc(var(--vpx) * 16));
+}
+
+.rounds {
+    --variants-padding-top: calc(var(--vpx) * 124);
+    --variants-height: calc(var(--page-height) - var(--variants-padding-top) - var(--variants-padding-bottom));
+    display: flex;
+    position: relative;
+    align-items: stretch;
+    flex-direction: column;
+    justify-content: stretch;
+    height: var(--variants-height);
+    row-gap: calc(var(--vpx) * 32);
+    margin-top: var(--header-padding);
+}
+
+.rounds .round {
+    height: 50%;
+    display: flex;
+    position: relative;
+    align-items: stretch;
+    flex-direction: column;
+}
+
+.rounds .round h1 {
+    display: block;
+    margin: unset;
+}
+
+.rounds .variants {
+    height: 100%;
 }
 
 .variants .variant .background {
