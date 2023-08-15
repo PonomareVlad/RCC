@@ -27,6 +27,8 @@
     --overlay-display: block;
     --overlay-height: calc(var(--vpx) * 192);
 
+    --header-font-size: calc(var(--vpx) * 32);
+
     --vk-position: absolute;
     --vk-padding: calc(var(--vpx) * 58);
 

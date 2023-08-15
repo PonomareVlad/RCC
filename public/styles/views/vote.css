@@ -5,6 +5,8 @@
     --section-horizontal-padding: var(--lines-padding);
     --section-width: calc(100% - (var(--section-horizontal-padding) * 2));
 
+    --content-max-width: 100%;
+
     --variants-padding-top: calc(var(--vpx) * 200);
     --variants-padding-bottom: calc(var(--vpx) * 58);
     --variants-height: calc(
@@ -47,7 +49,9 @@
 }
 
 .variants.grid {
-
+    flex-wrap: wrap;
+    row-gap: calc(var(--vpx) * 32);
+    column-gap: calc(var(--vpx) * 20);
 }
 
 .variants .variant {
@@ -60,6 +64,12 @@
     flex-direction: column;
     justify-content: flex-end;
     max-height: var(--variant-height);
+}
+
+.variants.grid .variant {
+    max-height: calc(var(--vpx) * 260);
+    width: calc(50% - calc(var(--vpx) * 10));
+    height: calc(50% - calc(var(--vpx) * 16));
 }
 
 .variants .variant .background {

@@ -269,10 +269,7 @@ export class App extends LitElement {
                                     <h1>
                                         ${when(
                                                 this.hasChoice(round),
-                                                () => html`
-                                                    <span>CПАСИБО</span>
-                                                    <span>ЗА ГОЛОС!</span>
-                                                `,
+                                                () => "CПАСИБО ЗА ГОЛОС!",
                                                 () => title
                                         )}
                                     </h1>
