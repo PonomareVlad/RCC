@@ -55,6 +55,16 @@ and (min-width: 750px) {
 
     .vote {
 
+        --decorations-display: initial;
+
+        --section-horizontal-padding: calc(var(--vpx) * 277);
+
+        --header-padding: calc(var(--vpx) * 32);
+        --header-font-size: calc(var(--vpx) * 36);
+
+        --variants-padding-top: calc(var(--vpx) * 260);
+        --variants-padding-bottom: calc(var(--vpx) * 73);
+
     }
 
 }
