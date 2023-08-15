@@ -5,7 +5,7 @@
     --page-height: 100%;
     --page-overflow: hidden;
     --page-touch-action: none;
-    --page-background-color: #070707;
+    --page-background-color: black;
 
     --background-height: calc(var(--vpx) * 812);
 
@@ -30,7 +30,10 @@
     --section-width: 100%;
     --section-horizontal-padding: 0;
 
-    --decorations-padding: 257;
+    --content-horizontal-padding: var(--lines-padding);
+    --content-max-width: calc(100% - (var(--content-horizontal-padding) * 2));
+
+    --decorations-padding: 425;
     --decorations-background-size: 50%;
 
     /* @formatter:off */
@@ -46,7 +49,7 @@
             top calc(var(--vpx) * var(--decorations-padding)) right;
     /* @formatter:on */
 
-    --overlay-display: block;
+    --overlay-display: none;
     --overlay-threshold: 75%;
     --overlay-height: calc(var(--vpx) * 371);
     --overlay-padding: calc(
@@ -58,22 +61,22 @@
             #000 var(--overlay-threshold)
     );
 
+    --logo-width: calc(var(--vpx) * 73);
+    --logo-height: calc(var(--vpx) * 47);
+    --logo-padding: calc(var(--vpx) * 40);
+
     --header-font-family: "RF Dewi Extended";
     --header-font-size: calc(var(--vpx) * 32);
     --header-padding: calc(var(--vpx) * 37);
     --header-font-color: var(--font-color);
     --header-font-weight: 800;
 
-    --logo-padding: calc(var(--vpx) * 40);
-    --logo-height: calc(var(--vpx) * 47);
-    --logo-width: calc(var(--vpx) * 73);
-
     --paragraph-font-weight: 300;
-    --paragraph-padding: calc(var(--vpx) * 15);
+    --paragraph-padding: calc(var(--vpx) * 8);
     --paragraph-font-size: calc(var(--vpx) * 15);
     --paragraph-font-color: rgba(215, 215, 215, 0.50);
 
-    --subscribe-button-padding: calc(var(--vpx) * 36);
+    --subscribe-controls-padding: calc(var(--vpx) * 36);
 
     --low-resolution-display: none;
 
@@ -85,7 +88,8 @@
     }
 }
 
-@media (orientation: portrait) and (min-width: 750px) {
+@media (orientation: portrait)
+and (min-width: 750px) {
 
     :root {
 
@@ -95,18 +99,20 @@
 
         --lines-padding: calc(var(--vpx) * 60);
 
-        --decorations-padding: 373;
-        --decorations-background-size: calc(var(--vpx) * 350);
+        --content-horizontal-padding: calc(var(--vpx) * 100);
+
+        --decorations-padding: 579;
+        /*--decorations-background-size: calc(var(--vpx) * 350);*/
 
         --logo-width: calc(var(--vpx) * 90);
         --logo-height: calc(var(--vpx) * 58);
         --logo-padding: calc(var(--vpx) * 60);
 
-        --header-padding: calc(var(--vpx) * 69);
+        --header-padding: calc(var(--vpx) * 57);
         --header-font-size: calc(var(--vpx) * 48);
 
-        --paragraph-padding: calc(var(--vpx) * 10);
-        --paragraph-font-size: calc(var(--vpx) * 18);
+        --paragraph-padding: calc(var(--vpx) * 8);
+        --paragraph-font-size: calc(var(--vpx) * 20);
 
     }
 
@@ -129,18 +135,20 @@
         --main-display: flex;
 
         --decorations-padding: 0;
-        --decorations-background-size: calc(var(--vpx) * 305);
+        --decorations-background-size: calc(var(--vpx) * 303);
         --decorations-background-position: bottom left, bottom right;
+
+        --content-horizontal-padding: var(--decorations-background-size);
 
         --logo-width: calc(var(--vpx) * 90);
         --logo-height: calc(var(--vpx) * 58);
         --logo-padding: calc(var(--vpx) * 60);
 
-        --header-padding: calc(var(--vpx) * 161);
+        --header-padding: calc(var(--vpx) * 134);
         --header-font-size: calc(var(--vpx) * 48);
 
-        --paragraph-padding: calc(var(--vpx) * 10);
-        --paragraph-font-size: calc(var(--vpx) * 18);
+        --paragraph-padding: calc(var(--vpx) * 8);
+        --paragraph-font-size: calc(var(--vpx) * 20);
 
         --low-resolution-display: none;
 
@@ -148,7 +156,9 @@
 
 }
 
-@media (orientation: landscape) and (max-height: 500px) and (max-width: 1000px) {
+@media (orientation: landscape)
+and (max-height: 500px)
+and (max-width: 1000px) {
 
     :root {
 
@@ -158,7 +168,12 @@
         --page-overflow: hidden;
         --page-height: 100vh;
 
+        --background-height: var(--page-height);
+
         --main-display: none;
+
+        --logo-width: calc(var(--vpx) * 150);
+        --logo-height: calc(var(--vpx) * 100);
 
         --header-padding: 0;
         --header-font-size: calc(var(--vpx) * 48);

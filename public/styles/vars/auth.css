@@ -28,7 +28,8 @@
 
 }
 
-@media (orientation: portrait) and (min-width: 750px) {
+@media (orientation: portrait)
+and (min-width: 750px) {
 
     :root {
 

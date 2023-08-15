@@ -15,7 +15,7 @@
     text-rendering: geometricPrecision;
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
-    background: var(--page-background-color);
+    background-color: var(--page-background-color);
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
@@ -59,6 +59,7 @@ picture img {
 button, .button {
     width: 313px;
     height: 62px;
+    font-size: 16px;
     cursor: pointer;
     background: white;
     text-align: center;
@@ -182,6 +183,8 @@ section:after {
 .logo {
     z-index: 10;
     flex-shrink: 0;
+    display: flex;
+    justify-content: center;
     width: var(--logo-width);
     height: var(--logo-height);
     margin-top: var(--logo-padding);
@@ -189,7 +192,7 @@ section:after {
 
 .logo img {
     transform: scale(.1);
-    transform-origin: 0 0;
+    transform-origin: 50% 0;
     min-width: calc(var(--logo-width) * 10);
     min-height: calc(var(--logo-height) * 10);
 }
@@ -225,7 +228,7 @@ p {
 }
 
 h1, p {
-    max-width: calc(100% - (var(--lines-padding) * 2));
+    max-width: var(--content-max-width);
 }
 
 h1 span, h2 span, p span {
@@ -253,9 +256,8 @@ mark {
     pointer-events: auto;
 }
 
-.subscribe button,
-.subscribe .button {
-    margin-top: var(--subscribe-button-padding);
+.subscribe .controls {
+    margin-top: var(--subscribe-controls-padding);
 }
 
 .variants {
@@ -342,7 +344,13 @@ mark {
 
 .low-resolution {
     align-items: center;
+    flex-direction: column;
     justify-content: center;
     height: var(--page-height);
     display: var(--low-resolution-display);
+}
+
+.low-resolution .logo {
+    top: 0;
+    position: absolute;
 }

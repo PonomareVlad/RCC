@@ -194,7 +194,17 @@ export class App extends LitElement {
                 )}
             </main>
             <div class="low-resolution">
-                <h1>Поверните экран</h1>
+                <div class="background">
+                    <div class="decorations"></div>
+                </div>
+                <picture class="logo">
+                    <img src="/images/logo.svg" alt="RCC EXTREME">
+                </picture>
+                <h1>
+                    <mark>Поверните</mark>
+                    <br>
+                    экран
+                </h1>
             </div>
             <slot name="state"></slot>
         `;
@@ -333,7 +343,7 @@ export class App extends LitElement {
                     <span>Чтобы участвовать в голосовании</span>
                     <span>за артистов и розыгрыше ярких призов!</span>
                 </p>
-                <div>
+                <div class="controls">
                     ${when(
                             this.maybeSubscribed,
                             () => html`
