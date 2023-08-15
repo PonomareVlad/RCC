@@ -7,7 +7,7 @@ export function* template({title, body}) {
     <head>
         <meta charset="UTF-8">
         <title>${title}</title>
-        <meta content="#000000" name="theme-color">
+        <meta content="#070707" name="theme-color">
         <meta content="ie=edge" http-equiv="X-UA-Compatible">
         <meta content="yes" name="apple-mobile-web-app-capable">
         <meta content="viewport-fit=cover, width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"

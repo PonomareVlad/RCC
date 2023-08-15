@@ -2,6 +2,28 @@
 
     --decorations-display: none;
 
+    --section-horizontal-padding: var(--lines-padding);
+    --section-width: calc(100% - (var(--section-horizontal-padding) * 2));
+
+    --variants-padding-top: calc(var(--vpx) * 200);
+    --variants-padding-bottom: calc(var(--vpx) * 58);
+    --variants-height: calc(
+            var(--page-height)
+            -
+            var(--variants-padding-top)
+            -
+            var(--variants-padding-bottom)
+    );
+
+    --variant-height: calc(var(--vpx) * (492 + 62));
+    --variant-background-min-height: calc(
+            var(--background-height)
+            -
+            var(--variants-padding-top)
+            -
+            var(--variants-padding-bottom)
+    );
+
 }
 
 .vote .background .decorations {
@@ -9,31 +31,54 @@
 }
 
 .variants {
+    width: 100%;
     display: flex;
-    position: absolute;
+    position: relative;
     align-items: flex-end;
-    justify-content: center;
+    justify-content: stretch;
+    height: var(--variants-height);
+
+}
+
+.variants.columns {
+
     gap: calc(var(--vpx) * 20);
-    top: calc(var(--vpx) * 200);
-    height: calc(100vh - (var(--vpx) * 258));
+
+}
+
+.variants.grid {
+
 }
 
 .variants .variant {
+    width: 100%;
+    height: 100%;
     display: flex;
     overflow: hidden;
     position: relative;
     align-items: center;
     flex-direction: column;
     justify-content: flex-end;
-    width: calc(var(--vpx) * 158);
-    height: 100%;
+    max-height: var(--variant-height);
 }
 
-.variants .variant picture {
+.variants .variant .background {
+    all: initial;
+    top: 0;
     z-index: -1;
-    width: 100%;
-    height: 100%;
+    display: flex;
+    overflow: hidden;
     position: absolute;
+    align-items: center;
+    flex-direction: column;
+    justify-content: flex-end;
+    height: calc(var(--vpx) * 492);
+    min-height: calc(var(--vpx) * 492);
+}
+
+.variants .variant picture img {
+    all: initial;
+    height: calc(var(--vpx) * 492);
 }
 
 .variants .variant picture img {
@@ -45,13 +90,10 @@
     font-size: calc(var(--vpx) * 18);
 }
 
-.vote button {
-    z-index: 10;
-    cursor: pointer;
-    text-align: center;
-    pointer-events: auto;
-    width: calc(var(--vpx) * 157);
+.variants .variant button {
+    width: 100%;
     height: calc(var(--vpx) * 62);
+    font-size: calc(var(--vpx) * 16);
     margin-top: calc(var(--vpx) * 16);
     border-radius: calc(var(--vpx) * 5);
 }

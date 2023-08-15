@@ -5,7 +5,7 @@
     --page-height: 100%;
     --page-overflow: hidden;
     --page-touch-action: none;
-    --page-background-color: black;
+    --page-background-color: #070707;
 
     --background-height: calc(var(--vpx) * 812);
 
