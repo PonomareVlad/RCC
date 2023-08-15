@@ -1,11 +1,11 @@
-import {accounts, stages, rounds, votes} from "./db.mjs";
+import {accounts, rounds, stages, votes} from "./db.mjs";
 import {apiRequest} from "./utils.mjs";
 
 const groups = JSON.parse(process.env.groups);
 const group_id = parseInt(process.env.group_id);
 
 function groupVotes(variants = [], {choice}) {
-    const index = choice - 1;
+    const index = choice;
     if (!variants[index])
         variants[index] = 0;
     variants[index]++;
@@ -18,7 +18,7 @@ export async function getActiveRounds() {
         if (!activeRounds.length) return;
         const roundsData = await rounds.find({name: {$in: activeRounds}}).toArray();
         if (!roundsData.length) return;
-        const roundsWithCount = await Promise.all(roundsData.map(async data => {
+        return await Promise.all(roundsData.map(async data => {
             const {name: round} = data;
             const roundVotes = await votes.find({round}).toArray();
             const votesCount = roundVotes.reduce(groupVotes, []);
@@ -28,7 +28,6 @@ export async function getActiveRounds() {
             );
             return data;
         }));
-        return {rounds: roundsWithCount, date: new Date()};
     } catch (e) {
         console.error(e);
     }
@@ -59,7 +58,8 @@ export async function auth({uuid, token}) {
 }
 
 export async function vote({uuid, token, round, choice} = {}) {
-    if (!uuid || !token || !round || !choice) throw new Error("Bad request");
+    if (!uuid || !token || !round || typeof choice !== "number")
+        throw new Error("Bad request");
     const [targetStage, targetRound, account] = await Promise.all([
         stages.findOne({rounds: {$in: [round]}, active: true}),
         rounds.findOne({name: round}),

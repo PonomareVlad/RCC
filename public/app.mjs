@@ -252,72 +252,90 @@ export class App extends LitElement {
                 <picture class="logo">
                     <img src="/images/logo.svg" alt="RCC EXTREME">
                 </picture>
-                <h1>
-                    ${when(
-                            this.account &&
-                            this.account.choices &&
-                            this.account.choices[this.round._id],
-                            () => html`
-                                <span>CПАСИБО</span>
-                                <span>ЗА ГОЛОС!</span>
-                            `,
-                            () => this.round.title
-                    )}
-                </h1>
-                <p>
-                    ${when(
-                            this.account &&
-                            this.account.choices &&
-                            this.account.choices[this.round._id],
-                            () => html`
-                                <span>Следите за результатами</span>
-                                <span>голосования онлайн!</span>
-                            `,
-                            () => html`
-                                <span>Проголосуйте за артиста,</span>
-                                <span>чтобы увидеть результаты</span>
-                            `
-                    )}
-                </p>
-                <div class=${classMap({
-                    variants: true,
-                    results:
-                            this.account &&
-                            this.account.choices &&
-                            this.account.choices[this.round._id]
-                })}>
-                    ${map(
-                            (this.round.variants),
-                            ({name, button, result, image}, index) => html`
-                                <div class="side">
-                                    <div class="background">
-                                        <picture>
-                                            ${this.renderPicture({
-                                                img: {src: image, width: 512, alt: name},
-                                                sources: [{width: 1024, media: "(min-width: 1024px)"}]
-                                            })}
-                                        </picture>
-                                    </div>
-                                    <h2 class="name">${name}</h2>
-                                    <button class=${classMap({
-                                        selected: index + 1 === (
-                                                this.account &&
-                                                this.account.choices &&
-                                                this.account.choices[this.round._id]
-                                        )
-                                    })} @click=${this.vote.bind(this, this.round._id, index + 1)}>
-                                        ${when(
-                                                this.account &&
-                                                this.account.choices &&
-                                                this.account.choices[this.round._id],
-                                                () => this.percentNumber.format(result),
-                                                () => button,
-                                        )}
-                                    </button>
-                                </div>
-                            `
-                    )}
-                </div>
+                ${when(
+                        this.rounds.length === 1,
+                        ([{name: id, title, variants = []}] = this.rounds) => html`
+                            <h1>
+                                ${when(
+                                        this.account &&
+                                        this.account.choices &&
+                                        this.account.choices[id] !== undefined,
+                                        () => html`
+                                            <span>CПАСИБО</span>
+                                            <span>ЗА ГОЛОС!</span>
+                                        `,
+                                        () => title
+                                )}
+                            </h1>
+                            <p>
+                                ${when(
+                                        this.account &&
+                                        this.account.choices &&
+                                        this.account.choices[id] !== undefined,
+                                        () => html`
+                                            <span>Следите за результатами</span>
+                                            <span>голосования онлайн!</span>
+                                        `,
+                                        () => html`
+                                            <span>Проголосуйте за своего фаворита</span>
+                                        `
+                                )}
+                            </p>
+                            ${choose(
+                                    variants.length,
+                                    [
+                                        [2, () => html`
+                                            <div class=${classMap({
+                                                variants: true,
+                                                results:
+                                                        this.account &&
+                                                        this.account.choices &&
+                                                        this.account.choices[id] !== undefined
+                                            })}>
+                                                ${map(
+                                                        variants,
+                                                        ({name, result, image}, index) => html`
+                                                            <div class="variant">
+                                                                <picture>
+                                                                    ${this.renderPicture({
+                                                                        img: {src: image, width: 512, alt: name},
+                                                                        sources: [
+                                                                            {width: 1024, media: "(min-width: 1024px)"}
+                                                                        ]
+                                                                    })}
+                                                                </picture>
+                                                                <h2 class="name">${name}</h2>
+                                                                <button
+                                                                        @click=${this.vote.bind(this, id, index)}
+                                                                        class=${classMap({
+                                                                            selected: index === (
+                                                                                    this.account &&
+                                                                                    this.account.choices &&
+                                                                                    this.account.choices[id]
+                                                                            )
+                                                                        })}
+                                                                >
+                                                                    ${when(
+                                                                            this.account &&
+                                                                            this.account.choices &&
+                                                                            this.account.choices[id] !== undefined,
+                                                                            () => this.percentNumber.format(result),
+                                                                            () => "Голосовать",
+                                                                    )}
+                                                                </button>
+                                                            </div>
+                                                        `
+                                                )}
+                                            </div>
+                                        `],
+                                        [4, () => html``],
+                                    ]
+                            )}
+                        `,
+                        () => html`
+                            <h1></h1>
+                        `,
+                )}
             </section>
         `
     }

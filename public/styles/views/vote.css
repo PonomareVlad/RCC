@@ -1,0 +1,66 @@
+.vote {
+
+    --decorations-display: none;
+
+}
+
+.vote .background .decorations {
+    display: var(--decorations-display);
+}
+
+.variants {
+    display: flex;
+    position: absolute;
+    align-items: flex-end;
+    justify-content: center;
+    gap: calc(var(--vpx) * 20);
+    top: calc(var(--vpx) * 200);
+    height: calc(100vh - (var(--vpx) * 258));
+}
+
+.variants .variant {
+    display: flex;
+    overflow: hidden;
+    position: relative;
+    align-items: center;
+    flex-direction: column;
+    justify-content: flex-end;
+    width: calc(var(--vpx) * 158);
+    height: 100%;
+}
+
+.variants .variant picture {
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+}
+
+.variants .variant picture img {
+    object-position: bottom;
+    object-fit: cover;
+}
+
+.variants .variant .name {
+    font-size: calc(var(--vpx) * 18);
+}
+
+.vote button {
+    z-index: 10;
+    cursor: pointer;
+    text-align: center;
+    pointer-events: auto;
+    width: calc(var(--vpx) * 157);
+    height: calc(var(--vpx) * 62);
+    margin-top: calc(var(--vpx) * 16);
+    border-radius: calc(var(--vpx) * 5);
+}
+
+.variants.results .variant button {
+    font-size: calc(var(--vpx) * 24);;
+}
+
+.variants.results .variant button:not(.selected) {
+    border: 1px solid #777;
+    background: unset;
+}
