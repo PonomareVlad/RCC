@@ -112,7 +112,7 @@ and (min-width: 750px) {
         --logo-padding: calc(var(--vpx) * 60);
 
         --header-padding: calc(var(--vpx) * 57);
-        --header-font-size: calc(var(--vpx) * 48);
+        --header-font-size: calc(var(--vpx) * 42);
 
         --paragraph-padding: calc(var(--vpx) * 8);
         --paragraph-font-size: calc(var(--vpx) * 20);

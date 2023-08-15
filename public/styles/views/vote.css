@@ -12,7 +12,50 @@
     --variants-height: calc(var(--page-height) - var(--variants-padding-top) - var(--variants-padding-bottom));
 
     --variant-height: calc(var(--vpx) * (492 + 62));
-    --variant-background-min-height: calc(var(--background-height) - var(--variants-padding-top) - var(--variants-padding-bottom));
+    /*--variant-background-min-height: calc(var(--background-height) - var(--variants-padding-top) - var(--variants-padding-bottom));*/
+
+    --variants-gap: calc(var(--vpx) * 20);
+    --variants-vertical-gap: calc(var(--vpx) * 32);
+
+    --variant-background-min-height: calc(var(--vpx) * 492);
+    --variant-grid-background-min-height: calc(var(--vpx) * 187);
+
+    --variant-button-padding: calc(var(--vpx) * 16);
+
+    --variants-margin-top: calc(var(--vpx) * 23);
+
+}
+
+@media (orientation: portrait)
+and (min-width: 750px) {
+
+    .vote {
+
+        --variants-padding-top: calc(var(--vpx) * 290);
+        --variants-padding-bottom: calc(var(--vpx) * 83);
+
+        --section-horizontal-padding: calc(var(--vpx) * 95);
+
+        --variant-height: calc(var(--vpx) * (759 + 62));
+
+        --variants-gap: calc(var(--vpx) * 69);
+
+        --variant-background-min-height: calc(var(--vpx) * 759);
+        --variant-grid-background-min-height: calc(var(--vpx) * 306);
+
+        --variant-button-padding: calc(var(--vpx) * 26);
+
+        --variants-margin-top: calc(var(--vpx) * 32);
+
+    }
+
+}
+
+@media (orientation: landscape) {
+
+    .vote {
+
+    }
 
 }
 
@@ -27,19 +70,20 @@
     align-items: flex-end;
     justify-content: stretch;
     height: var(--variants-height);
+    margin-top: var(--variants-margin-top);
 
 }
 
 .variants.columns {
 
-    gap: calc(var(--vpx) * 20);
+    gap: var(--variants-gap);
 
 }
 
 .variants.grid {
     flex-wrap: wrap;
-    row-gap: calc(var(--vpx) * 32);
-    column-gap: calc(var(--vpx) * 20);
+    column-gap: var(--variants-gap);
+    row-gap: var(--variants-vertical-gap);
 }
 
 .variants .variant {
@@ -55,25 +99,26 @@
 }
 
 .variants.grid .variant {
-    max-height: calc(var(--vpx) * 260);
-    width: calc(50% - calc(var(--vpx) * 10));
+    /*max-height: calc(var(--vpx) * 260);*/
+    width: calc((100% - var(--variants-gap)) / 2);
 }
 
 .variants.grid.full .variant {
-    height: calc(50% - calc(var(--vpx) * 16));
+    height: calc((100% - var(--variants-vertical-gap)) / 2);
 }
 
 .rounds {
     --variants-padding-top: calc(var(--vpx) * 124);
     --variants-height: calc(var(--page-height) - var(--variants-padding-top) - var(--variants-padding-bottom));
+    width: 100%;
     display: flex;
     position: relative;
     align-items: stretch;
     flex-direction: column;
     justify-content: stretch;
     height: var(--variants-height);
-    row-gap: calc(var(--vpx) * 32);
     margin-top: var(--header-padding);
+    row-gap: var(--variants-vertical-gap);
 }
 
 .rounds .round {
@@ -96,25 +141,27 @@
 .variants .variant .background {
     all: initial;
     top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     z-index: -1;
+    height: 100%;
     display: flex;
     overflow: hidden;
     position: absolute;
     align-items: center;
     flex-direction: column;
     justify-content: flex-end;
-    height: calc(var(--vpx) * 492);
-    min-height: calc(var(--vpx) * 492);
+    min-height: var(--variant-grid-background-min-height);
+}
+
+.variants .variant picture {
+    height: 100%;
 }
 
 .variants .variant picture img {
     all: initial;
-    height: calc(var(--vpx) * 492);
-}
-
-.variants .variant picture img {
-    object-position: bottom;
-    object-fit: cover;
+    height: 100%;
 }
 
 .variants .variant .name {
@@ -125,7 +172,7 @@
     width: 100%;
     height: calc(var(--vpx) * 62);
     font-size: calc(var(--vpx) * 16);
-    margin-top: calc(var(--vpx) * 16);
+    margin-top: var(--variant-button-padding);
     border-radius: calc(var(--vpx) * 5);
 }
 

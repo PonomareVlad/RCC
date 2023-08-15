@@ -334,13 +334,7 @@ export class App extends LitElement {
                                                         } = {}
                                                 ) => html`
                                                     <div class="round">
-                                                        <h1>
-                                                            ${when(
-                                                                    this.hasChoice(round),
-                                                                    () => "CПАСИБО ЗА ГОЛОС!",
-                                                                    () => title
-                                                            )}
-                                                        </h1>
+                                                        <h1>${title}</h1>
                                                         <div class=${classMap({
                                                             grid: true,
                                                             variants: true,
