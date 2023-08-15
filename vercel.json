@@ -6,6 +6,7 @@
     }
   ],
   "installCommand": "npm ci --omit=dev",
+  "buildCommand": "node scripts/build.mjs",
   "github": {
     "silent": true
   }
