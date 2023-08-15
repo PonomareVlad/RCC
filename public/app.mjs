@@ -67,7 +67,7 @@ export class App extends LitElement {
         return {
             cdn: {type: String},
             host: {type: String},
-            round: {state: true},
+            rounds: {state: true},
             _account: {state: true},
             _session: {state: true},
             maybeSubscribed: {state: true},
@@ -152,7 +152,7 @@ export class App extends LitElement {
 
     init() {
         const {state} = this;
-        if (state) this.round = state.round;
+        if (state) this.rounds = state.rounds;
         this.images = new VercelImageGenerator(this);
     }
 
@@ -188,7 +188,10 @@ export class App extends LitElement {
         ) {
             if (!account.subscribed)
                 view = "subscribe";
-            else if (!this.round)
+            else if (
+                !this.rounds ||
+                !this.rounds.length
+            )
                 view = "countdown";
             else
                 view = "vote";
@@ -241,95 +244,82 @@ export class App extends LitElement {
     }
 
     voteView() {
-        return when(
-            this.round,
-            () => html`
-                <div class="background">
-                    <div class="decorations"></div>
-                </div>
-                <section>
-                    <picture class="logo">
-                        <img src="/images/logo.svg" alt="RCC EXTREME">
-                    </picture>
-                    <h1>
-                        ${when(
-                                this.account &&
-                                this.account.choices &&
-                                this.account.choices[this.round._id],
-                                () => html`
-                                    <span>CПАСИБО</span>
-                                    <span>ЗА ГОЛОС!</span>
-                                `,
-                                () => this.round.title
-                        )}
-                    </h1>
-                    <p>
-                        ${when(
-                                this.account &&
-                                this.account.choices &&
-                                this.account.choices[this.round._id],
-                                () => html`
-                                    <span>Следите за результатами</span>
-                                    <span>голосования онлайн!</span>
-                                `,
-                                () => html`
-                                    <span>Проголосуйте за артиста,</span>
-                                    <span>чтобы увидеть результаты</span>
-                                `
-                        )}
-                    </p>
-                    <div class=${classMap({
-                        variants: true,
-                        results:
-                                this.account &&
-                                this.account.choices &&
-                                this.account.choices[this.round._id]
-                    })}>
-                        ${map(
-                                (this.round.variants),
-                                ({name, button, result, image}, index) => html`
-                                    <div class="side">
-                                        <div class="background">
-                                            <picture>
-                                                ${this.renderPicture({
-                                                    img: {src: image, width: 512, alt: name},
-                                                    sources: [{width: 1024, media: "(min-width: 1024px)"}]
-                                                })}
-                                            </picture>
-                                        </div>
-                                        <h2 class="name">${name}</h2>
-                                        <button class=${classMap({
-                                            selected: index + 1 === (
-                                                    this.account &&
-                                                    this.account.choices &&
-                                                    this.account.choices[this.round._id]
-                                            )
-                                        })} @click=${this.vote.bind(this, this.round._id, index + 1)}>
-                                            ${when(
-                                                    this.account &&
-                                                    this.account.choices &&
-                                                    this.account.choices[this.round._id],
-                                                    () => this.percentNumber.format(result),
-                                                    () => button,
-                                            )}
-                                        </button>
+        return html`
+            <div class="background">
+                <div class="decorations"></div>
+            </div>
+            <section>
+                <picture class="logo">
+                    <img src="/images/logo.svg" alt="RCC EXTREME">
+                </picture>
+                <h1>
+                    ${when(
+                            this.account &&
+                            this.account.choices &&
+                            this.account.choices[this.round._id],
+                            () => html`
+                                <span>CПАСИБО</span>
+                                <span>ЗА ГОЛОС!</span>
+                            `,
+                            () => this.round.title
+                    )}
+                </h1>
+                <p>
+                    ${when(
+                            this.account &&
+                            this.account.choices &&
+                            this.account.choices[this.round._id],
+                            () => html`
+                                <span>Следите за результатами</span>
+                                <span>голосования онлайн!</span>
+                            `,
+                            () => html`
+                                <span>Проголосуйте за артиста,</span>
+                                <span>чтобы увидеть результаты</span>
+                            `
+                    )}
+                </p>
+                <div class=${classMap({
+                    variants: true,
+                    results:
+                            this.account &&
+                            this.account.choices &&
+                            this.account.choices[this.round._id]
+                })}>
+                    ${map(
+                            (this.round.variants),
+                            ({name, button, result, image}, index) => html`
+                                <div class="side">
+                                    <div class="background">
+                                        <picture>
+                                            ${this.renderPicture({
+                                                img: {src: image, width: 512, alt: name},
+                                                sources: [{width: 1024, media: "(min-width: 1024px)"}]
+                                            })}
+                                        </picture>
                                     </div>
-                                `
-                        )}
-                    </div>
-                </section>
-            `,
-            () => html`
-                <section>
-                    <picture class="logo">
-                        <img src="/images/logo.svg" alt="RCC EXTREME">
-                    </picture>
-                    <h1>Голосование
-                        <mark>скоро</mark>
-                        начнется
-                    </h1>
-                </section>`
-        )
+                                    <h2 class="name">${name}</h2>
+                                    <button class=${classMap({
+                                        selected: index + 1 === (
+                                                this.account &&
+                                                this.account.choices &&
+                                                this.account.choices[this.round._id]
+                                        )
+                                    })} @click=${this.vote.bind(this, this.round._id, index + 1)}>
+                                        ${when(
+                                                this.account &&
+                                                this.account.choices &&
+                                                this.account.choices[this.round._id],
+                                                () => this.percentNumber.format(result),
+                                                () => button,
+                                        )}
+                                    </button>
+                                </div>
+                            `
+                    )}
+                </div>
+            </section>
+        `
     }
 
     subscribeView() {
@@ -445,7 +435,7 @@ export class App extends LitElement {
     }
 
     async vote(round, choice) {
-        this.abortSignals("round", "account");
+        this.abortSignals("rounds", "account");
         this.account = {
             ...this.account,
             choices: {
@@ -461,7 +451,7 @@ export class App extends LitElement {
     updateStates() {
         return Promise.all([
             this.updateAccountState(),
-            this.updateRoundState(),
+            this.updateRoundsState(),
         ]);
     }
 
@@ -477,14 +467,14 @@ export class App extends LitElement {
         return this.account = account;
     }
 
-    async updateRoundState() {
-        const signal = this.replaceSignal("round");
-        return this.round = await this.callApi("round", undefined, signal);
+    async updateRoundsState() {
+        const signal = this.replaceSignal("rounds");
+        return this.rounds = await this.callApi("rounds", undefined, signal);
     }
 
     scheduleUpdateRoundState(timeout = 5000) {
         setTimeout(() =>
-                this.updateRoundState()
+                this.updateRoundsState()
                     .catch(this.logger.error)
                     .then(this.scheduleUpdateRoundState.bind(this, timeout)),
             timeout);

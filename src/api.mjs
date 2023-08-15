@@ -1,17 +1,8 @@
-import {accounts, rounds, votes} from "./db.mjs";
+import {accounts, stages, rounds, votes} from "./db.mjs";
 import {apiRequest} from "./utils.mjs";
-import {ObjectId} from "bson";
 
 const groups = JSON.parse(process.env.groups);
 const group_id = parseInt(process.env.group_id);
-
-const activeRoundQuery = {
-    complete: {
-        $not: {
-            $in: [true]
-        }
-    }
-};
 
 function groupVotes(variants = [], {choice}) {
     const index = choice - 1;
@@ -21,19 +12,23 @@ function groupVotes(variants = [], {choice}) {
     return variants;
 }
 
-export async function getLastRound() {
+export async function getActiveRounds() {
     try {
-        const [data] =
-            await rounds.find(activeRoundQuery).sort({_id: 1}).limit(1).toArray();
-        if (!data) return;
-        const {_id: round} = data;
-        const roundVotes = await votes.find({round}).toArray();
-        const votesCount = roundVotes.reduce(groupVotes, []);
-        const results = votesCount.map(count => count / roundVotes.length);
-        if (Array.isArray(data.variants)) data.variants.forEach(
-            (variant = {}, index) => variant.result = results[index] || 0
-        );
-        return {...data, date: new Date()};
+        const {rounds: activeRounds = []} = await stages.findOne({active: true});
+        if (!activeRounds.length) return;
+        const roundsData = await rounds.find({name: {$in: activeRounds}}).toArray();
+        if (!roundsData.length) return;
+        const roundsWithCount = await Promise.all(roundsData.map(async data => {
+            const {name: round} = data;
+            const roundVotes = await votes.find({round}).toArray();
+            const votesCount = roundVotes.reduce(groupVotes, []);
+            const results = votesCount.map(count => count / roundVotes.length);
+            if (Array.isArray(data.variants)) data.variants.forEach(
+                (variant = {}, index) => variant.result = results[index] || 0
+            );
+            return data;
+        }));
+        return {rounds: roundsWithCount, date: new Date()};
     } catch (e) {
         console.error(e);
     }
@@ -65,12 +60,13 @@ export async function auth({uuid, token}) {
 
 export async function vote({uuid, token, round, choice} = {}) {
     if (!uuid || !token || !round || !choice) throw new Error("Bad request");
-    const [targetRound, account] = await Promise.all([
-        rounds.findOne({...activeRoundQuery, _id: new ObjectId(round)}),
+    const [targetStage, targetRound, account] = await Promise.all([
+        stages.findOne({rounds: {$in: [round]}, active: true}),
+        rounds.findOne({name: round}),
         accounts.findOne({uuid, token}),
     ]);
     const {phone} = account;
-    if (!phone || !targetRound)
+    if (!targetStage || !targetRound || !phone)
         throw new Error("Wrong parameters");
     const subscribed = await isMember(account);
     if (!subscribed)

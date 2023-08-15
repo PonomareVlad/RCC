@@ -1,6 +1,6 @@
 import {renderLight} from "@lit-labs/ssr-client/directives/render-light.js";
 import {stream} from "lit-edge-utils/render.mjs";
-import {getLastRound} from "../src/api.mjs";
+import {getActiveRounds} from "../src/api.mjs";
 import {template} from "../public/page.mjs";
 import {App} from "../public/app.mjs";
 import {render} from "@lit-labs/ssr";
@@ -26,7 +26,7 @@ async function renderPromise(request) {
             headers?.get?.(header) :
             headers[header];
     const state = {
-        round: await getLastRound()
+        rounds: await getActiveRounds()
     };
     return render(html`
         <app-root
