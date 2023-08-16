@@ -1,10 +1,19 @@
 import {LitElement, html, css} from "lit";
 
+const msPerSecond = 1000;
+const msPerMinute = msPerSecond * 60;
+const msPerHour = msPerMinute * 60;
+const msPerDay = msPerHour * 24;
+
 export class Countdown extends LitElement {
 
     static get properties() {
         return {
-            timestamp: {type: Number},
+            days: {state: true},
+            hours: {state: true},
+            minutes: {state: true},
+            seconds: {state: true},
+            timestamp: {type: Number, reflect: true},
         }
     }
 
@@ -20,6 +29,7 @@ export class Countdown extends LitElement {
           }
 
           span {
+            font-variant-numeric: tabular-nums;
             display: inline-flex;
             flex-direction: column;
             align-items: center;
@@ -42,20 +52,47 @@ export class Countdown extends LitElement {
         customElements.define(tag, this);
     }
 
+    connectedCallback() {
+        super.connectedCallback();
+        this.timer = setInterval(() => {
+            if (
+                !this.timestamp ||
+                (this.timestamp - Date.now() < 0)
+            ) return;
+            let rest = Math.abs(this.timestamp - Date.now());
+            this.days = Math.floor(rest / msPerDay);
+            rest -= this.days * msPerDay;
+            this.hours = Math.floor(rest / msPerHour);
+            rest -= this.hours * msPerHour;
+            this.minutes = Math.floor(rest / msPerMinute);
+            rest -= this.minutes * msPerMinute;
+            this.seconds = Math.floor(rest / msPerSecond);
+            this.requestUpdate();
+        }, 1000);
+    }
+
+    disconnectedCallback() {
+        super.disconnectedCallback();
+        clearInterval(this.timer);
+        this.timer = undefined;
+    }
+
     render() {
-        const days = "00";
-        const hours = "00";
-        const minutes = "00";
-        const seconds = "00";
+        const {
+            days = 0,
+            hours = 0,
+            minutes = 0,
+            seconds = 0,
+        } = this;
         return html`
             <time>
-                <span id="days" title="Дней">${days}</span>
+                <span id="days" title="Дней">${days.toString().padStart(2, "0")}</span>
                 :
-                <span id="hours" title="Часов">${hours}</span>
+                <span id="hours" title="Часов">${hours.toString().padStart(2, "0")}</span>
                 :
-                <span id="minutes" title="Минут">${minutes}</span>
+                <span id="minutes" title="Минут">${minutes.toString().padStart(2, "0")}</span>
                 :
-                <span id="seconds" title="Секунд">${seconds}</span>
+                <span id="seconds" title="Секунд">${seconds.toString().padStart(2, "0")}</span>
             </time>
         `
     }

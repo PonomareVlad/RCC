@@ -9,6 +9,7 @@ import {when} from "lit/directives/when.js";
 import {cache} from "lit/directives/cache.js";
 import {choose} from "lit/directives/choose.js";
 import {classMap} from "lit/directives/class-map.js";
+import {ifDefined} from "lit/directives/if-defined.js";
 import {unsafeHTML} from "lit/directives/unsafe-html.js";
 import {Config, Connect, ConnectEvents} from "@vkontakte/superappkit";
 import {VercelImageGenerator} from "./generator.mjs";
@@ -70,6 +71,7 @@ export class App extends LitElement {
             rounds: {state: true},
             _account: {state: true},
             _session: {state: true},
+            countdown: {type: Number},
             maybeSubscribed: {state: true},
             appId: {type: Number, attribute: "app-id"},
             groupId: {type: Number, attribute: "group-id"},
@@ -417,9 +419,10 @@ export class App extends LitElement {
                     НАЧНЕТСЯ!
                 </h1>
                 <div class="controls">
-                    <app-countdown></app-countdown>
+                    <app-countdown timestamp="${ifDefined(this.countdown)}"></app-countdown>
                 </div>
-            </section>`
+            </section>
+        `
     }
 
     getChoice(round) {
