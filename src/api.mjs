@@ -12,22 +12,33 @@ function groupVotes(variants = [], {choice}) {
     return variants;
 }
 
+export async function getRoundResults(data) {
+    const {name: round} = data;
+    const roundVotes = await votes.find({round}).toArray();
+    const votesCount = roundVotes.reduce(groupVotes, []);
+    const results = votesCount.map(count => count / roundVotes.length);
+    if (Array.isArray(data.variants)) data.variants.forEach(
+        (variant = {}, index) => variant.result = results[index] || 0
+    );
+    return data;
+}
+
+export function getRound(name) {
+    try {
+        if (!name) return;
+        return rounds.findOne({name}).then(getRoundResults);
+    } catch (e) {
+        console.error(e);
+    }
+}
+
 export async function getActiveRounds() {
     try {
         const {rounds: activeRounds = []} = await stages.findOne({active: true}) || {};
         if (!activeRounds.length) return [];
         const roundsData = await rounds.find({name: {$in: activeRounds}}).toArray();
         if (!roundsData.length) return [];
-        return await Promise.all(roundsData.map(async data => {
-            const {name: round} = data;
-            const roundVotes = await votes.find({round}).toArray();
-            const votesCount = roundVotes.reduce(groupVotes, []);
-            const results = votesCount.map(count => count / roundVotes.length);
-            if (Array.isArray(data.variants)) data.variants.forEach(
-                (variant = {}, index) => variant.result = results[index] || 0
-            );
-            return data;
-        }));
+        return await Promise.all(roundsData.map(getRoundResults));
     } catch (e) {
         console.error(e);
     }

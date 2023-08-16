@@ -3,6 +3,10 @@
     {
       "source": "/",
       "destination": "api/index"
+    },
+    {
+      "source": "/api/round/:round",
+      "destination": "/api/round"
     }
   ],
   "installCommand": "npm ci --omit=dev",
