@@ -14,10 +14,10 @@ function groupVotes(variants = [], {choice}) {
 
 export async function getActiveRounds() {
     try {
-        const {rounds: activeRounds = []} = await stages.findOne({active: true});
-        if (!activeRounds.length) return;
+        const {rounds: activeRounds = []} = await stages.findOne({active: true}) || {};
+        if (!activeRounds.length) return [];
         const roundsData = await rounds.find({name: {$in: activeRounds}}).toArray();
-        if (!roundsData.length) return;
+        if (!roundsData.length) return [];
         return await Promise.all(roundsData.map(async data => {
             const {name: round} = data;
             const roundVotes = await votes.find({round}).toArray();

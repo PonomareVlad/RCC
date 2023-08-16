@@ -1,10 +1,12 @@
-import {jsonResponse} from "../src/utils.mjs";
+import {hostFromRequest, jsonResponse} from "../src/utils.mjs";
+import {data} from "../src/test.mjs";
 import {auth} from "../src/api.mjs";
 
 export const config = {runtime: "edge"};
 
 export default async request => {
     try {
+        if (hostFromRequest(request) === "localhost") return jsonResponse(data.auth);
         return jsonResponse({ok: true, ...await auth(await request.json())});
     } catch ({message: error}) {
         console.debug(error);

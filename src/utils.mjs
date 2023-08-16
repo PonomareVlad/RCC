@@ -26,3 +26,8 @@ export async function apiRequest(method, payload = {}) {
     const {response} = await fetch(url).then(r => r.json());
     return response;
 }
+
+export const hostFromRequest = (
+    {headers} = {},
+    header = "x-forwarded-host"
+) => headers.get(header);
