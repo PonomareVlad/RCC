@@ -1,19 +1,22 @@
+import Papa from "papaparse";
 import {ObjectId} from "bson";
-import {Bot, Keyboard} from "grammy";
+import {Bot, InputFile, Keyboard} from "grammy";
 import {accounts, stages, rounds, votes} from "./db.mjs";
 
 export const {
-
-    // Telegram bot token from t.me/BotFather
     TELEGRAM_BOT_TOKEN: token,
-
-    // Secret token to validate incoming updates
     TELEGRAM_SECRET_TOKEN: secretToken = String(token).split(":").pop()
-
 } = process.env;
 
-// Default grammY bot instance
 export const bot = new Bot(token);
+
+const columns = {
+    last_name: "Фамилия",
+    first_name: "Имя",
+    phone: "Телефон",
+    email: "Email",
+    link: "VK"
+};
 
 bot.command("rounds", async ctx => {
     await ctx.replyWithChatAction("typing");
@@ -21,6 +24,38 @@ bot.command("rounds", async ctx => {
     const stagesData = await rounds.find().toArray();
     const links = stagesData.map(({name = ""} = {}) => new URL(name, api));
     return ctx.reply(["Данные по всем раундам:", "", ...links].join("\r\n"));
+});
+
+bot.command("stats", async ctx => {
+    await ctx.replyWithChatAction("typing");
+    const [
+        votesData,
+        accountsData
+    ] = await Promise.all([
+        votes.find().toArray(),
+        accounts.find().toArray(),
+    ]);
+    return ctx.reply(`Статистика: 
+
+Количество голосов: ${votesData.length}
+Количество пользователей: ${accountsData.length}`);
+});
+
+bot.command("accounts", async ctx => {
+    await ctx.replyWithChatAction("upload_document");
+    const accountsData = await accounts.find().toArray();
+    const options = {columns: Object.keys(columns), header: false, delimiter: ";"};
+    const data = accountsData.map(
+        ({user_id, ...data} = {}) => ({...data, link: `https://vk.com/id${user_id}`})
+    );
+    const csv = new Blob([Papa.unparse([columns, ...data], options)]);
+    const file = new InputFile(csv.stream(), "accounts.csv");
+    const date = new Date();
+    const caption = [
+        date.toLocaleString("ru", {dateStyle: "short"}),
+        date.toLocaleString("ru", {timeStyle: "short"}),
+    ].join(" ");
+    return ctx.replyWithDocument(file, {caption});
 });
 
 bot.on("message:text", async (ctx, next) => {
