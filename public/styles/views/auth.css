@@ -48,6 +48,8 @@ and (min-width: 750px) {
 
         --decorations-min-height: calc(var(--vpx) * 2659);
 
+        --header-font-size: calc(var(--vpx) * 48);
+
         --overlay-display: none;
 
         --vk-position: static;
@@ -67,6 +69,8 @@ and (min-width: 750px) {
         --decorations-background-position: revert;
 
         --decorations-min-height: var(--page-height);
+
+        --header-font-size: calc(var(--vpx) * 48);
 
         --vk-position: static;
         --vk-padding: calc(var(--vpx) * 40);
