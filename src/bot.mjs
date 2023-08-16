@@ -1,6 +1,6 @@
 import {ObjectId} from "bson";
 import {Bot, Keyboard} from "grammy";
-import {accounts, stages, votes} from "./db.mjs";
+import {accounts, stages, rounds, votes} from "./db.mjs";
 
 export const {
 
@@ -14,6 +14,14 @@ export const {
 
 // Default grammY bot instance
 export const bot = new Bot(token);
+
+bot.command("rounds", async ctx => {
+    await ctx.replyWithChatAction("typing");
+    const api = `https://rcc-vote.ru/api/round/`;
+    const stagesData = await rounds.find().toArray();
+    const links = stagesData.map(({name = ""} = {}) => new URL(name, api));
+    return ctx.reply(["Данные по всем раундам:", "", ...links].join("\r\n"));
+});
 
 bot.on("message:text", async (ctx, next) => {
     await ctx.replyWithChatAction("typing");
