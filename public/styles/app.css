@@ -211,3 +211,7 @@ mark {
     top: 0;
     position: absolute;
 }
+
+iframe {
+    pointer-events: auto;
+}
