@@ -69,6 +69,7 @@ export class App extends LitElement {
             cdn: {type: String},
             host: {type: String},
             rounds: {state: true},
+            version: {type: String},
             _account: {state: true},
             _session: {state: true},
             countdown: {type: Number},

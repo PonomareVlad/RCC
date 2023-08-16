@@ -8,7 +8,14 @@ import {html} from "lit";
 
 App.define();
 
-const {cdn, appId, group_id, countdown} = process.env;
+const {
+    cdn,
+    appId,
+    version,
+    group_id,
+    countdown
+} = process.env;
+
 const headers = {
     "Content-Type": "text/html;charset=UTF-8",
     "Cache-Control": "s-maxage=1, stale-while-revalidate=59",
@@ -33,6 +40,7 @@ async function renderPromise(request) {
                 cdn="${cdn}"
                 host="${host}"
                 app-id="${appId}"
+                version="${version}"
                 group-id="${group_id}"
                 countdown="${countdown}"
                 ._state=${state}
