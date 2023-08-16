@@ -54,27 +54,30 @@ export class Countdown extends LitElement {
 
     connectedCallback() {
         super.connectedCallback();
-        this.timer = setInterval(() => {
-            if (
-                !this.timestamp ||
-                (this.timestamp - Date.now() < 0)
-            ) return;
-            let rest = Math.abs(this.timestamp - Date.now());
-            this.days = Math.floor(rest / msPerDay);
-            rest -= this.days * msPerDay;
-            this.hours = Math.floor(rest / msPerHour);
-            rest -= this.hours * msPerHour;
-            this.minutes = Math.floor(rest / msPerMinute);
-            rest -= this.minutes * msPerMinute;
-            this.seconds = Math.floor(rest / msPerSecond);
-            this.requestUpdate();
-        }, 1000);
+        this.timer = setInterval(this.updateTime.bind(this), 1000);
+        this.updateTime();
     }
 
     disconnectedCallback() {
         super.disconnectedCallback();
         clearInterval(this.timer);
         this.timer = undefined;
+    }
+
+    updateTime() {
+        if (
+            !this.timestamp ||
+            (this.timestamp - Date.now() < 0)
+        ) return;
+        let rest = Math.abs(this.timestamp - Date.now());
+        this.days = Math.floor(rest / msPerDay);
+        rest -= this.days * msPerDay;
+        this.hours = Math.floor(rest / msPerHour);
+        rest -= this.hours * msPerHour;
+        this.minutes = Math.floor(rest / msPerMinute);
+        rest -= this.minutes * msPerMinute;
+        this.seconds = Math.floor(rest / msPerSecond);
+        this.requestUpdate();
     }
 
     render() {
