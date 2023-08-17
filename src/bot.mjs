@@ -23,6 +23,7 @@ const columns = {
 
 const buttons = {
     resetStages: "Сброс этапов",
+    refresh: "Обновить статусы этапов"
 }
 
 bot.on("msg").drop(ctx => access.includes(ctx.chat.id), () => undefined);
