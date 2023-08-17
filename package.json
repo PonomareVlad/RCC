@@ -14,6 +14,7 @@
     "@lit-labs/ssr-client": "^1.1.2",
     "@lit-labs/task": "^2.1.2",
     "@ponomarevlad/local-storage-polyfill": "module",
+    "@roziscoding/grammy-autoquote": "^1.1.2",
     "@vkontakte/superappkit": "^1.60.4",
     "bson": "npm:@ponomarevlad/bson@5.3.0-edge.1",
     "grammy": "^1.17.1",

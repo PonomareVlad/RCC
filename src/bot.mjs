@@ -1,17 +1,21 @@
 import Papa from "papaparse";
 import {ObjectId} from "bson";
-import {Bot, InputFile, Keyboard} from "grammy";
+import {autoQuote} from "@roziscoding/grammy-autoquote";
 import {accounts, stages, rounds, votes} from "./db.mjs";
+import {Bot, InlineKeyboard, InputFile, Keyboard} from "grammy";
 
 export const {
     TELEGRAM_BOT_TOKEN: token,
     TELEGRAM_SECRET_TOKEN: secretToken = String(token).split(":").pop(),
     ACCESS_LIST: accessList = "[]",
+    editableRound: name = "",
+    host = "localhost",
 } = process.env;
 
-const access = JSON.parse(accessList);
-
-export const bot = new Bot(token);
+const buttons = {
+    resetStages: "Сброс этапов",
+    refresh: "Обновить статусы этапов"
+}
 
 const columns = {
     last_name: "Фамилия",
@@ -21,12 +25,58 @@ const columns = {
     link: "VK"
 };
 
-const buttons = {
-    resetStages: "Сброс этапов",
-    refresh: "Обновить статусы этапов"
-}
+const access = JSON.parse(accessList);
 
-bot.on("msg").drop(ctx => access.includes(ctx.chat.id), () => undefined);
+export const bot = new Bot(token);
+
+bot.use(autoQuote);
+
+bot.on("callback_query:data", async ctx => {
+    try {
+        const {
+            chat: {id} = {},
+            callbackQuery: {data} = {},
+            msg: {reply_to_message} = {},
+        } = ctx;
+        if (!access.includes(id))
+            return ctx.answerCallbackQuery();
+        const index = parseInt(data);
+        const file = getFileFromMessage(reply_to_message);
+        if (!file.file_id)
+            return ctx.answerCallbackQuery("Файл не найден");
+        const {
+            variants = []
+        } = await rounds.findOne({name}) || {};
+        if (!variants[index])
+            return ctx.answerCallbackQuery("Вариант не найден");
+        await replaceVariantImage(index, getFileURL(file));
+        const text = `Изображение установлено для варианта: ${variants[index].name}`;
+        await ctx.answerCallbackQuery("Изображение установлено");
+        return ctx.editMessageText(text);
+    } catch (e) {
+        console.error(e);
+        await ctx.answerCallbackQuery("Произошла ошибка");
+    }
+});
+
+bot.drop(ctx => access.includes(ctx.chat?.id), () => undefined);
+
+bot.on("msg:file", async ctx => {
+    await ctx.replyWithChatAction("typing");
+    const {
+        variants = []
+    } = await rounds.findOne({name}) || {};
+    if (!variants?.length)
+        return ctx.reply("Нет подходящих вариантов");
+    const buttons = variants.map(
+        ({name} = {}, index) =>
+            InlineKeyboard.text(name, String(index))
+    );
+    const reply_markup =
+        InlineKeyboard.from([buttons]).toFlowed(2);
+    const text = "Выберите вариант для этого изображения";
+    return ctx.reply(text, {reply_markup});
+});
 
 bot.command("rounds", async ctx => {
     await ctx.replyWithChatAction("typing");
@@ -89,7 +139,7 @@ bot.hears(buttons.resetStages, async ctx => {
     return ctx.reply(`Этапы сброшены`, {reply_markup});
 });
 
-bot.on("message:text", async ctx => {
+bot.on("msg:text", async ctx => {
     await ctx.replyWithChatAction("typing");
     const stages = await getStages();
     if (ctx.msg.text in stages) {
@@ -131,3 +181,28 @@ async function getKeyboard() {
     ];
     return Keyboard.from([targetButtons]).resized().persistent().toFlowed(2);
 }
+
+function replaceVariantImage(index, image) {
+    return rounds.updateOne({name}, {
+        $set: {
+            [`variants.${index}.image`]: image
+        }
+    });
+}
+
+function getFileURL({file_id, mime_type, file_name} = {}) {
+    let {href} = new URL(`https://${host}/api/telegram/${file_id}`);
+    if (mime_type) ({href} = new URL(mime_type, href + "/"));
+    if (file_name) ({href} = new URL(file_name, href + "/"));
+    return href;
+}
+
+const getFileFromMessage = (
+    {
+        photo = [],
+        document = photo.at(-1)
+    } = {}
+) => ({
+    mime_type: "image/jpeg",
+    ...document
+});
