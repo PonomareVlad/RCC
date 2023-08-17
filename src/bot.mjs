@@ -5,8 +5,11 @@ import {accounts, stages, rounds, votes} from "./db.mjs";
 
 export const {
     TELEGRAM_BOT_TOKEN: token,
-    TELEGRAM_SECRET_TOKEN: secretToken = String(token).split(":").pop()
+    TELEGRAM_SECRET_TOKEN: secretToken = String(token).split(":").pop(),
+    ACCESS_LIST: accessList = "[]",
 } = process.env;
+
+const access = JSON.parse(accessList);
 
 export const bot = new Bot(token);
 
@@ -17,6 +20,12 @@ const columns = {
     email: "Email",
     link: "VK"
 };
+
+const buttons = {
+    resetStages: "Сброс этапов",
+}
+
+bot.on("msg").drop(ctx => access.includes(ctx.chat.id), () => undefined);
 
 bot.command("rounds", async ctx => {
     await ctx.replyWithChatAction("typing");
@@ -58,37 +67,41 @@ bot.command("accounts", async ctx => {
     return ctx.replyWithDocument(file, {caption});
 });
 
-bot.on("message:text", async (ctx, next) => {
+bot.command("delete_votes", async ctx => {
+    await ctx.replyWithChatAction("typing");
+    await votes.deleteMany({});
+    const reply_markup = await getKeyboard();
+    return ctx.reply(`Все голоса удалены`, {reply_markup});
+});
+
+bot.command("delete_accounts", async ctx => {
+    await ctx.replyWithChatAction("typing");
+    await accounts.deleteMany({});
+    const reply_markup = await getKeyboard();
+    return ctx.reply(`Все юзеры удалены`, {reply_markup});
+});
+
+bot.hears(buttons.resetStages, async ctx => {
+    await ctx.replyWithChatAction("typing");
+    await selectStage();
+    const reply_markup = await getKeyboard();
+    return ctx.reply(`Этапы сброшены`, {reply_markup});
+});
+
+bot.on("message:text", async ctx => {
     await ctx.replyWithChatAction("typing");
     const stages = await getStages();
     if (ctx.msg.text in stages) {
         const stage = stages[ctx.msg.text];
         await selectStage(stage);
-        const reply_markup = await getKeyboard();
-        return ctx.reply(`Активирован этап ${ctx.msg.text}`, {reply_markup});
-    } else switch (ctx.msg.text) {
-        case "Сброс этапов": {
-            await selectStage();
-            const reply_markup = await getKeyboard();
-            return ctx.reply(`Этапы сброшены`, {reply_markup});
-        }
-        case "⚠️ Удалить голоса": {
-            await votes.deleteMany({});
-            const reply_markup = await getKeyboard();
-            return ctx.reply(`Все голоса удалены`, {reply_markup});
-        }
-        case "⚠️ Удалить юзеров": {
-            await accounts.deleteMany({});
-            const reply_markup = await getKeyboard();
-            return ctx.reply(`Все юзеры удалены`, {reply_markup});
-        }
+        return ctx.reply(`Активирован этап ${ctx.msg.text}`, {
+            reply_markup: await getKeyboard()
+        });
     }
-    return next();
+    return ctx.reply("Выберите необходимое действие в меню", {
+        reply_markup: await getKeyboard()
+    });
 });
-
-bot.on("message:text", async ctx => ctx.reply("Выберите необходимое действие в меню", {
-    reply_markup: await getKeyboard()
-}));
 
 async function getStages() {
     const stagesData = await stages.find().toArray();
@@ -111,11 +124,9 @@ async function selectStage({_id: id} = {}) {
 
 async function getKeyboard() {
     const stages = await getStages();
-    const buttons = [
+    const targetButtons = [
         ...Object.keys(stages),
-        "Сброс этапов",
-        "⚠️ Удалить голоса",
-        "⚠️ Удалить юзеров"
+        ...Object.values(buttons),
     ];
-    return Keyboard.from([buttons]).resized().persistent().toFlowed(2);
+    return Keyboard.from([targetButtons]).resized().persistent().toFlowed(2);
 }

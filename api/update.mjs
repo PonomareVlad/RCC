@@ -1,3 +1,4 @@
+import "../src/debug.mjs";
 import {webhookCallback} from "grammy";
 import {bot, secretToken} from "../src/bot.mjs";
 

@@ -1,3 +1,4 @@
+import "../src/debug.mjs";
 import {setWebhookCallback} from "vercel-grammy";
 import {bot, secretToken} from "../src/bot.mjs";
 
