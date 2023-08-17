@@ -159,11 +159,6 @@ export class App extends LitElement {
         this.images = new VercelImageGenerator(this);
     }
 
-    update(changedProperties) {
-        console.debug(changedProperties);
-        super.update(changedProperties);
-    }
-
     firstUpdated(_changedProperties) {
         setTimeout(() => {
             if (!this.account) {
