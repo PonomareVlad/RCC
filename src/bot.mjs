@@ -23,7 +23,7 @@ bot.command("rounds", async ctx => {
     const api = `https://rcc-vote.ru/api/round/`;
     const stagesData = await rounds.find().toArray();
     const links = stagesData.map(({name = ""} = {}) => new URL(name, api));
-    return ctx.reply(["Данные по всем раундам:", "", ...links].join("\r\n"));
+    return ctx.reply(["Данные по всем раундам:", "", ...links, "", "https://rcc-vote.ru/api/results"].join("\r\n"));
 });
 
 bot.command("stats", async ctx => {
