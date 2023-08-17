@@ -24,11 +24,6 @@ export class App extends LitElement {
         super();
         this.controllers = {}
         this.task = Promise.resolve()
-        this.percentNumber = new Intl.NumberFormat("ru-RU", {
-            minimumFractionDigits: 1,
-            maximumFractionDigits: 1,
-            style: "percent",
-        })
         this.options = {
             buttonStyles: {},
             buttonSkin: "flat",
@@ -438,7 +433,7 @@ export class App extends LitElement {
     renderVariants({round, variants = []} = {}) {
         return map(
             variants,
-            ({name, result, image}, index) => html`
+            ({name, resultString, image}, index) => html`
                 <div class="variant">
                     <div class="background">
                         <picture>
@@ -457,7 +452,7 @@ export class App extends LitElement {
                     >
                         ${when(
                                 this.hasChoice(round),
-                                () => this.percentNumber.format(result),
+                                () => resultString,
                                 () => "Голосовать",
                         )}
                     </button>

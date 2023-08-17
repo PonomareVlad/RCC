@@ -1,5 +1,11 @@
 const {access_token} = process.env;
 
+export const percentNumber = new Intl.NumberFormat("ru-RU", {
+    minimumFractionDigits: 1,
+    maximumFractionDigits: 1,
+    style: "percent",
+})
+
 export function jsonResponse(value, {
     space,
     status,

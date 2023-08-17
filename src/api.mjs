@@ -1,5 +1,5 @@
 import {accounts, rounds, stages, votes} from "./db.mjs";
-import {apiRequest} from "./utils.mjs";
+import {apiRequest, percentNumber} from "./utils.mjs";
 
 const groups = JSON.parse(process.env.groups);
 const group_id = parseInt(process.env.group_id);
@@ -18,9 +18,28 @@ export async function getRoundResults(data) {
     const votesCount = roundVotes.reduce(groupVotes, []);
     const results = votesCount.map(count => count / roundVotes.length);
     if (Array.isArray(data.variants)) data.variants.forEach(
-        (variant = {}, index) => variant.result = results[index] || 0
+        (variant = {}, index) => {
+            variant.result = results[index] || 0;
+            variant.resultString = percentNumber.format(variant.result);
+        }
     );
     return data;
+}
+
+export async function getResults() {
+    const roundsData = await rounds.find().toArray();
+    const roundsResult = await Promise.all(roundsData.map(getRoundResults));
+    return roundsResult.reduce((results, round) => {
+        const {_id, name, variants = [], ...data} = round;
+        const prefix = name.replace("-", "_");
+        Object.entries(data).forEach(
+            ([field, value]) => results[[prefix, field].join("_")] = value
+        );
+        variants.forEach((variant, index) => Object.entries(variant).forEach(
+            ([field, value]) => results[[prefix, "variants", index, field].join("_")] = value
+        ));
+        return results;
+    }, {});
 }
 
 export function getRound(name) {
