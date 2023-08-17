@@ -1,8 +1,7 @@
 import importmap from "./importmap.json";
 
 export function* template({title, body}) {
-    yield `
-    <!doctype html>
+    yield `<!doctype html>
     <html lang="ru">
     <head>
         <meta charset="UTF-8">
@@ -12,6 +11,13 @@ export function* template({title, body}) {
         <meta content="yes" name="apple-mobile-web-app-capable">
         <meta content="viewport-fit=cover, width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"
               name="viewport">
+        <link href="/images/logo.svg" rel="icon" sizes="any" type="image/svg+xml">
+        <link href="/fonts/stylesheet.css" rel="stylesheet">
+        <link href="/styles/reset.css" rel="stylesheet">
+        <link href="/styles/vars.css" rel="stylesheet">
+        <link href="/styles/app.css" rel="stylesheet">
+        <link href="/styles/views/auth.css" rel="preload" type="text/css">
+        <link href="/styles/views/vote.css" rel="preload" type="text/css">
         <script>if (typeof globalThis === "undefined") window.globalThis = window;</script>
         <script type="importmap">${JSON.stringify(importmap, null, 2)}</script>
         <script async crossorigin="anonymous"
@@ -19,11 +25,6 @@ export function* template({title, body}) {
         <script async src="/_vercel/insights/script.js"></script>
         <script defer src="/client.mjs" type="module"></script>
         <script async src="/livereload.mjs"></script>
-        <link href="/images/logo.svg" rel="icon" sizes="any" type="image/svg+xml">
-        <link href="/fonts/stylesheet.css" rel="stylesheet">
-        <link href="/styles/reset.css" rel="stylesheet">
-        <link href="/styles/vars.css" rel="stylesheet">
-        <link href="/styles/app.css" rel="stylesheet">
     </head>
     <body>
     `;
