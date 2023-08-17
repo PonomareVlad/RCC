@@ -12,14 +12,14 @@
     --button-height: calc(var(--vpx) * 62);
 
     --variants-padding-top: calc(var(--vpx) * 200);
-    --variants-padding-bottom: calc(var(--vpx) * 58);
+    --variants-padding-bottom: calc(var(--vpx) * 20);
     --variants-height: calc(var(--page-height) - var(--variants-padding-top) - var(--variants-padding-bottom));
 
     --variant-height: calc((var(--vpx) * 492) + var(--button-height));
     /*--variant-background-max-height: calc(var(--background-height) - var(--variants-padding-top) - var(--variants-padding-bottom));*/
 
     --variants-gap: calc(var(--vpx) * 20);
-    --variants-vertical-gap: calc(var(--vpx) * 32);
+    --variants-vertical-gap: calc(var(--vpx) * 20);
 
     --variant-background-max-height: calc(var(--vpx) * 492);
     --variant-grid-backgroundmax-height: calc(var(--vpx) * 187);
@@ -31,6 +31,9 @@
 
     --variant-background-image: var(--decorations-background-left-image);
 
+    --variant-background-position: bottom calc(var(--vpx) * 53) center, bottom, bottom;
+    --variant-background-position-right: bottom calc(var(--vpx) * -44) center, bottom, bottom;
+
     /* @formatter:off */
     --variant-background:
             var(--variant-background-image),
@@ -38,7 +41,12 @@
             rgba(255, 255, 255, 0.20);
     /* @formatter:on */
 
-    /*--variant-background-*/
+    /* @formatter:off */
+    --variant-background-right:
+            var(--decorations-background-right-image),
+            linear-gradient(180deg, rgba(0, 0, 0, 0.00) 0%, #000 100%),
+            rgba(255, 255, 255, 0.20);
+    /* @formatter:on */
 
     --variant-button-padding: calc(var(--vpx) * 16);
 
@@ -57,6 +65,8 @@ and (min-width: 750px) {
 
     .vote {
 
+        --overlay-display: none;
+
         --variants-padding-top: calc(var(--vpx) * 290);
         --variants-padding-bottom: calc(var(--vpx) * 83);
 
@@ -68,8 +78,12 @@ and (min-width: 750px) {
 
         --variants-gap: calc(var(--vpx) * 69);
 
+        --variants-vertical-gap: calc(var(--vpx) * 32);
+
         --variant-background-max-height: calc(var(--vpx) * 759);
         --variant-grid-backgroundmax-height: calc(var(--vpx) * 306);
+
+        --variant-picture-max-height: calc(var(--vpx) * 620);
 
         --variant-button-padding: calc(var(--vpx) * 26);
 
@@ -85,7 +99,11 @@ and (min-width: 750px) {
 
     .vote {
 
+        --overlay-display: none;
+
         --decorations-display: initial;
+
+        --variants-gap: calc(var(--vpx) * 39);
 
         --section-horizontal-padding: calc(var(--vpx) * 277);
 
@@ -94,6 +112,16 @@ and (min-width: 750px) {
 
         --variants-padding-top: calc(var(--vpx) * 260);
         --variants-padding-bottom: calc(var(--vpx) * 73);
+
+        --variant-height: calc(var(--vpx) * (439 + 62));
+
+        --variant-background: linear-gradient(180deg, rgba(0, 0, 0, 0.00) 0%, #000 100%), rgba(255, 255, 255, 0.20);
+        --variant-background-position: initial;
+
+        --variant-background-right: var(--variant-background);
+        --variant-background-position-right: var(--variant-background-position);
+
+        --variant-picture-max-height: calc(var(--vpx) * 338);
 
         --variants-decoration-display: none;
 
@@ -127,12 +155,13 @@ and (min-width: 750px) {
     justify-content: center;
     height: var(--variants-height);
     margin-top: var(--variants-margin-top);
-
 }
 
 .variants.columns {
 
     gap: var(--variants-gap);
+
+    padding-top: calc(var(--variants-height) - var(--variant-height));
 
 }
 
@@ -152,10 +181,15 @@ and (min-width: 750px) {
 }
 
 .variants.grid {
+    --overlay-height: 100%;
+    --overlay-background: linear-gradient(180deg, rgba(0, 0, 0, 0.00) 0%, #000 100%);
     --variant-background-max-height: var(--variant-grid-backgroundmax-height);
     flex-wrap: wrap;
     column-gap: var(--variants-gap);
     row-gap: var(--variants-vertical-gap);
+}
+
+.variants.grid.full {
     padding-top: calc(var(--variants-height) - ((var(--variant-height) * 2) + var(--variants-vertical-gap)));
 }
 
@@ -192,6 +226,7 @@ and (min-width: 750px) {
     height: var(--variants-height);
     margin-top: var(--header-padding);
     row-gap: var(--variants-vertical-gap);
+    padding-top: calc(var(--variants-height) - ((var(--variant-height) * 2) + var(--variants-vertical-gap)));
 }
 
 .rounds .round {
@@ -229,19 +264,30 @@ and (min-width: 750px) {
     background: var(--variant-background);
     /*min-height: var(--variant-background-max-height);*/
     max-height: calc(100% - var(--button-height));
-    background-position: bottom calc(var(--vpx) * 53) center, bottom, bottom;
+    background-position: var(--variant-background-position);
+    background-repeat: no-repeat;
     background-size: 100%;
 }
 
 .variants .variant:nth-of-type(even) .background {
-    --variant-background-image: var(--decorations-background-right-image);
-    /* @formatter:off */
-    --variant-background:
-            var(--variant-background-image),
-            linear-gradient(180deg, rgba(0, 0, 0, 0.00) 0%, #000 100%),
-            rgba(255, 255, 255, 0.20);
-    /* @formatter:on */
-    background-position: bottom calc(var(--vpx) * -44) center, bottom, bottom;
+    background: var(--variant-background-right);
+    background-position: var(--variant-background-position-right);
+    background-repeat: no-repeat;
+    background-size: 100%;
+}
+
+.rounds .round .variants.grid .variant .background {
+    background: rgba(230, 22, 35, 0.30) linear-gradient(180deg, rgba(0, 0, 0, 0.00) 0%, #000 100%);
+    background-repeat: no-repeat;
+    background-position: initial;
+    background-size: 100%;
+}
+
+.rounds .round:nth-of-type(2) .variants.grid .variant .background {
+    background: rgba(255, 255, 255, 0.20) linear-gradient(180deg, rgba(0, 0, 0, 0.00) 0%, #000 100%);
+    background-repeat: no-repeat;
+    background-position: initial;
+    background-size: 100%;
 }
 
 .variants .variant picture {
