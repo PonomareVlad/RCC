@@ -33,6 +33,11 @@ export async function apiRequest(method, payload = {}) {
     return response;
 }
 
+export const getHeaders = (name, mime = "application/octet-stream", context = "attachment") => ({
+    "Content-Disposition": [context, name ? `filename="${name}"` : undefined].filter(Boolean).join("; "),
+    "Content-Type": mime
+});
+
 export const hostFromRequest = (
     {headers} = {},
     header = "x-forwarded-host"

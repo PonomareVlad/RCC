@@ -7,6 +7,10 @@
     {
       "source": "/api/round/:round",
       "destination": "/api/round"
+    },
+    {
+      "source": "/api/image/:mime_sub_type/:file_id",
+      "destination": "/api/image"
     }
   ],
   "installCommand": "npm ci --omit=dev",
