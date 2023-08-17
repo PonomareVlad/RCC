@@ -448,7 +448,9 @@ export class App extends LitElement {
                     <h2 class="name">${name}</h2>
                     <button
                             @click=${this.vote.bind(this, round, index)}
-                            class=${classMap({selected: index === this.getChoice(round)})}
+                            class=${classMap({
+                                selected: index === this.getChoice(round)
+                            })}
                     >
                         ${when(
                                 this.hasChoice(round),
@@ -505,6 +507,7 @@ export class App extends LitElement {
     }
 
     async vote(round, choice) {
+        if (this.hasChoice(round)) return;
         this.abortSignals("rounds", "account");
         this.account = {
             ...this.account,

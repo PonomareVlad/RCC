@@ -101,6 +101,8 @@ export async function vote({uuid, token, round, choice} = {}) {
     const subscribed = await isMember(account);
     if (!subscribed)
         throw new Error("Not subscribed");
+    if (await votes.findOne({phone, round}))
+        throw new Error("Already voted");
     const {acknowledged} = await votes.updateOne(
         {phone, round},
         {phone, round, choice},

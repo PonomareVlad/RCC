@@ -315,7 +315,9 @@ and (min-width: 750px) {
 }
 
 .variants.results .variant button {
-    font-size: calc(var(--vpx) * 24);;
+    font-size: calc(var(--vpx) * 24);
+    pointer-events: none;
+    cursor: default;
 }
 
 .variants.results .variant button:not(.selected) {
