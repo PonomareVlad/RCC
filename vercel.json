@@ -9,8 +9,20 @@
       "destination": "/api/round"
     },
     {
-      "source": "/api/image/:mime_sub_type/:file_id",
-      "destination": "/api/image"
+      "source": "/api/telegram/:file_id/:mime_base_type/:mime_sub_type/(.*)",
+      "destination": "/api/telegram"
+    },
+    {
+      "source": "/api/telegram/:file_id/:mime_base_type/:mime_sub_type",
+      "destination": "/api/telegram"
+    },
+    {
+      "source": "/api/telegram/:file_id/(.*)",
+      "destination": "/api/telegram"
+    },
+    {
+      "source": "/api/telegram/:file_id",
+      "destination": "/api/telegram"
     }
   ],
   "installCommand": "npm ci --omit=dev",
