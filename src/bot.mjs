@@ -72,12 +72,12 @@ bot.on("message:text", async (ctx, next) => {
             const reply_markup = await getKeyboard();
             return ctx.reply(`Этапы сброшены`, {reply_markup});
         }
-        case "Удалить голоса": {
+        case "⚠️ Удалить голоса": {
             await votes.deleteMany({});
             const reply_markup = await getKeyboard();
             return ctx.reply(`Все голоса удалены`, {reply_markup});
         }
-        case "Удалить юзеров": {
+        case "⚠️ Удалить юзеров": {
             await accounts.deleteMany({});
             const reply_markup = await getKeyboard();
             return ctx.reply(`Все юзеры удалены`, {reply_markup});
