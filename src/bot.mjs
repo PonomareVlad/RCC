@@ -7,9 +7,9 @@ import {Bot, InlineKeyboard, InputFile, Keyboard} from "grammy";
 export const {
     TELEGRAM_BOT_TOKEN: token,
     TELEGRAM_SECRET_TOKEN: secretToken = String(token).split(":").pop(),
-    ACCESS_LIST: accessList = "[]",
-    editableRound: name = "",
-    host = "localhost",
+    BOT_ACCESS_LIST: accessList = "[]",
+    APP_HOST: host = "localhost",
+    EDITABLE_ROUND: name = "",
 } = process.env;
 
 const buttons = {

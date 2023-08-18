@@ -1,6 +1,13 @@
-import {MongoFetchClient} from "mongo-fetch";
+import {
+    MongoFetchClient
+} from "mongo-fetch";
 
-export const {name, url, apiKey, source} = process.env;
+export const {
+    DATA_API_DB: name,
+    DATA_API_URL: url,
+    DATA_API_KEY: apiKey,
+    DATA_API_SOURCE: source,
+} = process.env;
 
 export const db = new MongoFetchClient(source, {url, apiKey}).db(name);
 

@@ -1,4 +1,6 @@
-const {access_token} = process.env;
+const {
+    VK_ACCESS_TOKEN: access_token
+} = process.env;
 
 export const percentNumber = new Intl.NumberFormat("ru-RU", {
     minimumFractionDigits: 1,

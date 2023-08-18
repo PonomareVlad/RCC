@@ -9,11 +9,11 @@ import {html} from "lit";
 App.define();
 
 const {
-    cdn,
-    appId,
-    version,
-    group_id,
-    countdown
+    VK_APP_ID: appId,
+    VK_GROUP_ID: group_id,
+    COUNTDOWN: countdown,
+    APP_VERSION: version,
+    APP_CDN_HOST: cdn,
 } = process.env;
 
 const headers = {

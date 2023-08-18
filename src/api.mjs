@@ -1,8 +1,13 @@
 import {accounts, rounds, stages, votes} from "./db.mjs";
 import {apiRequest, percentNumber} from "./utils.mjs";
 
-const groups = JSON.parse(process.env.groups);
-const group_id = parseInt(process.env.group_id);
+const {
+    VK_GROUPS,
+    VK_GROUP_ID,
+} = process.env;
+
+const groups = JSON.parse(VK_GROUPS);
+const group_id = parseInt(VK_GROUP_ID);
 
 function groupVotes(variants = [], {choice}) {
     const index = choice;
