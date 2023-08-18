@@ -202,7 +202,7 @@ export class App extends LitElement {
                     <div class="decorations"></div>
                 </div>
                 <picture class="logo">
-                    <img src="/images/logo.svg" alt="RCC EXTREME">
+                    <img src="/images/logo.svg" alt="RCC EXTREME" loading="lazy">
                 </picture>
                 <h1>
                     <mark>Поверните</mark>
