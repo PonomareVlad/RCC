@@ -19,7 +19,7 @@ function groupVotes(variants = [], {choice}) {
 
 export async function getRoundResults(data) {
     const {name: round} = data;
-    const roundVotes = await votes.find({round}).toArray();
+    const roundVotes = await votes.find({round}).limit(50000).toArray();
     const votesCount = roundVotes.reduce(groupVotes, []);
     const results = votesCount.map(count => count / roundVotes.length);
     if (Array.isArray(data.variants)) data.variants.forEach(
