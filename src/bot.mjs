@@ -135,6 +135,13 @@ bot.command("random", async ctx => {
     ].join("\r\n"));
 });
 
+bot.command("time", ctx => {
+    const minutes = parseInt(ctx.match.trim());
+    if (isNaN(minutes))
+        return ctx.reply("Введите количество минут");
+    return ctx.reply(String(Date.now() + (minutes * 60) * 1000));
+})
+
 /*bot.command("delete_votes", async ctx => {
     await ctx.replyWithChatAction("typing");
     await votes.deleteMany({});
