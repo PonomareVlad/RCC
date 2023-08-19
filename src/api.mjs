@@ -85,7 +85,7 @@ export async function auth({uuid, token}) {
     }
     const {phone} = account ?? {};
     const subscribed = await isMember(account);
-    const userVotes = await votes.find({phone}).toArray() || [];
+    const userVotes = await votes.find({phone}).limit(50000).toArray() || [];
     const choices = Object.fromEntries(
         userVotes.map(({round, choice}) => [round, choice])
     );
