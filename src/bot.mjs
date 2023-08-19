@@ -1,5 +1,6 @@
 import Papa from "papaparse";
 import {ObjectId} from "bson";
+import {getRandomInt} from "./utils.mjs";
 import {autoQuote} from "@roziscoding/grammy-autoquote";
 import {accounts, stages, rounds, votes} from "./db.mjs";
 import {Bot, InlineKeyboard, InputFile, Keyboard} from "grammy";
@@ -118,19 +119,35 @@ bot.command("accounts", async ctx => {
     return ctx.replyWithDocument(file, {caption});
 });
 
-bot.command("delete_votes", async ctx => {
+bot.command("random", async ctx => {
+    await ctx.replyWithChatAction("upload_document");
+    const accountsData = await accounts.find().toArray();
+    const index = getRandomInt(0, accountsData.length);
+    const {last_name, first_name, phone, user_id} = accountsData[index];
+    return ctx.reply([
+        `Случайный пользователь:`,
+        "",
+        `Имя: ${first_name}`,
+        `Фамилия: ${last_name}`,
+        `Телефон: ${phone}`,
+        `Порядковый номер: ${index}`,
+        `VK ID: ${user_id}`,
+    ].join("\r\n"));
+});
+
+/*bot.command("delete_votes", async ctx => {
     await ctx.replyWithChatAction("typing");
     await votes.deleteMany({});
     const reply_markup = await getKeyboard();
     return ctx.reply(`Все голоса удалены`, {reply_markup});
-});
+});*/
 
-bot.command("delete_accounts", async ctx => {
+/*bot.command("delete_accounts", async ctx => {
     await ctx.replyWithChatAction("typing");
     await accounts.deleteMany({});
     const reply_markup = await getKeyboard();
     return ctx.reply(`Все юзеры удалены`, {reply_markup});
-});
+});*/
 
 bot.hears(buttons.resetStages, async ctx => {
     await ctx.replyWithChatAction("typing");
