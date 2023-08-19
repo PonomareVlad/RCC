@@ -18,7 +18,7 @@ const {
 
 const headers = {
     "Content-Type": "text/html;charset=UTF-8",
-    "Cache-Control": "s-maxage=1, stale-while-revalidate=59",
+    "Cache-Control": "s-maxage=5, stale-while-revalidate=59",
 };
 
 export const config = {runtime: "edge"};
