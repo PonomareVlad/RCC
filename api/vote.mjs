@@ -6,7 +6,6 @@ export const config = {runtime: "edge"};
 
 export default async request => {
     try {
-        if (hostFromRequest(request) === "localhost") return jsonResponse(data.vote);
         return jsonResponse({ok: await vote(await request.json())});
     } catch ({message: error}) {
         console.debug(error);

@@ -9,8 +9,6 @@ const headers = {
 };
 
 export default async request => jsonResponse(
-    hostFromRequest(request) === "localhost" ?
-        data.rounds.columns :
         await getActiveRounds() || [],
     {headers}
 );

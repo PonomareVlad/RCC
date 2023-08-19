@@ -6,7 +6,6 @@ export const config = {runtime: "edge"};
 
 export default async request => {
     try {
-        if (hostFromRequest(request) === "localhost") return jsonResponse(data.auth);
         return jsonResponse({ok: true, ...await auth(await request.json())});
     } catch ({message: error}) {
         console.debug(error);
