@@ -93,7 +93,7 @@ bot.command("stats", async ctx => {
         votesData,
         accountsData
     ] = await Promise.all([
-        votes.find().toArray(),
+        votes.find().limit(50000).toArray(),
         accounts.find().toArray(),
     ]);
     return ctx.reply(`Статистика: 
