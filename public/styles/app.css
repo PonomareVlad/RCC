@@ -215,3 +215,34 @@ mark {
 iframe {
     pointer-events: auto;
 }
+
+.modal {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: none;
+    z-index: 10000;
+    position: fixed;
+    background: black;
+    align-items: center;
+    pointer-events: auto;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.modal.active {
+    display: flex;
+}
+
+.modal button {
+    position: absolute;
+    bottom: var(--lines-padding);
+}
+
+.modal img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+}

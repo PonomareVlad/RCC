@@ -290,6 +290,13 @@ and (min-width: 750px) {
     background-size: 100%;
 }
 
+.variants.grid.full .variant .background {
+    background: rgba(255, 255, 255, 0.20) linear-gradient(180deg, rgba(0, 0, 0, 0.00) 0%, #000 100%);
+    background-repeat: no-repeat;
+    background-position: initial;
+    background-size: 100%;
+}
+
 .variants .variant picture {
     height: 100%;
     max-height: var(--variant-picture-max-height);
@@ -323,4 +330,10 @@ and (min-width: 750px) {
 .variants.results .variant button:not(.selected) {
     border: 1px solid #777;
     background: unset;
+}
+
+.variants.grid.full .variant picture,
+.variants.grid.full .variant picture img {
+    object-fit: cover;
+    width: 100%;
 }
