@@ -12,8 +12,8 @@ import {classMap} from "lit/directives/class-map.js";
 import {ifDefined} from "lit/directives/if-defined.js";
 import {unsafeHTML} from "lit/directives/unsafe-html.js";
 import {Config, Connect, ConnectEvents} from "@vkontakte/superappkit";
+import {LitElement, isServer, nothing, html, css} from "lit";
 import {VercelImageGenerator} from "./generator.mjs";
-import {LitElement, isServer, html, css} from "lit";
 import {Countdown} from "./countdown.mjs";
 
 Countdown.define();
@@ -67,6 +67,7 @@ export class App extends LitElement {
             version: {type: String},
             _account: {state: true},
             _session: {state: true},
+            imageModal: {state: true},
             countdown: {type: Number},
             maybeSubscribed: {state: true},
             appId: {type: Number, attribute: "app-id"},
@@ -210,6 +211,14 @@ export class App extends LitElement {
                     экран
                 </h1>
             </div>
+            <div class="${classMap({modal: true, active: !!this.imageModal})}">
+                ${when(
+                        this.imageModal,
+                        () => html`<img src="${this.images.generate({src: this.imageModal, width: 2048})}">`,
+                        () => nothing
+                )}
+                <button @click="${() => this.imageModal = undefined}">Закрыть</button>
+            </div>
             <slot name="state"></slot>
         `;
     }
@@ -302,7 +311,7 @@ export class App extends LitElement {
                                                             variants: true,
                                                             results: this.hasChoice(round)
                                                         })}>
-                                                            ${this.renderVariants({round, variants})}
+                                                            ${this.renderVariants({round, variants}, {modal: true})}
                                                         </div>
                                                     `
                                                 ],
@@ -430,13 +439,15 @@ export class App extends LitElement {
         this.maybeSubscribed = true;
     }
 
-    renderVariants({round, variants = []} = {}) {
+    renderVariants({round, variants = []} = {}, {modal} = {}) {
         return map(
             variants,
             ({name, resultString, image}, index) => html`
                 <div class="variant">
                     <div class="background">
-                        <picture>
+                        <picture @click="${() => {
+                            if (modal) this.imageModal = image;
+                        }}">
                             ${this.renderPicture({
                                 img: {src: image, width: 512, alt: name},
                                 sources: [
