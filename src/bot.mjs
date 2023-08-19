@@ -94,7 +94,7 @@ bot.command("stats", async ctx => {
         accountsData
     ] = await Promise.all([
         votes.find().limit(50000).toArray(),
-        accounts.find().toArray(),
+        accounts.find().limit(50000).toArray(),
     ]);
     return ctx.reply(`Статистика: 
 
@@ -104,7 +104,7 @@ bot.command("stats", async ctx => {
 
 bot.command("accounts", async ctx => {
     await ctx.replyWithChatAction("upload_document");
-    const accountsData = await accounts.find().toArray();
+    const accountsData = await accounts.find().limit(50000).toArray();
     const options = {columns: Object.keys(columns), header: false, delimiter: ";"};
     const data = accountsData.map(
         ({user_id, ...data} = {}) => ({...data, link: `https://vk.com/id${user_id}`})
@@ -121,7 +121,7 @@ bot.command("accounts", async ctx => {
 
 bot.command("random", async ctx => {
     await ctx.replyWithChatAction("upload_document");
-    const accountsData = await accounts.find().toArray();
+    const accountsData = await accounts.find().limit(50000).toArray();
     const index = getRandomInt(0, accountsData.length);
     const {last_name, first_name, phone, user_id} = accountsData[index];
     return ctx.reply([
