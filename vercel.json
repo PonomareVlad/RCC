@@ -1,33 +1,8 @@
 {
-  "rewrites": [
+  "redirects": [
     {
-      "source": "/",
-      "destination": "api/index"
-    },
-    {
-      "source": "/api/round/:round",
-      "destination": "/api/round"
-    },
-    {
-      "source": "/api/telegram/:file_id/:mime_base_type/:mime_sub_type/(.*)",
-      "destination": "/api/telegram"
-    },
-    {
-      "source": "/api/telegram/:file_id/:mime_base_type/:mime_sub_type",
-      "destination": "/api/telegram"
-    },
-    {
-      "source": "/api/telegram/:file_id/(.*)",
-      "destination": "/api/telegram"
-    },
-    {
-      "source": "/api/telegram/:file_id",
-      "destination": "/api/telegram"
+      "source": "(.*)",
+      "destination": "https://vk.com/rccextreme_ekb"
     }
-  ],
-  "installCommand": "npm ci --omit=dev",
-  "buildCommand": "node scripts/build.mjs",
-  "github": {
-    "silent": true
-  }
+  ]
 }
