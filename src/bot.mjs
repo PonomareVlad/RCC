@@ -81,10 +81,10 @@ bot.on("msg:file", async ctx => {
 
 bot.command("rounds", async ctx => {
     await ctx.replyWithChatAction("typing");
-    const api = `https://rcc-vote.ru/api/round/`;
+    const api = `https://rcc-vote.vercel.app/api/round/`;
     const stagesData = await rounds.find().toArray();
     const links = stagesData.map(({name = ""} = {}) => new URL(name, api));
-    return ctx.reply(["Данные по всем раундам:", "", ...links, "", "https://rcc-vote.ru/api/results"].join("\r\n"), {disable_web_page_preview: true});
+    return ctx.reply(["Данные по всем раундам:", "", ...links, "", "https://rcc-vote.vercel.app/api/results"].join("\r\n"), {disable_web_page_preview: true});
 });
 
 bot.command("stats", async ctx => {
