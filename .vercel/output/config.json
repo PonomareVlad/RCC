@@ -9,7 +9,8 @@
     ],
     "minimumCacheTTL": 86400,
     "domains": [
-      "rcc-vote.ru"
+      "rcc-vote.ru",
+      "rcc-vote.vercel.app"
     ]
   }
 }
