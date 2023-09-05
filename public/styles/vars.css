@@ -38,9 +38,9 @@
 
     /* @formatter:off */
     --decorations-background-left-image:
-            url("https://cdn.rcc-vote.ru/_vercel/image?q=100&w=512&url=https://rcc-vote.ru/images/decoration.left.png");
+            url("https://cdn-rcc-vote.vercel.app/_vercel/image?q=100&w=512&url=https://rcc-vote.vercel.app/images/decoration.left.png");
     --decorations-background-right-image:
-            url("https://cdn.rcc-vote.ru/_vercel/image?q=100&w=512&url=https://rcc-vote.ru/images/decoration.right.png");
+            url("https://cdn-rcc-vote.vercel.app/_vercel/image?q=100&w=512&url=https://rcc-vote.vercel.app/images/decoration.right.png");
     --decorations-background-image:
             var(--decorations-background-left-image),
             var(--decorations-background-right-image);
@@ -108,9 +108,9 @@ and (min-width: 750px) {
         /*--decorations-background-size: calc(var(--vpx) * 350);*/
 
         --decorations-background-left-image:
-                url("https://cdn.rcc-vote.ru/_vercel/image?q=100&w=1024&url=https://rcc-vote.ru/images/decoration.left.png");
+                url("https://cdn-rcc-vote.vercel.app/_vercel/image?q=100&w=1024&url=https://rcc-vote.vercel.app/images/decoration.left.png");
         --decorations-background-right-image:
-                url("https://cdn.rcc-vote.ru/_vercel/image?q=100&w=1024&url=https://rcc-vote.ru/images/decoration.right.png");
+                url("https://cdn-rcc-vote.vercel.app/_vercel/image?q=100&w=1024&url=https://rcc-vote.vercel.app/images/decoration.right.png");
 
         --logo-width: calc(var(--vpx) * 90);
         --logo-height: calc(var(--vpx) * 58);
@@ -151,9 +151,9 @@ and (min-width: 750px) {
         --decorations-background-position: bottom left, bottom calc(var(--vpx) * -273) right;
 
         --decorations-background-left-image:
-                url("https://cdn.rcc-vote.ru/_vercel/image?q=100&w=2048&url=https://rcc-vote.ru/images/decoration.left.png");
+                url("https://cdn-rcc-vote.vercel.app/_vercel/image?q=100&w=2048&url=https://rcc-vote.vercel.app/images/decoration.left.png");
         --decorations-background-right-image:
-                url("https://cdn.rcc-vote.ru/_vercel/image?q=100&w=2048&url=https://rcc-vote.ru/images/decoration.right.png");
+                url("https://cdn-rcc-vote.vercel.app/_vercel/image?q=100&w=2048&url=https://rcc-vote.vercel.app/images/decoration.right.png");
 
         --content-horizontal-padding: var(--decorations-background-size);
 
@@ -188,9 +188,9 @@ and (max-width: 1000px) {
         --background-height: var(--page-height);
 
         --decorations-background-left-image:
-                url("https://cdn.rcc-vote.ru/_vercel/image?q=100&w=512&url=https://rcc-vote.ru/images/decoration.left.png");
+                url("https://cdn-rcc-vote.vercel.app/_vercel/image?q=100&w=512&url=https://rcc-vote.vercel.app/images/decoration.left.png");
         --decorations-background-right-image:
-                url("https://cdn.rcc-vote.ru/_vercel/image?q=100&w=512&url=https://rcc-vote.ru/images/decoration.right.png");
+                url("https://cdn-rcc-vote.vercel.app/_vercel/image?q=100&w=512&url=https://rcc-vote.vercel.app/images/decoration.right.png");
 
         --main-display: none;
 
