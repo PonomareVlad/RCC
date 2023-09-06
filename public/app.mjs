@@ -458,8 +458,19 @@ export class App extends LitElement {
                     </div>
                     ${when(
                             logo,
-                            () => html`<img src="${logo}" alt="${name}" class="logo">`,
-                            () => html`<h2 class="name">${name}</h2>`
+                            () => html`
+                                <picture class="logo">
+                                    ${this.renderPicture({
+                                        img: {src: logo, width: 512, alt: name},
+                                        sources: [
+                                            {width: 1024, media: "(min-width: 1024px)"}
+                                        ]
+                                    })}
+                                </picture>
+                            `,
+                            () => html`
+                                <h2 class="name">${name}</h2>
+                            `
                     )}
                     <button
                             @click=${this.vote.bind(this, round, index)}
