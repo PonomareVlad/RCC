@@ -459,7 +459,7 @@ export class App extends LitElement {
                     ${when(
                             logo,
                             () => html`
-                                <picture class="logo">
+                                <picture class="variant-logo">
                                     ${this.renderPicture({
                                         img: {src: logo, width: 512, alt: name},
                                         sources: [
