@@ -442,7 +442,7 @@ export class App extends LitElement {
     renderVariants({round, variants = []} = {}, {modal} = {}) {
         return map(
             variants,
-            ({name, resultString, image}, index) => html`
+            ({name, resultString, image, logo} = {}, index) => html`
                 <div class="variant">
                     <div class="background">
                         <picture @click="${() => {
@@ -456,7 +456,11 @@ export class App extends LitElement {
                             })}
                         </picture>
                     </div>
-                    <h2 class="name">${name}</h2>
+                    ${when(
+                            logo,
+                            () => html`<img src="${logo}" alt="${name}" class="logo">`,
+                            () => html`<h2 class="name">${name}</h2>`
+                    )}
                     <button
                             @click=${this.vote.bind(this, round, index)}
                             class=${classMap({
