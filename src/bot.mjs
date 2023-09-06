@@ -142,19 +142,19 @@ bot.command("time", ctx => {
     return ctx.reply(String(Date.now() + (minutes * 60) * 1000));
 })
 
-/*bot.command("delete_votes", async ctx => {
+bot.command("delete_votes", async ctx => {
     await ctx.replyWithChatAction("typing");
     await votes.deleteMany({});
     const reply_markup = await getKeyboard();
     return ctx.reply(`Все голоса удалены`, {reply_markup});
-});*/
+});
 
-/*bot.command("delete_accounts", async ctx => {
+bot.command("delete_accounts", async ctx => {
     await ctx.replyWithChatAction("typing");
     await accounts.deleteMany({});
     const reply_markup = await getKeyboard();
     return ctx.reply(`Все юзеры удалены`, {reply_markup});
-});*/
+});
 
 bot.hears(buttons.resetStages, async ctx => {
     await ctx.replyWithChatAction("typing");
